@@ -2,998 +2,1749 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Maharana Thal — Unlimited Royal Thali, Nashik</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maharana Thal — Unlimited Vegetarian Thali, Nashik</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 :root {
-  --ink:    #1a1410;
-  --ink2:   #3d3128;
-  --muted:  #9a8878;
-  --muted2: #c4b5a8;
-  --gold:   #b8904a;
-  --gold2:  #d4a96a;
-  --cream:  #faf7f3;
-  --cream2: #f3ede4;
-  --white:  #ffffff;
-  --line:   rgba(26,20,16,0.08);
-  --line2:  rgba(26,20,16,0.14);
-  --r:      12px;
-  --r2:     8px;
+  --white:   #FDFBF8;
+  --ivory:   #F5EFE5;
+  --cream:   #EDE5D8;
+  --charcoal:#211E1B;
+  --brown:   #4A3F36;
+  --muted:   #8A7E76;
+  --gold:    #B8946A;
+  --gold-lt: rgba(184,148,106,0.18);
+  --gold-xl: rgba(184,148,106,0.06);
+  --serif: 'Playfair Display', Georgia, serif;
+  --display: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+html { scroll-behavior: smooth; }
+
 body {
-  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--charcoal);
+  font-family: var(--sans);
   font-weight: 300;
-  background: var(--cream);
-  color: var(--ink);
+  line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* SCROLL */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-thumb { background: var(--muted2); border-radius: 9px; }
+::selection { background: var(--gold); color: var(--white); }
 
-/* ── NAV ── */
-.nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: 60px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 24px;
-  background: rgba(250,247,243,0.88);
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--white); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+/* ── UTILITIES ── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+@media (min-width: 768px) { .container { padding: 0 48px; } }
+@media (min-width: 1200px) { .container { padding: 0 64px; } }
+
+.label {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.label-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.label-row::before, .label-row::after {
+  content: '';
+  flex: 1;
+  max-width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+.label-row.left::after { display: none; }
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(253,251,248,0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--line);
-  transition: border-color 0.3s;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s, padding 0.4s;
+  padding: 20px 0;
 }
-.nav-wordmark {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
+nav.scrolled {
+  border-bottom-color: var(--gold-lt);
+  padding: 14px 0;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+}
+.nav-brand .name {
+  font-family: var(--serif);
+  font-size: 20px;
   font-weight: 500;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--charcoal);
+  transition: color 0.3s;
 }
-.nav-wordmark span {
-  display: block;
-  font-size: 9px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
+.nav-brand .tagline {
+  font-size: 8.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 2px;
+}
+.nav-links {
+  display: none;
+  gap: 40px;
+  list-style: none;
+}
+@media (min-width: 900px) { .nav-links { display: flex; } }
+.nav-links a {
+  font-size: 10.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-top: 2px;
+  transition: color 0.3s;
 }
-.nav-btn {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
+.nav-links a:hover { color: var(--charcoal); }
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav-phone {
+  display: none;
+  font-size: 11px;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold);
-  background: none; border: 1px solid var(--gold2);
-  border-radius: 99px;
-  padding: 8px 18px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  color: var(--muted);
+  transition: color 0.3s;
 }
-.nav-btn:active { background: var(--gold); color: white; }
+.nav-phone:hover { color: var(--charcoal); }
+@media (min-width: 640px) { .nav-phone { display: block; } }
+.btn-nav {
+  padding: 10px 22px;
+  background: var(--charcoal);
+  color: var(--white);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 100px;
+  transition: background 0.4s;
+  white-space: nowrap;
+}
+.btn-nav:hover { background: var(--gold); }
 
-/* ── HERO ── */
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
 .hero {
-  min-height: 100svh;
+  min-height: 100vh;
   display: grid;
-  grid-template-rows: 1fr auto;
-  padding-top: 60px;
+  grid-template-columns: 1fr;
+  align-items: center;
+  padding: 120px 0 80px;
   position: relative;
   overflow: hidden;
 }
-.hero-img-wrap {
-  position: absolute; inset: 0;
-  z-index: 0;
+@media (min-width: 900px) {
+  .hero { grid-template-columns: 1fr 1fr; gap: 0; padding: 140px 0 100px; }
 }
-.hero-img-wrap img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  filter: brightness(0.45) saturate(0.8);
-  transform: scale(1.04);
-  animation: slowZoom 12s ease-in-out infinite alternate;
-}
-@keyframes slowZoom {
-  from { transform: scale(1.04); }
-  to   { transform: scale(1.1); }
-}
-.hero-overlay {
-  position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(to bottom,
-    rgba(15,10,5,0.15) 0%,
-    rgba(15,10,5,0.05) 40%,
-    rgba(15,10,5,0.65) 100%);
-}
-.hero-content {
-  position: relative; z-index: 2;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 0 28px 52px;
-  animation: fadeUp 1s 0.2s both;
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+
+.hero-text { position: relative; z-index: 2; padding-right: 0; }
+@media (min-width: 900px) { .hero-text { padding-right: 48px; } }
+
 .hero-eyebrow {
-  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--gold2); font-weight: 400; margin-bottom: 16px;
-  display: flex; align-items: center; gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 32px;
 }
 .hero-eyebrow::before {
-  content: ''; width: 28px; height: 1px; background: var(--gold2); display: block;
-}
-.hero-h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(38px, 10vw, 52px);
-  font-weight: 300;
-  line-height: 1.12;
-  color: #fff;
-  margin-bottom: 20px;
-  letter-spacing: -0.01em;
-}
-.hero-h1 em { font-style: italic; color: var(--gold2); }
-.hero-meta {
-  display: flex; align-items: center; gap: 20px; margin-bottom: 32px;
-}
-.hero-price {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px; font-weight: 500; color: #fff; line-height: 1;
-}
-.hero-price sub { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.6); vertical-align: bottom; }
-.hero-meta-div { width: 1px; height: 32px; background: rgba(255,255,255,0.2); }
-.hero-items { color: rgba(255,255,255,0.65); font-size: 13px; line-height: 1.5; }
-.hero-items strong { color: #fff; font-weight: 500; display: block; font-size: 18px; }
-.hero-actions { display: flex; gap: 10px; }
-.btn-ghost {
-  flex: 1;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 14px 20px; border-radius: 99px; cursor: pointer;
-  transition: all 0.25s;
-  text-align: center;
-}
-.btn-ghost-light {
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff;
-  backdrop-filter: blur(8px);
-}
-.btn-ghost-light:active { background: rgba(255,255,255,0.22); }
-.btn-solid {
+  content: '';
+  width: 36px;
+  height: 1px;
   background: var(--gold);
-  border: 1px solid var(--gold);
-  color: #fff;
 }
-.btn-solid:active { background: var(--gold2); }
 
-/* ── SECTION BASE ── */
-section { padding: 72px 28px; }
-
-.label {
-  font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--gold); font-weight: 400; margin-bottom: 14px;
-  display: flex; align-items: center; gap: 8px;
-}
-.label::before { content: ''; width: 20px; height: 1px; background: var(--gold2); }
-
-.display {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(28px, 7vw, 38px);
-  font-weight: 300; line-height: 1.2;
-  color: var(--ink); margin-bottom: 20px;
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(44px, 6vw, 72px);
+  font-weight: 400;
+  line-height: 1.08;
   letter-spacing: -0.01em;
+  color: var(--charcoal);
+  margin-bottom: 24px;
 }
-.display em { font-style: italic; color: var(--gold); }
-
-.body-text {
-  font-size: 14px; color: var(--muted); line-height: 1.8; font-weight: 300;
-}
-
-hr.thin {
-  border: none; border-top: 1px solid var(--line);
-  margin: 40px 0;
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 400;
 }
 
-/* ── ABOUT ── */
-.about { background: var(--white); }
-.about-img-pair {
-  display: grid; grid-template-columns: 1.6fr 1fr; gap: 8px;
-  margin: 32px 0;
-}
-.about-img-pair img, .about-img-stack img {
-  width: 100%; object-fit: cover; display: block;
-  border-radius: var(--r2);
-}
-.about-img-pair .img-a { height: 220px; }
-.about-img-stack { display: flex; flex-direction: column; gap: 8px; }
-.about-img-stack img { height: 106px; }
-
-.cuisine-list {
-  display: flex; flex-direction: column; gap: 0;
-  border: 1px solid var(--line2); border-radius: var(--r);
-  overflow: hidden; margin-top: 28px;
-}
-.cuisine-item {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--line);
-  background: var(--white);
-  transition: background 0.2s;
-}
-.cuisine-item:last-child { border-bottom: none; }
-.cuisine-item:active { background: var(--cream2); }
-.cuisine-left { display: flex; align-items: center; gap: 14px; }
-.cuisine-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
-.cuisine-name { font-size: 14px; font-weight: 400; color: var(--ink2); }
-.cuisine-detail { font-size: 12px; color: var(--muted); margin-top: 1px; }
-.cuisine-badge {
-  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--gold); background: rgba(184,144,74,0.08);
-  border: 1px solid rgba(184,144,74,0.2); border-radius: 99px;
-  padding: 4px 10px; font-weight: 400;
-}
-
-/* ── THALI / MENU ── */
-.menu { background: var(--cream2); }
-.menu-hero-img {
-  width: 100%; height: 240px; object-fit: cover;
-  border-radius: var(--r); margin: 28px 0;
-}
-.price-strip {
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--ink); border-radius: var(--r);
-  padding: 20px 22px; margin-bottom: 28px;
-}
-.price-strip .p-left { }
-.price-strip .p-amt {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px; font-weight: 500; color: var(--gold2); line-height: 1;
-}
-.price-strip .p-desc { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 3px; }
-.price-strip .p-right { text-align: right; }
-.price-strip .p-count {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px; font-weight: 400; color: #fff; line-height: 1;
-}
-.price-strip .p-clabel { font-size: 11px; color: rgba(255,255,255,0.4); }
-
-.menu-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-}
-.menu-card {
-  background: var(--white); border-radius: var(--r);
-  border: 1px solid var(--line);
-  padding: 16px 14px;
-  transition: border-color 0.2s;
-}
-.menu-card:active { border-color: var(--gold2); }
-.menu-card-top {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 10px;
-}
-.mc-name { font-size: 13px; font-weight: 500; color: var(--ink2); }
-.mc-count {
-  font-size: 10px; color: var(--gold); background: rgba(184,144,74,0.08);
-  border: 1px solid rgba(184,144,74,0.18); border-radius: 99px;
-  padding: 3px 8px; font-weight: 400;
-}
-.mc-items { font-size: 11.5px; color: var(--muted); line-height: 1.65; }
-
-/* ── GALLERY ── */
-.gallery { background: var(--white); padding-bottom: 0; }
-.gallery-scroll {
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; margin: 28px -28px 0;
-  padding: 0 28px 28px;
-}
-.gallery-scroll::-webkit-scrollbar { display: none; }
-.gallery-row { display: flex; gap: 8px; width: max-content; }
-.gallery-row + .gallery-row { margin-top: 8px; }
-.g-item {
-  flex-shrink: 0; border-radius: var(--r2);
-  overflow: hidden; position: relative;
-}
-.g-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
-.g-item:active img { transform: scale(1.04); }
-.g-cap {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 24px 10px 10px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.55));
-  font-size: 10px; color: rgba(255,255,255,0.85);
-  letter-spacing: 0.08em; text-transform: uppercase;
-}
-.g-xl  { width: 200px; height: 190px; }
-.g-lg  { width: 160px; height: 190px; }
-.g-md  { width: 130px; height: 190px; }
-
-/* ── WHY ── */
-.why { background: var(--cream2); }
-.why-list { display: flex; flex-direction: column; gap: 0; margin-top: 32px;
-  border: 1px solid var(--line2); border-radius: var(--r); overflow: hidden; }
-.why-item {
-  display: flex; align-items: flex-start; gap: 16px;
-  padding: 18px 20px; border-bottom: 1px solid var(--line);
-  background: var(--white);
-}
-.why-item:last-child { border-bottom: none; }
-.why-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; font-weight: 300; color: var(--muted2);
-  line-height: 1; flex-shrink: 0; min-width: 24px;
-}
-.why-title { font-size: 13.5px; font-weight: 500; color: var(--ink2); margin-bottom: 4px; }
-.why-desc  { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
-
-/* ── REVIEWS ── */
-.reviews { background: var(--white); }
-.reviews-scroll {
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; margin: 28px -28px 0; padding: 0 28px 8px;
-}
-.reviews-scroll::-webkit-scrollbar { display: none; }
-.reviews-row { display: flex; gap: 12px; width: max-content; }
-.review-card {
-  width: 272px; flex-shrink: 0;
-  background: var(--cream2); border-radius: var(--r);
-  border: 1px solid var(--line);
-  padding: 20px 18px;
-}
-.rc-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-.rc-av {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: var(--ink2); display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 500; color: var(--cream2); flex-shrink: 0;
-}
-.rc-name { font-size: 13.5px; font-weight: 500; color: var(--ink2); }
-.rc-meta { font-size: 11px; color: var(--muted); margin-top: 1px; }
-.rc-stars { color: var(--gold2); font-size: 12px; margin-bottom: 10px; letter-spacing: 1px; }
-.rc-text { font-size: 12.5px; color: var(--muted); line-height: 1.7; font-style: italic; }
-.rc-img { width: 100%; height: 100px; object-fit: cover; border-radius: var(--r2); margin-top: 12px; }
-
-/* ── BANQUET ── */
-.banquet {
-  background: var(--ink);
-  padding: 72px 28px;
-}
-.banquet .label { color: var(--gold2); }
-.banquet .label::before { background: var(--gold2); }
-.banquet .display { color: var(--white); }
-.banquet .display em { color: var(--gold2); }
-.banquet .body-text { color: rgba(255,255,255,0.45); }
-
-.banquet-img {
-  width: 100%; height: 210px; object-fit: cover;
-  border-radius: var(--r); margin: 28px 0;
-  opacity: 0.85;
-}
-.banquet-stats-row {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 1px; background: rgba(255,255,255,0.07);
-  border-radius: var(--r); overflow: hidden; margin-bottom: 24px;
-}
-.b-stat {
-  background: rgba(255,255,255,0.04); padding: 18px 12px; text-align: center;
-}
-.b-stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px; font-weight: 400; color: var(--gold2); line-height: 1;
-}
-.b-stat-lbl { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 4px; letter-spacing: 0.05em; }
-
-.event-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 28px; }
-.ev-tag {
-  font-size: 11px; color: rgba(255,255,255,0.55);
-  border: 1px solid rgba(255,255,255,0.12); border-radius: 99px;
-  padding: 6px 13px; font-weight: 300; letter-spacing: 0.04em;
-}
-
-.banquet-cta {
-  width: 100%;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--ink); background: var(--gold2);
-  border: none; border-radius: 99px;
-  padding: 16px; cursor: pointer;
-  transition: background 0.2s;
-}
-.banquet-cta:active { background: var(--gold); }
-
-/* ── AMBIENCE ── */
-.ambience { background: var(--cream2); }
-.amb-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 28px;
-}
-.amb-grid img { width: 100%; object-fit: cover; display: block; border-radius: var(--r2); }
-.amb-full  { grid-column: 1 / -1; height: 200px; }
-.amb-half  { height: 130px; }
-
-/* ── VISIT ── */
-.visit { background: var(--white); }
-.info-list {
-  border: 1px solid var(--line2); border-radius: var(--r); overflow: hidden; margin-top: 28px;
-}
-.info-item {
-  display: flex; align-items: flex-start; gap: 14px;
-  padding: 16px 18px; border-bottom: 1px solid var(--line);
-  background: var(--white);
-}
-.info-item:last-child { border-bottom: none; }
-.info-icon-box {
-  width: 34px; height: 34px; border-radius: var(--r2); flex-shrink: 0;
-  border: 1px solid var(--line2);
-  display: flex; align-items: center; justify-content: center;
+.hero-desc {
   font-size: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 420px;
+  margin-bottom: 40px;
 }
-.info-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 400; margin-bottom: 4px; }
-.info-val { font-size: 13.5px; color: var(--ink2); line-height: 1.6; font-weight: 400; }
-.info-val a { color: var(--gold); text-decoration: none; }
 
-.map-tap {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  width: 100%; height: 180px; margin: 12px 0;
-  border-radius: var(--r); border: 1px dashed var(--line2);
-  background: var(--cream2); cursor: pointer; gap: 6px;
-  transition: border-color 0.2s;
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gold-lt);
+  border-bottom: 1px solid var(--gold-lt);
+  margin-bottom: 40px;
 }
-.map-tap:active { border-color: var(--gold2); background: var(--cream); }
-.map-tap-icon { font-size: 28px; }
-.map-tap p { font-size: 12px; color: var(--muted); }
+.stat-num {
+  font-family: var(--serif);
+  font-size: 30px;
+  color: var(--charcoal);
+  font-weight: 400;
+}
+.stat-num span {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.stat-label {
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.stat-divider {
+  width: 1px;
+  height: 36px;
+  background: var(--gold-lt);
+}
 
-.reserve-full {
-  width: 100%; margin-top: 12px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
-  color: #fff; background: var(--ink);
-  border: none; border-radius: 99px;
-  padding: 16px; cursor: pointer;
-  transition: background 0.2s;
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
-.reserve-full:active { background: var(--ink2); }
+.btn-primary {
+  padding: 14px 30px;
+  background: var(--charcoal);
+  color: var(--white);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 100px;
+  border: 1.5px solid var(--charcoal);
+  transition: background 0.4s, border-color 0.4s;
+}
+.btn-primary:hover { background: var(--gold); border-color: var(--gold); }
+.btn-outline {
+  padding: 13px 28px;
+  color: var(--charcoal);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 100px;
+  border: 1.5px solid rgba(33,30,27,0.18);
+  transition: border-color 0.4s, color 0.4s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
 
-/* ── FOOTER ── */
-footer {
-  background: var(--cream2);
-  border-top: 1px solid var(--line2);
-  padding: 48px 28px 110px;
+/* Hero image */
+.hero-image {
+  position: relative;
+  margin-top: 60px;
 }
-.footer-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; font-weight: 300; color: var(--ink);
-  margin-bottom: 4px;
-}
-.footer-sub { font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
-.footer-links-row { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 24px; }
-.footer-links-row a { font-size: 12.5px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-.footer-links-row a:active { color: var(--gold); }
-.footer-contact-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 28px; }
-.footer-contact-row a { font-size: 12.5px; color: var(--muted); text-decoration: none; }
-.footer-bottom { font-size: 11px; color: var(--muted2); border-top: 1px solid var(--line); padding-top: 20px; }
+@media (min-width: 900px) { .hero-image { margin-top: 0; } }
 
-/* ── STICKY BAR ── */
-.sticky {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
-  padding: 10px 20px 24px;
-  background: linear-gradient(transparent, rgba(250,247,243,0.98) 30%);
+.hero-img-frame {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  border: 1px solid var(--gold-lt);
+}
+.hero-img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 3s var(--ease);
+  filter: saturate(0.92);
+}
+.hero-img-frame:hover img { transform: scale(1.04); }
+
+.hero-badge {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  background: rgba(253,251,248,0.88);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--gold-lt);
+  padding: 10px 14px;
+  border-radius: 10px;
+  z-index: 2;
+  max-width: 220px;
+}
+
+.hero-badge p {
+  font-family: var(--serif);
+  font-size: 11px;
+  font-style: italic;
+  color: var(--charcoal);
+  line-height: 1.4;
+}
+
+.hero-badge span {
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 3px;
+  display: block;
+}
+
+.hero-decor-box {
+  position: absolute;
+  top: -24px;
+  right: -24px;
+  width: 200px;
+  height: 260px;
+  border: 1px solid var(--gold-lt);
+  border-radius: 16px;
+  z-index: -1;
+  display: none;
+}
+@media (min-width: 640px) { .hero-decor-box { display: block; } }
+
+/* Hero ambient */
+.hero-blob-1 {
+  position: absolute;
+  top: 0; right: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(ellipse, rgba(245,239,229,0.7) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
   pointer-events: none;
 }
-.sticky-inner {
-  display: flex; gap: 8px; pointer-events: all;
+.hero-blob-2 {
+  position: absolute;
+  bottom: -100px; left: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(ellipse, rgba(237,229,216,0.5) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
 }
-.s-call {
-  flex: none;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--gold); background: var(--white);
-  border: 1px solid var(--line2); border-radius: 99px;
-  padding: 13px 20px; cursor: pointer; text-decoration: none;
-  display: flex; align-items: center; gap: 6px;
-  transition: border-color 0.2s;
-}
-.s-call:active { border-color: var(--gold2); }
-.s-reserve {
-  flex: 1;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
-  color: #fff; background: var(--ink);
-  border: none; border-radius: 99px;
-  padding: 13px; cursor: pointer;
-  transition: background 0.2s;
-}
-.s-reserve:active { background: var(--ink2); }
 
-/* ── REVEAL ── */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.reveal.in { opacity: 1; transform: none; }
-.d1 { transition-delay: 0.1s; }
-.d2 { transition-delay: 0.2s; }
-.d3 { transition-delay: 0.3s; }
+/* ══════════════════════════════
+   MARQUEE STRIP
+══════════════════════════════ */
+.marquee-section {
+  border-top: 1px solid var(--gold-lt);
+  border-bottom: 1px solid var(--gold-lt);
+  padding: 18px 0;
+  overflow: hidden;
+  background: var(--ivory);
+}
+.marquee-track {
+  display: flex;
+  gap: 0;
+  animation: marquee 28s linear infinite;
+  white-space: nowrap;
+}
+.marquee-track span {
+  padding: 0 32px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.marquee-track .dot {
+  color: var(--gold);
+  padding: 0;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ══════════════════════════════
+   HERITAGE
+══════════════════════════════ */
+.heritage {
+  padding: 100px 0;
+  background: var(--white);
+}
+@media (min-width: 900px) { .heritage { padding: 140px 0; } }
+
+.heritage-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 60px;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .heritage-grid { grid-template-columns: 5fr 7fr; gap: 80px; }
+}
+
+.heritage-img-wrap {
+  position: relative;
+}
+.heritage-img-inner {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  border: 1px solid var(--cream);
+}
+.heritage-img-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85);
+  transition: transform 2.5s var(--ease);
+}
+.heritage-img-inner:hover img { transform: scale(1.04); }
+.heritage-img-accent {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  width: 120px;
+  height: 150px;
+  border: 1px solid var(--gold-lt);
+  border-radius: 12px;
+  z-index: -1;
+  display: none;
+}
+@media (min-width: 640px) { .heritage-img-accent { display: block; } }
+
+.heritage-content { }
+.heritage-content .section-label { margin-bottom: 24px; }
+.heritage-content h2 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--charcoal);
+  margin-bottom: 24px;
+}
+.heritage-content h2 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.heritage-content p {
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+.principles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid var(--gold-lt);
+}
+.principle-num {
+  font-family: var(--serif);
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+.principle-title {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--charcoal);
+  margin-bottom: 4px;
+}
+.principle-sub {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════
+   MENU SECTION
+══════════════════════════════ */
+.menu-section {
+  background: var(--ivory);
+  padding: 100px 0;
+  border-top: 1px solid var(--gold-lt);
+  border-bottom: 1px solid var(--gold-lt);
+}
+@media (min-width: 900px) { .menu-section { padding: 140px 0; } }
+
+.section-header {
+  text-align: center;
+  margin-bottom: 72px;
+}
+.section-header h2 {
+  font-family: var(--serif);
+  font-size: clamp(38px, 5vw, 60px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--charcoal);
+  margin: 16px 0 12px;
+}
+.section-header .date-line {
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Menu card */
+.menu-card {
+  background: #FDFAF6;
+  border: 1px solid var(--cream);
+  border-radius: 20px;
+  padding: 48px 32px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(74,63,54,0.05);
+}
+@media (min-width: 768px) { .menu-card { padding: 72px 64px; } }
+
+/* Watermark */
+.menu-card::before {
+  content: 'MT';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--serif);
+  font-size: 280px;
+  font-weight: 600;
+  color: var(--charcoal);
+  opacity: 0.018;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.menu-card-inner {
+  border: 1px solid rgba(184,148,106,0.12);
+  border-radius: 12px;
+  padding: 40px 24px;
+  position: relative;
+}
+@media (min-width: 768px) { .menu-card-inner { padding: 56px 48px; } }
+
+.menu-ornament {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 56px;
+}
+.menu-ornament-line {
+  height: 1px;
+  width: 60px;
+  background: linear-gradient(to right, transparent, var(--gold));
+}
+.menu-ornament-line.right {
+  background: linear-gradient(to left, transparent, var(--gold));
+}
+.menu-ornament-diamond {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+}
+
+.menu-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 56px;
+}
+@media (min-width: 900px) {
+  .menu-cols { grid-template-columns: 1fr 1fr; column-gap: 64px; row-gap: 56px; }
+}
+
+.menu-cat { }
+.menu-cat-header {
+  border-bottom: 1px solid rgba(184,148,106,0.1);
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+}
+.menu-cat-num {
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+.menu-cat-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--charcoal);
+}
+.insta-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.insta-name video {
+  height: 4.5em;       /* matches the font-size of the brand name text */
+  width: auto;          /* keeps aspect ratio */
+  border-radius: 4px;
+  object-fit: cover;
+  vertical-align: middle;
+}
+.menu-items { display: flex; flex-direction: column; gap: 24px; }
+.menu-item { }
+.menu-item-name {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.3s;
+}
+.menu-item-name::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold-lt);
+  max-width: 40px;
+}
+.menu-item:hover .menu-item-name { color: var(--gold); }
+.menu-item-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.menu-footer {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(184,148,106,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+}
+@media (min-width: 640px) {
+  .menu-footer { flex-direction: row; justify-content: space-between; text-align: left; }
+}
+.menu-footer-note {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+}
+.menu-footer-brand {
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* ══════════════════════════════
+   PRICE BANNER
+══════════════════════════════ */
+.price-banner {
+  background: var(--charcoal);
+  padding: 64px 0;
+}
+.price-banner-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: center;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .price-banner-inner { grid-template-columns: 1fr auto 1fr; text-align: left; }
+}
+.price-banner-left h3 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.price-banner-left p {
+  font-size: 13px;
+  color: rgba(253,251,248,0.5);
+  line-height: 1.7;
+}
+.price-banner-center {
+  text-align: center;
+  padding: 0 24px;
+}
+.price-big {
+  font-family: var(--serif);
+  font-size: 64px;
+  font-weight: 400;
+  color: var(--gold);
+  line-height: 1;
+}
+.price-big sub {
+  font-size: 20px;
+  vertical-align: super;
+  color: rgba(184,148,106,0.7);
+}
+.price-tag {
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(253,251,248,0.4);
+  margin-top: 6px;
+}
+.price-divider {
+  width: 1px;
+  height: 80px;
+  background: rgba(253,251,248,0.08);
+  margin: 0 auto;
+  display: none;
+}
+@media (min-width: 768px) { .price-divider { display: block; } }
+.price-banner-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+@media (max-width: 768px) { .price-banner-right { align-items: center; } }
+.price-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: rgba(253,251,248,0.65);
+}
+.price-feature::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════
+   EXPERIENCES / SPACES
+══════════════════════════════ */
+.experiences {
+  padding: 100px 0;
+  background: var(--white);
+}
+@media (min-width: 900px) { .experiences { padding: 140px 0; } }
+
+.experiences-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 60px;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .experiences-grid { grid-template-columns: 4fr 8fr; gap: 80px; }
+}
+
+.experiences-intro h2 {
+  font-family: var(--serif);
+  font-size: clamp(34px, 4vw, 48px);
+  font-weight: 400;
+  line-height: 1.14;
+  color: var(--charcoal);
+  margin: 16px 0 20px;
+}
+.experiences-intro h2 em { font-style: italic; color: var(--gold); }
+.experiences-intro p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.spaces-list { display: flex; flex-direction: column; gap: 40px; }
+.space-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 600px) {
+  .space-card { grid-template-columns: 5fr 7fr; gap: 28px; align-items: center; }
+}
+
+.space-img {
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  border: 1px solid var(--cream);
+}
+.space-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.82);
+  transition: transform 1.5s var(--ease);
+}
+.space-img:hover img { transform: scale(1.05); }
+
+.space-info { }
+.space-name {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 6px;
+}
+.space-capacity {
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.space-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ══════════════════════════════
+   TESTIMONIALS
+══════════════════════════════ */
+.testimonials {
+  padding: 100px 0;
+  background: var(--ivory);
+  border-top: 1px solid var(--gold-lt);
+  border-bottom: 1px solid var(--gold-lt);
+}
+.testimonials-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+.quote-mark {
+  font-family: var(--serif);
+  font-size: 80px;
+  color: var(--gold);
+  opacity: 0.25;
+  line-height: 0.6;
+  margin-bottom: 16px;
+}
+.quote-text {
+  font-family: var(--serif);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--charcoal);
+  line-height: 1.55;
+  transition: opacity 0.35s ease;
+}
+.quote-author {
+  margin-top: 32px;
+  font-family: var(--serif);
+  font-size: 17px;
+  color: var(--charcoal);
+  transition: opacity 0.35s ease;
+}
+.quote-location {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+  transition: opacity 0.35s ease;
+}
+.quote-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  margin: 24px auto;
+  opacity: 0.4;
+}
+.testimonial-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+.t-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.t-dot.active { background: var(--charcoal); transform: scale(1.3); }
+
+/* ══════════════════════════════
+   CONTACT / VENUE
+══════════════════════════════ */
+.venue {
+  padding: 100px 0;
+  background: var(--white);
+}
+@media (min-width: 900px) { .venue { padding: 140px 0; } }
+
+.venue-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 60px;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .venue-grid { grid-template-columns: 5fr 7fr; gap: 80px; }
+}
+
+.venue-content h2 {
+  font-family: var(--serif);
+  font-size: clamp(34px, 4vw, 50px);
+  font-weight: 400;
+  line-height: 1.14;
+  color: var(--charcoal);
+  margin: 16px 0 16px;
+}
+.venue-content h2 em { font-style: italic; color: var(--gold); }
+.venue-content > p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+
+.venue-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  padding-top: 40px;
+  border-top: 1px solid var(--gold-lt);
+}
+.venue-detail-label {
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.venue-detail-text {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.venue-detail-text a {
+  display: block;
+  transition: color 0.3s;
+}
+.venue-detail-text a:hover { color: var(--gold); }
+
+.venue-map-wrap {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--cream);
+  box-shadow: 0 20px 60px rgba(74,63,54,0.07);
+}
+.venue-map-wrap iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/3;
+  border: none;
+  filter: saturate(0.75);
+  transition: filter 0.5s;
+}
+.venue-map-wrap:hover iframe { filter: saturate(1); }
+
+.venue-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+.venue-btn-outline {
+  text-align: center;
+  padding: 14px;
+  border: 1.5px solid rgba(33,30,27,0.14);
+  border-radius: 100px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  transition: border-color 0.3s, color 0.3s;
+}
+.venue-btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.venue-btn-fill {
+  text-align: center;
+  padding: 14px;
+  background: var(--charcoal);
+  border: 1.5px solid var(--charcoal);
+  border-radius: 100px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  transition: background 0.3s, border-color 0.3s;
+}
+.venue-btn-fill:hover { background: var(--gold); border-color: var(--gold); }
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer {
+  background: var(--ivory);
+  border-top: 1px solid var(--gold-lt);
+  padding: 72px 0 40px;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  margin-bottom: 56px;
+}
+@media (min-width: 640px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .footer-top { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+
+.footer-brand-name {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 12px;
+}
+.footer-brand-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.footer-col-title {
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul a {
+  font-size: 12.5px;
+  color: var(--muted);
+  transition: color 0.3s;
+}
+.footer-col ul a:hover { color: var(--charcoal); }
+.footer-col p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.footer-bottom {
+  padding-top: 32px;
+  border-top: 1px solid var(--gold-lt);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
+}
+@media (min-width: 640px) {
+  .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
+}
+.footer-bottom span {
+  font-size: 10.5px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* ══════════════════════════════
+   MOBILE HAMBURGER (simple)
+══════════════════════════════ */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  background: none;
+  border: none;
+}
+@media (min-width: 900px) { .hamburger { display: none; } }
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--charcoal);
+  transition: transform 0.3s, opacity 0.3s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 68px; left: 0; right: 0;
+  background: rgba(253,251,248,0.97);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--gold-lt);
+  z-index: 99;
+  padding: 32px 24px;
+  flex-direction: column;
+  gap: 24px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  border-bottom: 1px solid var(--cream);
+  padding-bottom: 18px;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav" id="nav">
-  <div class="nav-wordmark">
-    Maharana Thal
-    <span>Nashik · MH</span>
+<nav id="main-nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <span class="name">Maharana Thal</span>
+        <span class="tagline">Pure Vegetarian Excellence</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#heritage">Heritage</a></li>
+        <li><a href="#menu">Today's Menu</a></li>
+        <li><a href="#spaces">Spaces</a></li>
+        <li><a href="#venue">Visit Us</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="tel:+918552982999" class="nav-phone">+91 85529 82999</a>
+        <a href="tel:+918552982999" class="btn-nav">Reserve Table</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
   </div>
-  <button class="nav-btn" onclick="document.getElementById('visit').scrollIntoView({behavior:'smooth'})">Visit</button>
 </nav>
 
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#heritage" onclick="closeMobileMenu()">Heritage</a>
+  <a href="#menu" onclick="closeMobileMenu()">Today's Menu</a>
+  <a href="#spaces" onclick="closeMobileMenu()">Spaces</a>
+  <a href="#venue" onclick="closeMobileMenu()">Visit Us</a>
+  <a href="tel:+918552982999" onclick="closeMobileMenu()">+91 85529 82999</a>
+</div>
+
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-img-wrap">
-    <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=900&q=85" alt="Royal Thali">
+<header class="hero" style="padding-top: 120px;">
+  <div class="hero-blob-1"></div>
+  <div class="hero-blob-2"></div>
+  <div class="container" style="position:relative;z-index:2;">
+    <div style="display:grid; grid-template-columns:1fr; gap:56px; align-items:center;">
+      <!-- We'll use inline responsive grid -->
+      <div class="hero-layout">
+        <div class="hero-text reveal">
+          <div class="hero-eyebrow">
+            <span class="label">Authentic Indian Gastronomy</span>
+          </div>
+          <h1>
+            A Feast Served<br>
+            <em>Like Royalty.</em>
+          </h1>
+          <p class="hero-desc">
+            Nashik's premier unlimited vegetarian thali — a masterful blend of Rajasthani, Gujarati, and Maharashtrian culinary traditions, prepared fresh every day.
+          </p>
+          <div class="hero-stats">
+            <div>
+              <div class="stat-num">₹280 <span>net</span></div>
+              <div class="stat-label">Unlimited Thali</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div>
+              <div class="stat-num">15+ <span style="color:var(--gold);">dishes</span></div>
+              <div class="stat-label">Warm Refills</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div>
+              <div class="stat-num">7 <span style="color:var(--muted);">days</span></div>
+              <div class="stat-label">Open Daily</div>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <a href="#menu" class="btn-primary">View Today's Menu</a>
+            <a href="tel:+918552982999" class="btn-outline">Call Guest Desk</a>
+          </div>
+        </div>
+        <div class="hero-image reveal reveal-delay-2">
+          <div class="hero-decor-box"></div>
+          <div class="hero-img-frame">
+            <img src="image/image12.jpeg"
+                 alt="Premium Royal Thali Spread"
+                 onerror="this.src='https://placehold.co/800x1000/F5EFE5/8A7E76?text=Maharana+Thal'">
+          </div>
+          <div class="hero-badge">
+            <p>"Served with absolute warmth."</p>
+            <span>Nashik's Finest Thali</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Unlimited Thali · Nashik</p>
-    <h1 class="hero-h1">Authentic Indian<br>Flavors in<br><em>Every Thali</em></h1>
-    <div class="hero-meta">
-      <div>
-        <div class="hero-price">₹280 <sub>/ person</sub></div>
-      </div>
-      <div class="hero-meta-div"></div>
-      <div class="hero-items">
-        <strong>15+</strong>
-        dishes per thali<br>unlimited refills
-      </div>
-    </div>
-    <div class="hero-actions">
-      <button class="btn-ghost btn-ghost-light" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">View Menu</button>
-      <button class="btn-ghost btn-solid" onclick="document.getElementById('visit').scrollIntoView({behavior:'smooth'})">Visit Us</button>
-    </div>
+</header>
+
+<style>
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 56px;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .hero-layout { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee-track">
+    <span>Rajasthani Gatte Curry</span><span class="dot">·</span>
+    <span>Slow-Cooked Dal</span><span class="dot">·</span>
+    <span>Shahi Paneer</span><span class="dot">·</span>
+    <span>Fresh Phulkas</span><span class="dot">·</span>
+    <span>Moong Dal Halwa</span><span class="dot">·</span>
+    <span>Kesar Thandai Chach</span><span class="dot">·</span>
+    <span>Stone-Ground Spices</span><span class="dot">·</span>
+    <span>100% Vegetarian</span><span class="dot">·</span>
+    <span>Unlimited Refills</span><span class="dot">·</span>
+    <span>Rajasthani Gatte Curry</span><span class="dot">·</span>
+    <span>Slow-Cooked Dal</span><span class="dot">·</span>
+    <span>Shahi Paneer</span><span class="dot">·</span>
+    <span>Fresh Phulkas</span><span class="dot">·</span>
+    <span>Moong Dal Halwa</span><span class="dot">·</span>
+    <span>Kesar Thandai Chach</span><span class="dot">·</span>
+    <span>Stone-Ground Spices</span><span class="dot">·</span>
+    <span>100% Vegetarian</span><span class="dot">·</span>
+    <span>Unlimited Refills</span><span class="dot">·</span>
   </div>
 </div>
 
-<!-- ABOUT -->
-<section class="about" id="about">
-  <p class="label reveal">Our Story</p>
-  <h2 class="display reveal d1">Where Tradition<br>Meets <em>Modern</em> Dining</h2>
-  <p class="body-text reveal d2">
-    At Maharana Thal, we have spent years perfecting the art of the royal Indian thali — bringing together the finest traditions of Rajasthani, Gujarati, and Maharashtrian cuisine under one roof. Every meal is an experience of abundance, warmth, and genuine Indian hospitality.
-  </p>
+<!-- HERITAGE -->
+<section class="heritage" id="heritage">
+  <div class="container">
+    <div class="heritage-grid">
+      <div class="heritage-img-wrap reveal">
+        <div class="heritage-img-inner">
+          <img src="image/image12.jpeg"
+               alt="Traditional kitchen spices"
+               onerror="this.src='https://placehold.co/600x800/F5EFE5/8A7E76?text=Heritage'">
+        </div>
+        <div class="heritage-img-accent"></div>
+      </div>
+      <div class="heritage-content">
+        <div class="label-row left section-label reveal">
+          <span class="label">The Culinary Path</span>
+        </div>
+        <h2 class="reveal reveal-delay-1">
+          A Beautiful Union<br>
+          of <em>Three Legacies.</em>
+        </h2>
+        <p class="reveal reveal-delay-2">
+          At Maharana Thal, dining is a performance of generosity. Inspired by the legendary hospitality of Indian royal courts, our masters have curated a menu that flows across the fiery spices of Rajasthan, the subtle sweetness of Gujarat, and the comforting textures of Maharashtra.
+        </p>
+        <p class="reveal reveal-delay-2">
+          Every bread is rolled by hand, every dal slow-cooked over low flame for hours. Refills arrive directly onto your plate — hot, aromatic, and endless.
+        </p>
+        <div class="principles reveal reveal-delay-3">
+          <div>
+            <div class="principle-num">01</div>
+            <div class="principle-title">Hand-Pounded Spices</div>
+            <div class="principle-sub">Stone-ground local ingredients, daily.</div>
+          </div>
+          <div>
+            <div class="principle-num">02</div>
+            <div class="principle-title">100% Vegetarian</div>
+            <div class="principle-sub">Prepared fresh, without exception.</div>
+          </div>
+          <div>
+            <div class="principle-num">03</div>
+            <div class="principle-title">A2 Ghee & Dairy</div>
+            <div class="principle-sub">Sourced from local farms only.</div>
+          </div>
 
-  <div class="about-img-pair reveal">
-    <img class="img-a" src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=500&q=80" alt="Thali spread">
-    <div class="about-img-stack">
-      <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=300&q=80" alt="Dal">
-      <img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=300&q=80" alt="Sabji">
-    </div>
-  </div>
-
-  <div class="cuisine-list reveal">
-    <div class="cuisine-item">
-      <div class="cuisine-left">
-        <div class="cuisine-dot"></div>
-        <div>
-          <div class="cuisine-name">Rajasthani</div>
-          <div class="cuisine-detail">Dal Baati · Churma · Gatte ki Sabji</div>
         </div>
       </div>
-      <div class="cuisine-badge">Royal</div>
-    </div>
-    <div class="cuisine-item">
-      <div class="cuisine-left">
-        <div class="cuisine-dot"></div>
-        <div>
-          <div class="cuisine-name">Gujarati</div>
-          <div class="cuisine-detail">Kadhi · Dhokla · Undhiyu</div>
-        </div>
-      </div>
-      <div class="cuisine-badge">Traditional</div>
-    </div>
-    <div class="cuisine-item">
-      <div class="cuisine-left">
-        <div class="cuisine-dot"></div>
-        <div>
-          <div class="cuisine-name">Maharashtrian</div>
-          <div class="cuisine-detail">Varan · Poli · Amti</div>
-        </div>
-      </div>
-      <div class="cuisine-badge">Authentic</div>
     </div>
   </div>
 </section>
 
 <!-- MENU -->
-<section class="menu" id="menu">
-  <p class="label reveal">The Royal Thali</p>
-  <h2 class="display reveal d1">Everything in<br><em>One Plate</em></h2>
-  <p class="body-text reveal d2">15+ freshly made dishes served together — refilled endlessly with warmth and care.</p>
-
-  <img class="menu-hero-img reveal" src="https://images.unsplash.com/photo-1630383249896-424e482df921?w=800&q=80" alt="Full Thali">
-
-  <div class="price-strip reveal">
-    <div class="p-left">
-      <div class="p-amt">₹280</div>
-      <div class="p-desc">unlimited thali · per person</div>
+<section class="menu-section" id="menu">
+  <div class="container">
+    <div class="section-header">
+      <div class="label-row" style="justify-content:center;">
+        <span class="label">The Presentation</span>
+      </div>
+      <h2>Today's Menu</h2>
+      <p class="date-line" id="menu-date">The Feast of Today</p>
     </div>
-    <div class="p-right">
-      <div class="p-count">15</div>
-      <div class="p-clabel">items in your thali</div>
-    </div>
-  </div>
 
-  <div class="menu-grid">
     <div class="menu-card reveal">
-      <div class="menu-card-top">
-        <div class="mc-name">Drinks</div>
-        <div class="mc-count">1 item</div>
-      </div>
-      <div class="mc-items">Chaas · Sarbat</div>
-    </div>
-    <div class="menu-card reveal d1">
-      <div class="menu-card-top">
-        <div class="mc-name">Farsan</div>
-        <div class="mc-count">2 items</div>
-      </div>
-      <div class="mc-items">Papad · Farsan Bhaji</div>
-    </div>
-    <div class="menu-card reveal">
-      <div class="menu-card-top">
-        <div class="mc-name">Sabji</div>
-        <div class="mc-count">4 items</div>
-      </div>
-      <div class="mc-items">Mix Veg · Paneer · Aloo · Seasonal</div>
-    </div>
-    <div class="menu-card reveal d1">
-      <div class="menu-card-top">
-        <div class="mc-name">Dal</div>
-        <div class="mc-count">2 items</div>
-      </div>
-      <div class="mc-items">Dal Tadka · Dal Makhani</div>
-    </div>
-    <div class="menu-card reveal">
-      <div class="menu-card-top">
-        <div class="mc-name">Rice</div>
-        <div class="mc-count">2 items</div>
-      </div>
-      <div class="mc-items">Steamed · Jeera Rice</div>
-    </div>
-    <div class="menu-card reveal d1">
-      <div class="menu-card-top">
-        <div class="mc-name">Roti</div>
-        <div class="mc-count">2 items</div>
-      </div>
-      <div class="mc-items">Phulka · Baajri Roti</div>
-    </div>
-    <div class="menu-card reveal">
-      <div class="menu-card-top">
-        <div class="mc-name">Sweet</div>
-        <div class="mc-count">1 item</div>
-      </div>
-      <div class="mc-items">Gulab Jamun · Halwa</div>
-    </div>
-    <div class="menu-card reveal d1">
-      <div class="menu-card-top">
-        <div class="mc-name">Common</div>
-        <div class="mc-count">3–4 items</div>
-      </div>
-      <div class="mc-items">Salad · Pickle · Chutney · Papad</div>
-    </div>
-  </div>
-</section>
+      <div class="menu-card-inner">
+        <!-- Ornament -->
+        <div class="menu-ornament">
+          <div class="menu-ornament-line"></div>
+          <div class="menu-ornament-diamond"></div>
+          <div class="menu-ornament-line right"></div>
+        </div>
 
-<!-- GALLERY -->
-<section class="gallery" id="gallery">
-  <p class="label reveal">Gallery</p>
-  <h2 class="display reveal d1">A Feast for<br><em>the Eyes</em></h2>
+        <div class="menu-cols">
+          <!-- LEFT COLUMN -->
+          <div style="display:flex; flex-direction:column; gap:48px;">
 
-  <div class="gallery-scroll reveal">
-    <div class="gallery-row">
-      <div class="g-item g-xl">
-        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80" alt="Full Thali">
-        <div class="g-cap">Royal Thali</div>
-      </div>
-      <div class="g-item g-lg">
-        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80" alt="Dal">
-        <div class="g-cap">Dal Makhani</div>
-      </div>
-      <div class="g-item g-xl">
-        <img src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&q=80" alt="Thali">
-        <div class="g-cap">Thali Spread</div>
-      </div>
-      <div class="g-item g-md">
-        <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=80" alt="Paneer">
-        <div class="g-cap">Paneer</div>
-      </div>
-      <div class="g-item g-lg">
-        <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80" alt="Sweets">
-        <div class="g-cap">Mithai</div>
-      </div>
-    </div>
-    <div class="gallery-row" style="margin-top:8px">
-      <div class="g-item g-lg">
-        <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=300&q=80" alt="Food">
-        <div class="g-cap">Fresh Dal</div>
-      </div>
-      <div class="g-item g-xl">
-        <img src="https://images.unsplash.com/photo-1630383249896-424e482df921?w=400&q=80" alt="Thali">
-        <div class="g-cap">Traditional</div>
-      </div>
-      <div class="g-item g-md">
-        <img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=300&q=80" alt="Sabji">
-        <div class="g-cap">Sabji</div>
-      </div>
-      <div class="g-item g-xl">
-        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80" alt="Rice">
-        <div class="g-cap">Rice Dishes</div>
-      </div>
-      <div class="g-item g-lg">
-        <img src="https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=300&q=80" alt="Roti">
-        <div class="g-cap">Fresh Rotis</div>
-      </div>
-    </div>
-  </div>
-</section>
+            <!-- Welcome Drink -->
+            <div class="menu-cat">
+              <div class="menu-cat-header">
+                <div class="menu-cat-num">01 · Welcome Drink</div>
+                <div class="menu-cat-title">To Refresh</div>
+              </div>
+              <div class="menu-items">
+                <div class="menu-item">
+                  <div class="menu-item-name">Kesar Thandai Chach</div>
+                  <div class="menu-item-desc">Cold spiced buttermilk infused with organic saffron, crushed cardamom oil, and dry garden mint.</div>
+                </div>
+                <div class="menu-item">
+                  <div class="menu-item-name">Seasonal Rose Sarbat</div>
+                  <div class="menu-item-desc">Gentle cooler of hand-pressed rose petals, fresh lemon juice, and sweet organic rock sugar.</div>
+                </div>
+              </div>
+            </div>
 
-<!-- WHY -->
-<section class="why">
-  <p class="label reveal">Why Maharana Thal</p>
-  <h2 class="display reveal d1">Reasons to<br><em>Love Us</em></h2>
-  <div class="why-list reveal d2">
-    <div class="why-item">
-      <div class="why-num">01</div>
-      <div>
-        <div class="why-title">Truly Unlimited</div>
-        <div class="why-desc">Every bowl refilled with a smile — eat until completely satisfied, no limits, no questions.</div>
-      </div>
-    </div>
-    <div class="why-item">
-      <div class="why-num">02</div>
-      <div>
-        <div class="why-title">Fresh Daily Preparations</div>
-        <div class="why-desc">Each dish made fresh every day using hand-picked seasonal ingredients and traditional recipes.</div>
-      </div>
-    </div>
-    <div class="why-item">
-      <div class="why-num">03</div>
-      <div>
-        <div class="why-title">Hygienic Kitchen</div>
-        <div class="why-desc">Modern kitchen with strict hygiene standards. Clean, safe, and completely transparent.</div>
-      </div>
-    </div>
-    <div class="why-item">
-      <div class="why-num">04</div>
-      <div>
-        <div class="why-title">Exceptional Value</div>
-        <div class="why-desc">15 dishes, unlimited refills, premium quality — all at just ₹280 per person.</div>
-      </div>
-    </div>
-    <div class="why-item">
-      <div class="why-num">05</div>
-      <div>
-        <div class="why-title">Royal Hospitality</div>
-        <div class="why-desc">Service inspired by the grand traditions of Indian royal dining — warm, attentive, dignified.</div>
-      </div>
-    </div>
-    <div class="why-item">
-      <div class="why-num">06</div>
-      <div>
-        <div class="why-title">Family Friendly</div>
-        <div class="why-desc">A welcoming atmosphere for all ages — perfect for family meals, celebrations, and gatherings.</div>
-      </div>
-    </div>
-  </div>
-</section>
+            <!-- Farsan -->
+            <div class="menu-cat">
+              <div class="menu-cat-header">
+                <div class="menu-cat-num">02 · Farsan</div>
+                <div class="menu-cat-title">Crispy & Savory</div>
+              </div>
+              <div class="menu-items">
+                <div class="menu-item">
+                  <div class="menu-item-name">Paneer Lifafa</div>
+                  <div class="menu-item-desc">Flaky golden pastry wrapped around lightly seasoned cottage cheese, fresh coriander, and ginger paste.</div>
+                </div>
+                <div class="menu-item">
+                  <div class="menu-item-name">Steamed Nylon Dhokla</div>
+                  <div class="menu-item-desc">Airy steamed chickpea flour squares with fresh mustard seed and green chilli tempering.</div>
+                </div>
+              </div>
+            </div>
 
-<!-- REVIEWS -->
-<section class="reviews">
-  <p class="label reveal">Guest Reviews</p>
-  <h2 class="display reveal d1">What Our<br><em>Guests Say</em></h2>
-  <div class="reviews-scroll reveal">
-    <div class="reviews-row">
-      <div class="review-card">
-        <div class="rc-head">
-          <div class="rc-av">RP</div>
-          <div>
-            <div class="rc-name">Rahul Patil</div>
-            <div class="rc-meta">Nashik · Family Dining</div>
+            <!-- Common -->
+            <div class="menu-cat">
+              <div class="menu-cat-header">
+                <div class="menu-cat-num">03 · Common</div>
+                <div class="menu-cat-title">Table Staples</div>
+              </div>
+              <div class="menu-items">
+                <div class="menu-item">
+                  <div class="menu-item-name">Fire-Roasted Phulkas</div>
+                  <div class="menu-item-desc">Puffed whole-wheat flatbreads served hot from the flame, brushed with hand-churned A2 ghee.</div>
+                </div>
+                <div class="menu-item">
+                  <div class="menu-item-name">Roasted Papad & Pickles</div>
+                  <div class="menu-item-desc">Crisp lentil papad with hand-pounded mango mustard pickle and mint-coriander chutney.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dal -->
+            <div class="menu-cat">
+              <div class="menu-cat-header">
+                <div class="menu-cat-num">04 · Dal</div>
+                <div class="menu-cat-title">Slow-Cooked Lentils</div>
+              </div>
+              <div class="menu-items">
+                <div class="menu-item">
+                  <div class="menu-item-name">Panchmel Dal</div>
+                  <div class="menu-item-desc">Traditional Rajasthani blend of five pulses, slow-cooked in earthenware over woodfire.</div>
+                </div>
+                <div class="menu-item">
+                  <div class="menu-item-name">Maharashtrian Varan</div>
+                  <div class="menu-item-desc">Comforting yellow lentils tempered with fresh turmeric, golden cumin, and curry leaves.</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN -->
+          <div style="display:flex; flex-direction:column; gap:48px;">
+
+            <!-- Sabji -->
+            <div class="menu-cat">
+              <div class="menu-cat-header">
+                <div class="menu-cat-num">05 · Sabji</div>
+                <div class="menu-cat-title">Main Course Entrées</div>
+              </div>
+              <div class="menu-items">
+                <div class="menu-item">
+                  <div class="menu-item-name">Shahi Paneer</div>
+                  <div class="menu-item-desc">Freshly pressed cottage cheese in a silky cashew gravy with mild green cardamoms.</div>
+                </div>
+                <div class="menu-item">
+                  <div class="menu-item-name">Rajasthani Gatta Curry</div>
+                  <div class="menu-item-desc">Hand-rolled gram flour dumplings in a beautifully spiced whipped yogurt gravy.</div>
+                </div>
+                <div class="menu-item">
+                  <div class="menu-item-name">Aloo Gobhi Adraki</div>
+                  <div class="menu-item-desc">Cauliflower and potatoes dry-tossed in copper pans with ginger juliennes and whole spices.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rice -->
+            <div class="menu-cat">
+              <div class="menu-cat-header">
+                <div class="menu-cat-num">06 · Rice</div>
+                <div class="menu-cat-title">Harvest Grains</div>
+              </div>
+              <div class="menu-items">
+                <div class="menu-item">
+                  <div class="menu-item-name">Steamed Saffron Basmati</div>
+                  <div class="menu-item-desc">Aged long-grain basmati steamed with whole green cardamoms and cloves.</div>
+                </div>
+                <div class="menu-item">
+                  <div class="menu-item-name">Moong Dal Khichdi</div>
+                  <div class="menu-item-desc">Soft split yellow lentils and premium rice, paired best with pure ghee.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sweet -->
+            <div class="menu-cat">
+              <div class="menu-cat-header">
+                <div class="menu-cat-num">07 · Sweet</div>
+                <div class="menu-cat-title">Mithai & Confections</div>
+              </div>
+              <div class="menu-items">
+                <div class="menu-item">
+                  <div class="menu-item-name">Warm Moong Dal Halwa</div>
+                  <div class="menu-item-desc">Golden lentils hand-roasted in warm local ghee, finished with slivered almonds.</div>
+                </div>
+                <div class="menu-item">
+                  <div class="menu-item-name">Elaneer Payasam</div>
+                  <div class="menu-item-desc">Chilled tender coconut water, sweet condensed milk, and fresh soft coconut meat.</div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
-        <div class="rc-stars">★★★★★</div>
-        <p class="rc-text">"Came with my family of five and we were all completely satisfied. The dal makhani was outstanding. Best thali experience in Nashik."</p>
-        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=300&q=70" alt="Thali" class="rc-img">
-      </div>
-      <div class="review-card">
-        <div class="rc-head">
-          <div class="rc-av">PS</div>
-          <div>
-            <div class="rc-name">Priya Sharma</div>
-            <div class="rc-meta">Nashik · Regular Guest</div>
-          </div>
+
+        <!-- Footer -->
+        <div class="menu-footer">
+          <span class="menu-footer-note">Prepared fresh daily. Jain preparation available on request.</span>
+          <span class="menu-footer-brand">Maharana Pure Vegetarian Heritage</span>
         </div>
-        <div class="rc-stars">★★★★★</div>
-        <p class="rc-text">"The staff keeps refilling without you asking. Food is always fresh and hot. The Gujarati and Maharashtrian mix is absolutely perfect."</p>
-        <img src="https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=70" alt="Thali" class="rc-img">
-      </div>
-      <div class="review-card">
-        <div class="rc-head">
-          <div class="rc-av">AD</div>
-          <div>
-            <div class="rc-name">Amit Desai</div>
-            <div class="rc-meta">Nashik · Corporate Lunch</div>
-          </div>
-        </div>
-        <div class="rc-stars">★★★★★</div>
-        <p class="rc-text">"Took my entire office team here. Everyone was impressed by the variety, quality, and the beautiful banquet hall. Highly recommended."</p>
-      </div>
-      <div class="review-card">
-        <div class="rc-head">
-          <div class="rc-av">SJ</div>
-          <div>
-            <div class="rc-name">Sunita Joshi</div>
-            <div class="rc-meta">Nashik · Anniversary</div>
-          </div>
-        </div>
-        <div class="rc-stars">★★★★★</div>
-        <p class="rc-text">"Celebrated our anniversary in the banquet hall. Setup was beautiful and the thali feast was simply grand. Five stars without hesitation."</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- BANQUET -->
-<section class="banquet" id="banquet">
-  <p class="label reveal">Banquet Hall</p>
-  <h2 class="display reveal d1">Host Your<br><em>Celebrations Here</em></h2>
-  <p class="body-text reveal d2">Our fully air-conditioned banquet hall seats up to 130 guests in comfort and elegance — the perfect setting for every milestone.</p>
-
-  <img class="banquet-img reveal" src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80" alt="Banquet Hall">
-
-  <div class="banquet-stats-row reveal">
-    <div class="b-stat">
-      <div class="b-stat-num">130</div>
-      <div class="b-stat-lbl">Capacity</div>
-    </div>
-    <div class="b-stat">
-      <div class="b-stat-num">AC</div>
-      <div class="b-stat-lbl">Air Conditioned</div>
-    </div>
-    <div class="b-stat">
-      <div class="b-stat-num">24/7</div>
-      <div class="b-stat-lbl">Support</div>
-    </div>
-  </div>
-
-  <div class="event-tags reveal">
-    <div class="ev-tag">Wedding</div>
-    <div class="ev-tag">Birthday</div>
-    <div class="ev-tag">Anniversary</div>
-    <div class="ev-tag">Corporate</div>
-    <div class="ev-tag">Religious Events</div>
-    <div class="ev-tag">Private Parties</div>
-  </div>
-
-  <button class="banquet-cta reveal" onclick="window.location.href='tel:+919822844737'">Enquire About Banquet Hall</button>
-</section>
-
-<!-- AMBIENCE -->
-<section class="ambience">
-  <p class="label reveal">Our Space</p>
-  <h2 class="display reveal d1">The <em>Atmosphere</em></h2>
-  <p class="body-text reveal d2">Traditional warmth meets modern comfort in our thoughtfully designed dining space.</p>
-  <div class="amb-grid reveal">
-    <img class="amb-full" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" alt="Restaurant Interior">
-    <img class="amb-half" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80" alt="Dining area">
-    <img class="amb-half" src="https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?w=400&q=80" alt="Table setting">
-    <img class="amb-half" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80" alt="Restaurant">
-    <img class="amb-half" src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&q=80" alt="Ambience">
-  </div>
-</section>
-
-<!-- VISIT -->
-<section class="visit" id="visit">
-  <p class="label reveal">Find Us</p>
-  <h2 class="display reveal d1">Come Visit<br><em>Maharana Thal</em></h2>
-
-  <div class="info-list reveal">
-    <div class="info-item">
-      <div class="info-icon-box">📍</div>
-      <div>
-        <div class="info-lbl">Address</div>
-        <div class="info-val">Hotel SK Inn, Pathardi to Ambad Rd,<br>Shravan Sector, MIDC Ambad,<br>Nashik, Maharashtra 440010</div>
+<!-- PRICE BANNER -->
+<div class="price-banner">
+  <div class="container">
+    <div class="price-banner-inner reveal">
+      <div class="price-banner-left">
+        <h3>Unlimited Thali,<br>Endless Warmth.</h3>
+        <p>Refills served directly to your plate — always hot, always generous.</p>
+      </div>
+      <div class="price-divider"></div>
+      <div class="price-banner-center">
+        <div class="price-big"><sub>₹</sub>280</div>
+        <div class="price-tag">Per person · Net price</div>
+      </div>
+      <div class="price-divider"></div>
+      <div class="price-banner-right">
+        <div class="price-feature">15+ rotating dishes daily</div>
+        <div class="price-feature">A2 ghee & fresh dairy</div>
+        <div class="price-feature">100% pure vegetarian</div>
+        <div class="price-feature">Jain options on request</div>
       </div>
     </div>
-    <div class="info-item">
-      <div class="info-icon-box">📞</div>
-      <div>
-        <div class="info-lbl">Phone</div>
-        <div class="info-val">
-          <a href="tel:+919822844737">+91 98228 44737</a><br>
-          <a href="tel:+919970048880">+91 99700 48880</a><br>
-          <a href="tel:+918975688663">+91 89756 88663</a><br>
-          <a href="tel:+918975688663">+91 85529 82999</a>
+  </div>
+</div>
+
+<!-- SPACES -->
+<section class="experiences" id="spaces">
+  <div class="container">
+    <div class="experiences-grid">
+      <div class="experiences-intro">
+        <div class="label-row left reveal">
+          <span class="label">The Spaces</span>
+        </div>
+        <h2 class="reveal reveal-delay-1">Spaces Built<br>For <em>Gathering.</em></h2>
+        <p class="reveal reveal-delay-2">Every corner of Maharana Thal is built for familial celebration — light, breathable, and beautiful. From intimate family meals to grand corporate banquets.</p>
+      </div>
+      <div class="spaces-list">
+        <div class="space-card reveal">
+          <div class="space-img">
+            <img src="image/image13.png"
+                 alt="AC Banquet Room"
+                 onerror="this.src='https://placehold.co/600x450/F5EFE5/8A7E76?text=AC+Banquet'">
+          </div>
+          <div class="space-info">
+            <div class="space-capacity">Up to 130 Guests</div>
+            <div class="space-name">The AC Banquet Room</div>
+            <div class="space-desc">Fully air-conditioned with dedicated sound acoustics and exclusive dynamic dining service layout. Ideal for weddings, corporate events, and celebrations.</div>
+          </div>
+        </div>
+        <div class="space-card reveal reveal-delay-1">
+          <div class="space-img">
+            <img src="image/image14.png"
+                 alt="Family Dining Court"
+                 onerror="this.src='https://placehold.co/600x450/F5EFE5/8A7E76?text=Family+Court'">
+          </div>
+          <div class="space-info">
+            <div class="space-capacity">Generous Seating</div>
+            <div class="space-name">The Family Court</div>
+            <div class="space-desc">Intended for long tables, multi-generational gatherings, and the kind of laughter that travels across rooms. Warm, open, and effortlessly welcoming.</div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="info-item">
-      <div class="info-icon-box">⏰</div>
-      <div>
-        <div class="info-lbl">Timings</div>
-        <div class="info-val">Lunch — 12:00 PM to 3:30 PM<br>Dinner — 7:00 PM to 10:30 PM<br>Open all days</div>
-      </div>
-    </div>
-    <div class="info-item">
-      <div class="info-icon-box">✉️</div>
-      <div>
-        <div class="info-lbl">Email</div>
-        <div class="info-val"><a href="mailto:maharanathalnashik@gmail.com">maharanathalnashik@gmail.com</a></div>
-      </div>
-    </div>
-    <div class="info-item">
-      <div class="info-icon-box">🌐</div>
-      <div>
-        <div class="info-lbl">for your comfortable stay</div>
-        <div class="info-val"><a href="http://www.hotelskinn.in">www.hotelskinn.in</a></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testimonials-inner reveal">
+      <div class="quote-mark">"</div>
+      <p class="quote-text" id="quote-text">Our family was astonished by the hospitality. No sooner had we finished a dish than a hot phulka arrived. Authentic luxury with genuine warmth.</p>
+      <div class="quote-divider"></div>
+      <div class="quote-author" id="quote-author">Priya Sharma</div>
+      <div class="quote-location" id="quote-location">Nashik Guest · Celebrating Anniversary</div>
+      <div class="testimonial-dots">
+        <button class="t-dot active" onclick="setQuote(0)"></button>
+        <button class="t-dot" onclick="setQuote(1)"></button>
       </div>
     </div>
   </div>
+</section>
 
-  <div class="map-tap reveal" onclick="window.open('https://maps.google.com/?q=Hotel+SK+Inn+MIDC+Ambad+Nashik','_blank')">
-    <div class="map-tap-icon">🗺️</div>
-    <p>Tap to open in Google Maps</p>
-    <p style="font-size:11px;color:var(--muted2);margin-top:2px;">Hotel SK Inn · MIDC Ambad · Nashik</p>
+<!-- VENUE -->
+<section class="venue" id="venue">
+  <div class="container">
+    <div class="venue-grid">
+      <div class="venue-content">
+        <div class="label-row left reveal">
+          <span class="label">Location & Inquiries</span>
+        </div>
+        <h2 class="reveal reveal-delay-1">Come and<br><em>Dine with Us.</em></h2>
+        <p class="reveal reveal-delay-2">Located inside Hotel SK Inn at MIDC Ambad, Nashik. Walk-ins welcome; advance booking recommended for groups and banquets.</p>
+        <div class="venue-details reveal reveal-delay-3">
+          <div>
+            <div class="venue-detail-label">Address</div>
+            <div class="venue-detail-text">
+              Hotel SK Inn, Pathardi to Ambad Rd,<br>
+              Shravan Sector, MIDC Ambad,<br>
+              Nashik, Maharashtra
+            </div>
+          </div>
+          <div>
+            <div class="venue-detail-label">Hours</div>
+            <div class="venue-detail-text">
+              Lunch: 12:00 PM – 3:30 PM<br>
+              Dinner: 7:00 PM – 10:30 PM<br>
+              Open Seven Days a Week
+            </div>
+          </div>
+          <div>
+            <div class="venue-detail-label">Reservations</div>
+            <div class="venue-detail-text">
+              <a href="tel:+919822844737">+91 98228 44737</a>
+              <a href="tel:+919970048880">+91 99700 48880</a>
+              <a href="tel:+918552982999">+91 85529 82999</a>
+            </div>
+          </div>
+          <div>
+            <div class="venue-detail-label">Digital</div>
+            <div class="venue-detail-text">
+              <a href="mailto:maharanathalnashik@gmail.com">maharanathalnashik@gmail.com</a>
+              <a href="http://www.hotelskinn.in" target="_blank">www.hotelskinn.in</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="venue-map-wrap">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.957539828552!2d73.7431289!3d19.9682662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdd9623e1aaaaab%3A0xe5a36ee7bf309cf!2sHotel%20SK%20Inn!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin"
+            allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+        <div class="venue-actions">
+          <a href="https://maps.google.com/?q=Hotel+SK+Inn+MIDC+Ambad+Nashik" target="_blank" class="venue-btn-outline">Get Directions</a>
+          <a href="tel:+918552982999" class="venue-btn-fill">Reserve Table</a>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <button class="reserve-full reveal" onclick="window.location.href='tel:+918552982999'">Reserve Your Table</button>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-brand">Maharana Thal</div>
-  <div class="footer-sub">Unlimited Royal Thali & AC Banquet Hall · Nashik</div>
-  <div class="footer-links-row">
-    <a href="#about">About</a>
-    <a href="#menu">Menu</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#banquet">Banquet</a>
-    <a href="#visit">Visit</a>
-  </div>
-  <div class="footer-contact-row">
-    <a href="tel:+919822844737">+91 98228 44737</a>
-    <a href="mailto:maharanathalnashik@gmail.com">maharanathalnashik@gmail.com</a>
-    <a href="http://www.hotelskinn.in">www.hotelskinn.in</a>
-  </div>
-  <div class="footer-bottom">
-    © 2026 Maharana Thal · Hotel SK Inn · All rights reserved
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="insta-name">
+          <div class="footer-brand-name">Maharana Thal</div>
+          <a href="https://www.instagram.com/hotel_sk_inn?igsh=MW1kY3Z2ZHpjdDg3"><div><video src="/image/video1.mp4" autoplay muted loop playsinline></video></div></a>
+        </div>
+        <p class="footer-brand-desc">A modern hospitality brand committed to pure vegetarian traditions and boundless Indian generosity. Fresh daily at MIDC Ambad, Nashik.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Navigate</div>
+        <ul>
+          <li><a href="#heritage">Heritage</a></li>
+          <li><a href="#menu">Today's Menu</a></li>
+          <li><a href="#spaces">Spaces</a></li>
+          <li><a href="#venue">Visit Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Reservations</div>
+        <p>No booking required for standard dining. For banquets or parties of 12+, please call us directly.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Maharana Thal. Crafted with absolute devotion.</span>
+      <span>Hotel SK Inn, Nashik, Maharashtra</span>
+    </div>
   </div>
 </footer>
 
-<!-- STICKY -->
-<div class="sticky" id="sticky">
-  <div class="sticky-inner">
-    <a class="s-call" href="tel:+918552982999">Call</a>
-    <button class="s-reserve" onclick="document.getElementById('visit').scrollIntoView({behavior:'smooth'})">Reserve a Table</button>
-  </div>
-</div>
-
 <script>
+// NAV SCROLL
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// HAMBURGER
+const ham = document.getElementById('hamburger');
+const mob = document.getElementById('mobile-menu');
+ham.addEventListener('click', () => {
+  ham.classList.toggle('open');
+  mob.classList.toggle('open');
+});
+function closeMobileMenu() {
+  ham.classList.remove('open');
+  mob.classList.remove('open');
+}
+
+// REVEAL ON SCROLL
 const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
 reveals.forEach(el => io.observe(el));
 
-const sticky = document.getElementById('sticky');
-const footer = document.querySelector('footer');
-const fo = new IntersectionObserver(entries => {
-  sticky.style.opacity = entries[0].isIntersecting ? '0' : '1';
-  sticky.style.pointerEvents = entries[0].isIntersecting ? 'none' : 'auto';
+// LIVE DATE
+const d = new Date();
+const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const dateEl = document.getElementById('menu-date');
+if (dateEl) dateEl.textContent = 'Presentation for ' + d.toLocaleDateString('en-IN', opts);
+
+// TESTIMONIALS
+const quotes = [
+  {
+    text: 'Our family was astonished by the hospitality. No sooner had we finished a dish than a hot phulka arrived. Authentic luxury with genuine warmth.',
+    author: 'Priya Sharma',
+    location: 'Nashik Guest · Celebrating Anniversary'
+  },
+  {
+    text: 'The Gatte ki sabji and Panchmel dal are prepared to unmatched levels. You can taste the genuine woodfire freshness in the stone-ground spices. Absolute value.',
+    author: 'Amit Desai',
+    location: 'Nashik Regular · Corporate Team Dining'
+  }
+];
+function setQuote(i) {
+  const text = document.getElementById('quote-text');
+  const author = document.getElementById('quote-author');
+  const loc = document.getElementById('quote-location');
+  const dots = document.querySelectorAll('.t-dot');
+  [text, author, loc].forEach(el => el.style.opacity = 0);
+  setTimeout(() => {
+    text.textContent = quotes[i].text;
+    author.textContent = quotes[i].author;
+    loc.textContent = quotes[i].location;
+    [text, author, loc].forEach(el => el.style.opacity = 1);
+  }, 320);
+  dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+}
+
+// Auto-rotate testimonials
+let qi = 0;
+setInterval(() => { qi = (qi + 1) % quotes.length; setQuote(qi); }, 5000);
+
+// SMOOTH TRANSITION on quote elements
+['quote-text','quote-author','quote-location'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.style.transition = 'opacity 0.35s ease';
 });
-fo.observe(footer);
 </script>
 </body>
 </html>
