@@ -1,1750 +1,1227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maharana Thal — Unlimited Vegetarian Thali, Nashik</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maharana Thal — Royal Dining & Boutique Accommodations at Hotel SK Inn, Nashik</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            luxury: {
+              white: '#FDFBF8',
+              ivory: '#F5EFE5',
+              cream: '#EDE5D8',
+              charcoal: '#211E1B',
+              brown: '#4A3F36',
+              muted: '#8A7E76',
+              gold: '#B8946A',
+              goldlight: 'rgba(184,148,106,0.08)',
+              goldalt: '#CBB295'
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            cinzel: ['"Cinzel"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
 
-:root {
-  --white:   #FDFBF8;
-  --ivory:   #F5EFE5;
-  --cream:   #EDE5D8;
-  --charcoal:#211E1B;
-  --brown:   #4A3F36;
-  --muted:   #8A7E76;
-  --gold:    #B8946A;
-  --gold-lt: rgba(184,148,106,0.18);
-  --gold-xl: rgba(184,148,106,0.06);
-  --serif: 'Playfair Display', Georgia, serif;
-  --display: 'DM Serif Display', Georgia, serif;
-  --sans: 'DM Sans', system-ui, sans-serif;
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
-}
+  <style>
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FDFBF8;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #B8946A;
+      border-radius: 2px;
+    }
 
-html { scroll-behavior: smooth; }
+    ::selection {
+      background: #B8946A;
+      color: #FDFBF8;
+    }
 
-body {
-  background: var(--white);
-  color: var(--charcoal);
-  font-family: var(--sans);
-  font-weight: 300;
-  line-height: 1.6;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-::selection { background: var(--gold); color: var(--white); }
+    .ambient-glow {
+      background: radial-gradient(circle at 50% 50%, rgba(184, 148, 106, 0.05) 0%, transparent 75%);
+    }
 
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--white); }
-::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
-
-/* ── UTILITIES ── */
-.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-@media (min-width: 768px) { .container { padding: 0 48px; } }
-@media (min-width: 1200px) { .container { padding: 0 64px; } }
-
-.label {
-  font-family: var(--sans);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
-.label-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.label-row::before, .label-row::after {
-  content: '';
-  flex: 1;
-  max-width: 32px;
-  height: 1px;
-  background: var(--gold);
-}
-.label-row.left::after { display: none; }
-
-img { display: block; max-width: 100%; }
-a { color: inherit; text-decoration: none; }
-
-/* ── REVEAL ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
-}
-.reveal.visible { opacity: 1; transform: none; }
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-
-/* ══════════════════════════════
-   NAV
-══════════════════════════════ */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  background: rgba(253,251,248,0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.4s, padding 0.4s;
-  padding: 20px 0;
-}
-nav.scrolled {
-  border-bottom-color: var(--gold-lt);
-  padding: 14px 0;
-}
-.nav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.nav-brand {
-  display: flex;
-  flex-direction: column;
-}
-.nav-brand .name {
-  font-family: var(--serif);
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--charcoal);
-  transition: color 0.3s;
-}
-.nav-brand .tagline {
-  font-size: 8.5px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-top: 2px;
-}
-.nav-links {
-  display: none;
-  gap: 40px;
-  list-style: none;
-}
-@media (min-width: 900px) { .nav-links { display: flex; } }
-.nav-links a {
-  font-size: 10.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  transition: color 0.3s;
-}
-.nav-links a:hover { color: var(--charcoal); }
-.nav-cta {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.nav-phone {
-  display: none;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  transition: color 0.3s;
-}
-.nav-phone:hover { color: var(--charcoal); }
-@media (min-width: 640px) { .nav-phone { display: block; } }
-.btn-nav {
-  padding: 10px 22px;
-  background: var(--charcoal);
-  color: var(--white);
-  font-size: 9.5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border-radius: 100px;
-  transition: background 0.4s;
-  white-space: nowrap;
-}
-.btn-nav:hover { background: var(--gold); }
-
-/* ══════════════════════════════
-   HERO
-══════════════════════════════ */
-.hero {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  padding: 120px 0 80px;
-  position: relative;
-  overflow: hidden;
-}
-@media (min-width: 900px) {
-  .hero { grid-template-columns: 1fr 1fr; gap: 0; padding: 140px 0 100px; }
-}
-
-.hero-text { position: relative; z-index: 2; padding-right: 0; }
-@media (min-width: 900px) { .hero-text { padding-right: 48px; } }
-
-.hero-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 32px;
-}
-.hero-eyebrow::before {
-  content: '';
-  width: 36px;
-  height: 1px;
-  background: var(--gold);
-}
-
-.hero h1 {
-  font-family: var(--serif);
-  font-size: clamp(44px, 6vw, 72px);
-  font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  color: var(--charcoal);
-  margin-bottom: 24px;
-}
-.hero h1 em {
-  font-style: italic;
-  color: var(--gold);
-  font-weight: 400;
-}
-
-.hero-desc {
-  font-size: 15px;
-  color: var(--muted);
-  line-height: 1.75;
-  max-width: 420px;
-  margin-bottom: 40px;
-}
-
-.hero-stats {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  padding: 28px 0;
-  border-top: 1px solid var(--gold-lt);
-  border-bottom: 1px solid var(--gold-lt);
-  margin-bottom: 40px;
-}
-.stat-num {
-  font-family: var(--serif);
-  font-size: 30px;
-  color: var(--charcoal);
-  font-weight: 400;
-}
-.stat-num span {
-  font-family: var(--sans);
-  font-size: 11px;
-  color: var(--gold);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.stat-label {
-  font-size: 9.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 4px;
-}
-.stat-divider {
-  width: 1px;
-  height: 36px;
-  background: var(--gold-lt);
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.btn-primary {
-  padding: 14px 30px;
-  background: var(--charcoal);
-  color: var(--white);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border-radius: 100px;
-  border: 1.5px solid var(--charcoal);
-  transition: background 0.4s, border-color 0.4s;
-}
-.btn-primary:hover { background: var(--gold); border-color: var(--gold); }
-.btn-outline {
-  padding: 13px 28px;
-  color: var(--charcoal);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border-radius: 100px;
-  border: 1.5px solid rgba(33,30,27,0.18);
-  transition: border-color 0.4s, color 0.4s;
-}
-.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-
-/* Hero image */
-.hero-image {
-  position: relative;
-  margin-top: 60px;
-}
-@media (min-width: 900px) { .hero-image { margin-top: 0; } }
-
-.hero-img-frame {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  aspect-ratio: 4/5;
-  border: 1px solid var(--gold-lt);
-}
-.hero-img-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 3s var(--ease);
-  filter: saturate(0.92);
-}
-.hero-img-frame:hover img { transform: scale(1.04); }
-
-.hero-badge {
-  position: absolute;
-  bottom: 18px;
-  left: 18px;
-  background: rgba(253,251,248,0.88);
-  backdrop-filter: blur(14px);
-  border: 1px solid var(--gold-lt);
-  padding: 10px 14px;
-  border-radius: 10px;
-  z-index: 2;
-  max-width: 220px;
-}
-
-.hero-badge p {
-  font-family: var(--serif);
-  font-size: 11px;
-  font-style: italic;
-  color: var(--charcoal);
-  line-height: 1.4;
-}
-
-.hero-badge span {
-  font-size: 8px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 3px;
-  display: block;
-}
-
-.hero-decor-box {
-  position: absolute;
-  top: -24px;
-  right: -24px;
-  width: 200px;
-  height: 260px;
-  border: 1px solid var(--gold-lt);
-  border-radius: 16px;
-  z-index: -1;
-  display: none;
-}
-@media (min-width: 640px) { .hero-decor-box { display: block; } }
-
-/* Hero ambient */
-.hero-blob-1 {
-  position: absolute;
-  top: 0; right: -200px;
-  width: 600px; height: 600px;
-  background: radial-gradient(ellipse, rgba(245,239,229,0.7) 0%, transparent 70%);
-  border-radius: 50%;
-  z-index: 0;
-  pointer-events: none;
-}
-.hero-blob-2 {
-  position: absolute;
-  bottom: -100px; left: -100px;
-  width: 500px; height: 500px;
-  background: radial-gradient(ellipse, rgba(237,229,216,0.5) 0%, transparent 70%);
-  border-radius: 50%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ══════════════════════════════
-   MARQUEE STRIP
-══════════════════════════════ */
-.marquee-section {
-  border-top: 1px solid var(--gold-lt);
-  border-bottom: 1px solid var(--gold-lt);
-  padding: 18px 0;
-  overflow: hidden;
-  background: var(--ivory);
-}
-.marquee-track {
-  display: flex;
-  gap: 0;
-  animation: marquee 28s linear infinite;
-  white-space: nowrap;
-}
-.marquee-track span {
-  padding: 0 32px;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.marquee-track .dot {
-  color: var(--gold);
-  padding: 0;
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* ══════════════════════════════
-   HERITAGE
-══════════════════════════════ */
-.heritage {
-  padding: 100px 0;
-  background: var(--white);
-}
-@media (min-width: 900px) { .heritage { padding: 140px 0; } }
-
-.heritage-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 60px;
-  align-items: center;
-}
-@media (min-width: 900px) {
-  .heritage-grid { grid-template-columns: 5fr 7fr; gap: 80px; }
-}
-
-.heritage-img-wrap {
-  position: relative;
-}
-.heritage-img-inner {
-  border-radius: 16px;
-  overflow: hidden;
-  aspect-ratio: 3/4;
-  border: 1px solid var(--cream);
-}
-.heritage-img-inner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.85);
-  transition: transform 2.5s var(--ease);
-}
-.heritage-img-inner:hover img { transform: scale(1.04); }
-.heritage-img-accent {
-  position: absolute;
-  bottom: -20px;
-  right: -20px;
-  width: 120px;
-  height: 150px;
-  border: 1px solid var(--gold-lt);
-  border-radius: 12px;
-  z-index: -1;
-  display: none;
-}
-@media (min-width: 640px) { .heritage-img-accent { display: block; } }
-
-.heritage-content { }
-.heritage-content .section-label { margin-bottom: 24px; }
-.heritage-content h2 {
-  font-family: var(--serif);
-  font-size: clamp(36px, 4vw, 52px);
-  font-weight: 400;
-  line-height: 1.12;
-  letter-spacing: -0.01em;
-  color: var(--charcoal);
-  margin-bottom: 24px;
-}
-.heritage-content h2 em {
-  font-style: italic;
-  color: var(--gold);
-}
-.heritage-content p {
-  font-size: 14.5px;
-  color: var(--muted);
-  line-height: 1.8;
-  margin-bottom: 18px;
-}
-
-.principles {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 40px;
-  padding-top: 40px;
-  border-top: 1px solid var(--gold-lt);
-}
-.principle-num {
-  font-family: var(--serif);
-  font-size: 11px;
-  color: var(--gold);
-  letter-spacing: 0.1em;
-  margin-bottom: 6px;
-}
-.principle-title {
-  font-family: var(--serif);
-  font-size: 16px;
-  font-style: italic;
-  color: var(--charcoal);
-  margin-bottom: 4px;
-}
-.principle-sub {
-  font-size: 11.5px;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-/* ══════════════════════════════
-   MENU SECTION
-══════════════════════════════ */
-.menu-section {
-  background: var(--ivory);
-  padding: 100px 0;
-  border-top: 1px solid var(--gold-lt);
-  border-bottom: 1px solid var(--gold-lt);
-}
-@media (min-width: 900px) { .menu-section { padding: 140px 0; } }
-
-.section-header {
-  text-align: center;
-  margin-bottom: 72px;
-}
-.section-header h2 {
-  font-family: var(--serif);
-  font-size: clamp(38px, 5vw, 60px);
-  font-weight: 400;
-  line-height: 1.1;
-  color: var(--charcoal);
-  margin: 16px 0 12px;
-}
-.section-header .date-line {
-  font-size: 13px;
-  color: var(--muted);
-  font-style: italic;
-}
-
-/* Menu card */
-.menu-card {
-  background: #FDFAF6;
-  border: 1px solid var(--cream);
-  border-radius: 20px;
-  padding: 48px 32px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 24px 64px rgba(74,63,54,0.05);
-}
-@media (min-width: 768px) { .menu-card { padding: 72px 64px; } }
-
-/* Watermark */
-.menu-card::before {
-  content: 'MT';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--serif);
-  font-size: 280px;
-  font-weight: 600;
-  color: var(--charcoal);
-  opacity: 0.018;
-  pointer-events: none;
-  user-select: none;
-  line-height: 1;
-}
-
-.menu-card-inner {
-  border: 1px solid rgba(184,148,106,0.12);
-  border-radius: 12px;
-  padding: 40px 24px;
-  position: relative;
-}
-@media (min-width: 768px) { .menu-card-inner { padding: 56px 48px; } }
-
-.menu-ornament {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 56px;
-}
-.menu-ornament-line {
-  height: 1px;
-  width: 60px;
-  background: linear-gradient(to right, transparent, var(--gold));
-}
-.menu-ornament-line.right {
-  background: linear-gradient(to left, transparent, var(--gold));
-}
-.menu-ornament-diamond {
-  width: 7px;
-  height: 7px;
-  border: 1px solid var(--gold);
-  transform: rotate(45deg);
-}
-
-.menu-cols {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 56px;
-}
-@media (min-width: 900px) {
-  .menu-cols { grid-template-columns: 1fr 1fr; column-gap: 64px; row-gap: 56px; }
-}
-
-.menu-cat { }
-.menu-cat-header {
-  border-bottom: 1px solid rgba(184,148,106,0.1);
-  padding-bottom: 14px;
-  margin-bottom: 28px;
-}
-.menu-cat-num {
-  font-size: 9px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 5px;
-}
-.menu-cat-title {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--charcoal);
-}
-.insta-name {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.insta-name video {
-  height: 4.5em;       /* matches the font-size of the brand name text */
-  width: auto;          /* keeps aspect ratio */
-  border-radius: 4px;
-  object-fit: cover;
-  vertical-align: middle;
-}
-.menu-items { display: flex; flex-direction: column; gap: 24px; }
-.menu-item { }
-.menu-item-name {
-  font-family: var(--serif);
-  font-size: 17px;
-  font-weight: 400;
-  color: var(--charcoal);
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: color 0.3s;
-}
-.menu-item-name::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--gold-lt);
-  max-width: 40px;
-}
-.menu-item:hover .menu-item-name { color: var(--gold); }
-.menu-item-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.75;
-}
-
-.menu-footer {
-  margin-top: 56px;
-  padding-top: 32px;
-  border-top: 1px solid rgba(184,148,106,0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-  text-align: center;
-}
-@media (min-width: 640px) {
-  .menu-footer { flex-direction: row; justify-content: space-between; text-align: left; }
-}
-.menu-footer-note {
-  font-size: 11px;
-  color: var(--muted);
-  font-style: italic;
-}
-.menu-footer-brand {
-  font-size: 9.5px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 500;
-}
-
-/* ══════════════════════════════
-   PRICE BANNER
-══════════════════════════════ */
-.price-banner {
-  background: var(--charcoal);
-  padding: 64px 0;
-}
-.price-banner-inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  align-items: center;
-  text-align: center;
-}
-@media (min-width: 768px) {
-  .price-banner-inner { grid-template-columns: 1fr auto 1fr; text-align: left; }
-}
-.price-banner-left h3 {
-  font-family: var(--serif);
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 400;
-  color: var(--white);
-  margin-bottom: 8px;
-}
-.price-banner-left p {
-  font-size: 13px;
-  color: rgba(253,251,248,0.5);
-  line-height: 1.7;
-}
-.price-banner-center {
-  text-align: center;
-  padding: 0 24px;
-}
-.price-big {
-  font-family: var(--serif);
-  font-size: 64px;
-  font-weight: 400;
-  color: var(--gold);
-  line-height: 1;
-}
-.price-big sub {
-  font-size: 20px;
-  vertical-align: super;
-  color: rgba(184,148,106,0.7);
-}
-.price-tag {
-  font-size: 9.5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(253,251,248,0.4);
-  margin-top: 6px;
-}
-.price-divider {
-  width: 1px;
-  height: 80px;
-  background: rgba(253,251,248,0.08);
-  margin: 0 auto;
-  display: none;
-}
-@media (min-width: 768px) { .price-divider { display: block; } }
-.price-banner-right {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
-}
-@media (max-width: 768px) { .price-banner-right { align-items: center; } }
-.price-feature {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12.5px;
-  color: rgba(253,251,248,0.65);
-}
-.price-feature::before {
-  content: '';
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--gold);
-  flex-shrink: 0;
-}
-
-/* ══════════════════════════════
-   EXPERIENCES / SPACES
-══════════════════════════════ */
-.experiences {
-  padding: 100px 0;
-  background: var(--white);
-}
-@media (min-width: 900px) { .experiences { padding: 140px 0; } }
-
-.experiences-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 60px;
-  align-items: start;
-}
-@media (min-width: 900px) {
-  .experiences-grid { grid-template-columns: 4fr 8fr; gap: 80px; }
-}
-
-.experiences-intro h2 {
-  font-family: var(--serif);
-  font-size: clamp(34px, 4vw, 48px);
-  font-weight: 400;
-  line-height: 1.14;
-  color: var(--charcoal);
-  margin: 16px 0 20px;
-}
-.experiences-intro h2 em { font-style: italic; color: var(--gold); }
-.experiences-intro p {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.8;
-}
-
-.spaces-list { display: flex; flex-direction: column; gap: 40px; }
-.space-card {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
-@media (min-width: 600px) {
-  .space-card { grid-template-columns: 5fr 7fr; gap: 28px; align-items: center; }
-}
-
-.space-img {
-  border-radius: 14px;
-  overflow: hidden;
-  aspect-ratio: 4/3;
-  border: 1px solid var(--cream);
-}
-.space-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.82);
-  transition: transform 1.5s var(--ease);
-}
-.space-img:hover img { transform: scale(1.05); }
-
-.space-info { }
-.space-name {
-  font-family: var(--serif);
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--charcoal);
-  margin-bottom: 6px;
-}
-.space-capacity {
-  font-size: 9.5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 10px;
-}
-.space-desc {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.75;
-}
-
-/* ══════════════════════════════
-   TESTIMONIALS
-══════════════════════════════ */
-.testimonials {
-  padding: 100px 0;
-  background: var(--ivory);
-  border-top: 1px solid var(--gold-lt);
-  border-bottom: 1px solid var(--gold-lt);
-}
-.testimonials-inner {
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center;
-}
-.quote-mark {
-  font-family: var(--serif);
-  font-size: 80px;
-  color: var(--gold);
-  opacity: 0.25;
-  line-height: 0.6;
-  margin-bottom: 16px;
-}
-.quote-text {
-  font-family: var(--serif);
-  font-size: clamp(20px, 3vw, 28px);
-  font-weight: 400;
-  font-style: italic;
-  color: var(--charcoal);
-  line-height: 1.55;
-  transition: opacity 0.35s ease;
-}
-.quote-author {
-  margin-top: 32px;
-  font-family: var(--serif);
-  font-size: 17px;
-  color: var(--charcoal);
-  transition: opacity 0.35s ease;
-}
-.quote-location {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 4px;
-  transition: opacity 0.35s ease;
-}
-.quote-divider {
-  width: 40px;
-  height: 1px;
-  background: var(--gold);
-  margin: 24px auto;
-  opacity: 0.4;
-}
-.testimonial-dots {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 40px;
-}
-.t-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--cream);
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-}
-.t-dot.active { background: var(--charcoal); transform: scale(1.3); }
-
-/* ══════════════════════════════
-   CONTACT / VENUE
-══════════════════════════════ */
-.venue {
-  padding: 100px 0;
-  background: var(--white);
-}
-@media (min-width: 900px) { .venue { padding: 140px 0; } }
-
-.venue-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 60px;
-  align-items: start;
-}
-@media (min-width: 900px) {
-  .venue-grid { grid-template-columns: 5fr 7fr; gap: 80px; }
-}
-
-.venue-content h2 {
-  font-family: var(--serif);
-  font-size: clamp(34px, 4vw, 50px);
-  font-weight: 400;
-  line-height: 1.14;
-  color: var(--charcoal);
-  margin: 16px 0 16px;
-}
-.venue-content h2 em { font-style: italic; color: var(--gold); }
-.venue-content > p {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.8;
-  margin-bottom: 48px;
-}
-
-.venue-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  padding-top: 40px;
-  border-top: 1px solid var(--gold-lt);
-}
-.venue-detail-label {
-  font-size: 9px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-.venue-detail-text {
-  font-size: 12.5px;
-  color: var(--muted);
-  line-height: 1.8;
-}
-.venue-detail-text a {
-  display: block;
-  transition: color 0.3s;
-}
-.venue-detail-text a:hover { color: var(--gold); }
-
-.venue-map-wrap {
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid var(--cream);
-  box-shadow: 0 20px 60px rgba(74,63,54,0.07);
-}
-.venue-map-wrap iframe {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4/3;
-  border: none;
-  filter: saturate(0.75);
-  transition: filter 0.5s;
-}
-.venue-map-wrap:hover iframe { filter: saturate(1); }
-
-.venue-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 20px;
-}
-.venue-btn-outline {
-  text-align: center;
-  padding: 14px;
-  border: 1.5px solid rgba(33,30,27,0.14);
-  border-radius: 100px;
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--charcoal);
-  transition: border-color 0.3s, color 0.3s;
-}
-.venue-btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-.venue-btn-fill {
-  text-align: center;
-  padding: 14px;
-  background: var(--charcoal);
-  border: 1.5px solid var(--charcoal);
-  border-radius: 100px;
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--white);
-  transition: background 0.3s, border-color 0.3s;
-}
-.venue-btn-fill:hover { background: var(--gold); border-color: var(--gold); }
-
-/* ══════════════════════════════
-   FOOTER
-══════════════════════════════ */
-footer {
-  background: var(--ivory);
-  border-top: 1px solid var(--gold-lt);
-  padding: 72px 0 40px;
-}
-.footer-top {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 48px;
-  margin-bottom: 56px;
-}
-@media (min-width: 640px) { .footer-top { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 900px) { .footer-top { grid-template-columns: 2fr 1fr 1fr 1fr; } }
-
-.footer-brand-name {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--charcoal);
-  margin-bottom: 12px;
-}
-.footer-brand-desc {
-  font-size: 12.5px;
-  color: var(--muted);
-  line-height: 1.8;
-}
-
-.footer-col-title {
-  font-size: 9px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 500;
-  margin-bottom: 18px;
-}
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-col ul a {
-  font-size: 12.5px;
-  color: var(--muted);
-  transition: color 0.3s;
-}
-.footer-col ul a:hover { color: var(--charcoal); }
-.footer-col p {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.8;
-}
-
-.footer-bottom {
-  padding-top: 32px;
-  border-top: 1px solid var(--gold-lt);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  text-align: center;
-}
-@media (min-width: 640px) {
-  .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
-}
-.footer-bottom span {
-  font-size: 10.5px;
-  color: var(--muted);
-  letter-spacing: 0.05em;
-}
-
-/* ══════════════════════════════
-   MOBILE HAMBURGER (simple)
-══════════════════════════════ */
-.hamburger {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 8px;
-  background: none;
-  border: none;
-}
-@media (min-width: 900px) { .hamburger { display: none; } }
-.hamburger span {
-  display: block;
-  width: 22px;
-  height: 1.5px;
-  background: var(--charcoal);
-  transition: transform 0.3s, opacity 0.3s;
-}
-.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.hamburger.open span:nth-child(2) { opacity: 0; }
-.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-.mobile-menu {
-  display: none;
-  position: fixed;
-  top: 68px; left: 0; right: 0;
-  background: rgba(253,251,248,0.97);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--gold-lt);
-  z-index: 99;
-  padding: 32px 24px;
-  flex-direction: column;
-  gap: 24px;
-}
-.mobile-menu.open { display: flex; }
-.mobile-menu a {
-  font-size: 13px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--charcoal);
-  border-bottom: 1px solid var(--cream);
-  padding-bottom: 18px;
-}
-.mobile-menu a:last-child { border-bottom: none; }
-
-</style>
+    .zoom-img-container img {
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .zoom-img-container:hover img {
+      transform: scale(1.05);
+    }
+  </style>
 </head>
-<body>
+<body class="bg-luxury-white text-luxury-charcoal font-sans antialiased">
 
-<!-- NAV -->
-<nav id="main-nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="#" class="nav-brand">
-        <span class="name">Maharana Thal</span>
-        <span class="tagline">Pure Vegetarian Excellence</span>
+  <!-- Top Announcement Bar (Preserves compact height across all devices) -->
+  <div class="bg-luxury-charcoal text-luxury-white text-[8px] sm:text-[10px] tracking-[0.2em] uppercase py-2 px-4 text-center border-b border-luxury-gold/20 font-cinzel">
+    Maharana Thal: Unlimited Royal Feast & Boutique Rooms Upstairs at Hotel SK Inn
+  </div>
+
+  <!-- Header / Navigation Bar -->
+  <nav id="main-nav" class="sticky top-0 z-50 bg-luxury-white/90 backdrop-blur-md border-b border-luxury-gold/10 transition-all duration-300 py-2 sm:py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between">
+      <!-- Direct Brand Branding Layout -->
+      <a href="#" class="flex flex-col">
+        <span class="font-cinzel text-xs sm:text-base lg:text-2xl font-bold tracking-[0.15em] text-luxury-charcoal transition-colors hover:text-luxury-gold">MAHARANA THAL</span>
+        <span class="font-serif text-[7px] sm:text-[10px] italic text-luxury-gold tracking-[0.08em] mt-0.5">Stay & Dine: SK Inn Luxury Suites</span>
       </a>
-      <ul class="nav-links">
-        <li><a href="#heritage">Heritage</a></li>
-        <li><a href="#menu">Today's Menu</a></li>
-        <li><a href="#spaces">Spaces</a></li>
-        <li><a href="#venue">Visit Us</a></li>
-      </ul>
-      <div class="nav-cta">
-        <a href="tel:+918552982999" class="nav-phone">+91 85529 82999</a>
-        <a href="tel:+918552982999" class="btn-nav">Reserve Table</a>
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-          <span></span><span></span><span></span>
+
+      <!-- Desktop Links -->
+      <div class="flex items-center space-x-2 sm:space-x-6 lg:space-x-10 text-[7px] sm:text-[10px] lg:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase font-medium">
+        <a href="#about" class="hover:text-luxury-gold transition-colors">The Legacy</a>
+        <a href="#menu-explorer" class="hover:text-luxury-gold transition-colors">Royal Menu</a>
+        <a href="#rooms" class="hover:text-luxury-gold transition-colors">Stay Rooms</a>
+        <a href="#banquet" class="hover:text-luxury-gold transition-colors">Banquets</a>
+        <a href="#contact" class="hover:text-luxury-gold transition-colors">Find Us</a>
+      </div>
+
+      <!-- Quick Action Controls -->
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <a href="tel:+918552982999" class="text-[7px] sm:text-xs font-semibold text-luxury-muted hover:text-luxury-gold transition-colors whitespace-nowrap">
+          +91 85529
+        </a>
+        <button onclick="openBookingModal('Maharana Thal Dining')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[6px] sm:text-[9px] tracking-wider uppercase px-2 py-1 sm:px-4 sm:py-2 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all whitespace-nowrap">
+          Book
         </button>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobile-menu">
-  <a href="#heritage" onclick="closeMobileMenu()">Heritage</a>
-  <a href="#menu" onclick="closeMobileMenu()">Today's Menu</a>
-  <a href="#spaces" onclick="closeMobileMenu()">Spaces</a>
-  <a href="#venue" onclick="closeMobileMenu()">Visit Us</a>
-  <a href="tel:+918552982999" onclick="closeMobileMenu()">+91 85529 82999</a>
-</div>
-
-<!-- HERO -->
-<header class="hero" style="padding-top: 120px;">
-  <div class="hero-blob-1"></div>
-  <div class="hero-blob-2"></div>
-  <div class="container" style="position:relative;z-index:2;">
-    <div style="display:grid; grid-template-columns:1fr; gap:56px; align-items:center;">
-      <!-- We'll use inline responsive grid -->
-      <div class="hero-layout">
-        <div class="hero-text reveal">
-          <div class="hero-eyebrow">
-            <span class="label">Authentic Indian Gastronomy</span>
+  <!-- HERO SECTION: Side-By-Side Structure preserved on mobile -->
+  <header id="hero" class="relative min-h-[55vh] sm:min-h-[85vh] flex items-center justify-center overflow-hidden bg-luxury-ivory/20 py-4 sm:py-12 border-b border-luxury-gold/10">
+    <div class="absolute inset-0 ambient-glow pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 w-full grid grid-cols-12 gap-3 sm:gap-8 items-center relative z-10">
+      
+      <!-- Left Column text -->
+      <div class="col-span-7 flex flex-col justify-center text-left space-y-2 sm:space-y-6 reveal visible">
+        <div class="flex items-center space-x-1 sm:space-x-2 text-luxury-gold">
+          <span class="h-px w-3 sm:w-6 bg-luxury-gold"></span>
+          <span class="text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold font-cinzel">NASHIK'S LEGENDARY LUXURY SANCTUARY</span>
+        </div>
+        <h1 class="font-serif text-[15px] xs:text-[20px] sm:text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-luxury-charcoal leading-[1.1]">
+          Royal Dining & <br>
+          <span class="font-serif italic text-luxury-gold font-normal">Luxury Suites</span> <br>
+          In Nashik.
+        </h1>
+        <p class="text-luxury-muted font-sans text-[8px] sm:text-xs md:text-sm lg:text-base leading-relaxed max-w-md">
+          Indulge in our legendary unlimited pure-vegetarian thali at Maharana Thal, and enjoy premium boutique rest just upstairs in our sanctuary suites at Hotel SK Inn.
+        </p>
+        
+        <!-- Compact Stats Rows -->
+        <div class="grid grid-cols-3 gap-2 border-t border-b border-luxury-gold/20 py-2 sm:py-4 max-w-md">
+          <div>
+            <div class="font-cinzel text-[10px] sm:text-lg md:text-2xl font-bold text-luxury-charcoal">₹280<sub>net</sub></div>
+            <div class="text-[5px] sm:text-[9px] tracking-widest uppercase text-luxury-muted">Royal Feast</div>
           </div>
-          <h1>
-            A Feast Served<br>
-            <em>Like Royalty.</em>
-          </h1>
-          <p class="hero-desc">
-            Nashik's premier unlimited vegetarian thali — a masterful blend of Rajasthani, Gujarati, and Maharashtrian culinary traditions, prepared fresh every day.
+          <div>
+            <div class="font-cinzel text-[10px] sm:text-lg md:text-2xl font-bold text-luxury-charcoal">15+</div>
+            <div class="text-[5px] sm:text-[9px] tracking-widest uppercase text-luxury-muted">Daily Dishes</div>
+          </div>
+          <div>
+            <div class="font-cinzel text-[10px] sm:text-lg md:text-2xl font-bold text-luxury-charcoal">27</div>
+            <div class="text-[5px] sm:text-[9px] tracking-widest uppercase text-luxury-muted">Suites Upstairs</div>
+          </div>
+        </div>
+
+        <!-- Integrated CTA Controls -->
+        <div class="flex items-center gap-2 pt-1 sm:pt-2">
+          <button onclick="openBookingModal('Maharana Thal Dining')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-6 sm:py-3.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all whitespace-nowrap">
+            Reserve Table
+          </button>
+          <a href="#rooms" class="border border-luxury-charcoal/20 text-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-6 sm:py-3.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all whitespace-nowrap bg-white/50 backdrop-blur-sm">
+            Explore Rooms
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Immersive visual badge, remains side-by-side -->
+      <div class="col-span-5 relative flex justify-center items-center reveal visible">
+        <div class="absolute -inset-1.5 sm:-inset-4 border border-luxury-gold/20 rounded-[1rem] sm:rounded-[2rem] transform rotate-3 pointer-events-none"></div>
+        <div class="relative w-full aspect-[4/5] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl border border-luxury-gold/15 group zoom-img-container">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" 
+               alt="Maharana Thal Feast" 
+               class="w-full h-full object-cover"
+               onerror="this.src='https://placehold.co/800x1000/F5EFE5/8A7E76?text=Maharana+Royal+Thali'">
+          <div class="absolute inset-0 bg-gradient-to-t from-luxury-charcoal/70 via-transparent to-transparent"></div>
+          
+          <div class="absolute bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 bg-white/95 backdrop-blur-sm border border-luxury-gold/20 p-1.5 sm:p-3 rounded-lg flex items-center justify-between shadow shadow-luxury-gold/10">
+            <div>
+              <p class="font-serif italic text-[6px] sm:text-[10px] text-luxury-charcoal">"Gold standard of dining"</p>
+              <span class="text-[5px] sm:text-[8px] tracking-widest uppercase text-luxury-muted block mt-0.5">Continuous Service</span>
+            </div>
+            <div class="flex items-center space-x-0.5 text-luxury-gold">
+              <span class="text-[6px] sm:text-xs">★</span>
+              <span class="text-[6px] sm:text-[9px] font-semibold text-luxury-charcoal">4.9 Rating</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Animated Infinite Marquee Ticker -->
+  <div class="border-b border-luxury-gold/15 py-1.5 sm:py-3 overflow-hidden bg-luxury-ivory/35">
+    <div class="flex whitespace-nowrap gap-0 animate-[marquee_25s_linear_infinite] uppercase text-[6px] sm:text-[10px] tracking-[0.2em] text-luxury-muted font-cinzel">
+      <span class="px-3 sm:px-6">PURE COW GHEE RECIPES</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-3 sm:px-6">RAJASTHANI GATTE CURRY</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-3 sm:px-6">SHAHI PANEER</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-3 sm:px-6">WARM MOONG DAL HALWA</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-3 sm:px-6">BOUTIQUE SUITES BY HOTEL SK INN</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-3 sm:px-6">100% PURE VEGETARIAN PREPARATION</span> <span class="text-luxury-gold">✦</span>
+    </div>
+  </div>
+
+  <style>
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+
+  <!-- FEATURED BOUTIQUE ROOMS WITH IMAGE SLIDESHOWS -->
+  <section id="rooms" class="py-6 sm:py-16 md:py-24 bg-luxury-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+      
+      <!-- Structured Header -->
+      <div class="flex items-baseline justify-between mb-4 sm:mb-12 border-b border-luxury-gold/20 pb-2 sm:pb-6">
+        <div class="space-y-1">
+          <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">PREMIUM HOSPITALITY BY HOTEL SK INN</span>
+          <h2 class="font-serif text-[14px] xs:text-[18px] sm:text-3xl md:text-5xl font-light tracking-tight text-luxury-charcoal">Suites & Accommodations</h2>
+        </div>
+        <p class="text-luxury-muted text-[6px] sm:text-xs max-w-[120px] sm:max-w-xs text-right font-light leading-relaxed">
+          Premium guest rooms with custom noise-isolation and fine comforts right upstairs.
+        </p>
+      </div>
+
+      <!-- Alternating Rooms Layout with dynamic slideshows -->
+      <div class="space-y-12 sm:space-y-24">
+        
+        <!-- ROOM 1: DELUXE ROOM -->
+        <div class="grid grid-cols-12 gap-4 sm:gap-10 items-center reveal">
+          <!-- Slideshow Left -->
+          <div class="col-span-12 sm:col-span-6 relative rounded-lg sm:rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-sm aspect-[16/10] group">
+            <div id="slider-deluxe" class="absolute inset-0 flex transition-transform duration-700 ease-out">
+              <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Deluxe Room" class="w-full h-full object-cover shrink-0">
+              <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Deluxe Room Detail" class="w-full h-full object-cover shrink-0">
+              <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Deluxe Bath View" class="w-full h-full object-cover shrink-0">
+            </div>
+            
+            <!-- Controls -->
+            <button onclick="prevRoomSlide('deluxe')" class="absolute left-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button onclick="nextRoomSlide('deluxe')" class="absolute right-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+            
+            <!-- Indicators -->
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1.5 z-10">
+              <button onclick="setRoomSlide('deluxe', 0)" class="w-1.5 h-1.5 rounded-full bg-white transition-all deluxe-dot active opacity-100"></button>
+              <button onclick="setRoomSlide('deluxe', 1)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all deluxe-dot"></button>
+              <button onclick="setRoomSlide('deluxe', 2)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all deluxe-dot"></button>
+            </div>
+          </div>
+
+          <!-- Content Right -->
+          <div class="col-span-12 sm:col-span-6 space-y-2 sm:space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-wider uppercase font-semibold">Boutique Comfort</span>
+              <span class="text-[8px] sm:text-xs text-luxury-muted uppercase tracking-wider font-semibold">From ₹2,500 / night</span>
+            </div>
+            <h3 class="font-serif text-[12px] sm:text-2xl md:text-3xl font-light text-luxury-charcoal">Deluxe Room</h3>
+            <p class="text-luxury-muted text-[8px] sm:text-xs md:text-sm leading-relaxed font-light">
+              Quiet elegance designed beautifully for business travelers. Enjoy direct private in-room room-service access from Maharana Thal.
+            </p>
+            
+            <!-- Features Row List -->
+            <div class="grid grid-cols-2 gap-y-1 gap-x-2 pt-1 border-t border-luxury-gold/15 text-[7px] sm:text-xs text-luxury-muted">
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>King Size Bed</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>Smart LED TV with Casting</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>Dedicated Fast WiFi</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>Premium Air Conditioning</span>
+              </div>
+            </div>
+
+            <!-- Integrated CTAs -->
+            <div class="flex items-center space-x-2 pt-2">
+              <button onclick="openBookingModal('Deluxe Room')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all">
+                Book Stay
+              </button>
+              <button onclick="openRoomDetailModal('Deluxe Room')" class="border border-luxury-charcoal/20 text-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all bg-white/40">
+                Inclusions
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROOM 2: SUPER DELUXE ROOM -->
+        <div class="grid grid-cols-12 gap-4 sm:gap-10 items-center reveal">
+          <!-- Content Left (on desktop) -->
+          <div class="col-span-12 sm:col-span-6 order-2 sm:order-1 space-y-2 sm:space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-wider uppercase font-semibold">Premium Space</span>
+              <span class="text-[8px] sm:text-xs text-luxury-muted uppercase tracking-wider font-semibold">From ₹3,500 / night</span>
+            </div>
+            <h3 class="font-serif text-[12px] sm:text-2xl md:text-3xl font-light text-luxury-charcoal">Super Deluxe Room</h3>
+            <p class="text-luxury-muted text-[8px] sm:text-xs md:text-sm leading-relaxed font-light">
+              Elevated style. These suites offer generous lounge space, gorgeous customized lighting setups, and executive desk environments.
+            </p>
+            
+            <div class="grid grid-cols-2 gap-y-1 gap-x-2 pt-1 border-t border-luxury-gold/15 text-[7px] sm:text-xs text-luxury-muted">
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>Luxurious King Mattress</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>4K Smart TV</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>Fiber Optic WiFi</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>Bespoke Pantry Station</span>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2 pt-2">
+              <button onclick="openBookingModal('Super Deluxe Room')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all">
+                Book Stay
+              </button>
+              <button onclick="openRoomDetailModal('Super Deluxe Room')" class="border border-luxury-charcoal/20 text-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all bg-white/40">
+                Inclusions
+              </button>
+            </div>
+          </div>
+
+          <!-- Slideshow Right (on desktop) -->
+          <div class="col-span-12 sm:col-span-6 order-1 sm:order-2 relative rounded-lg sm:rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-sm aspect-[16/10] group">
+            <div id="slider-super" class="absolute inset-0 flex transition-transform duration-700 ease-out">
+              <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Super Deluxe Room" class="w-full h-full object-cover shrink-0">
+              <img src="https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Super Deluxe Comfort" class="w-full h-full object-cover shrink-0">
+              <img src="https://images.unsplash.com/photo-1608198399260-396a9c1282e7?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Super Deluxe Detail" class="w-full h-full object-cover shrink-0">
+            </div>
+            
+            <!-- Controls -->
+            <button onclick="prevRoomSlide('super')" class="absolute left-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button onclick="nextRoomSlide('super')" class="absolute right-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+            
+            <!-- Indicators -->
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1.5 z-10">
+              <button onclick="setRoomSlide('super', 0)" class="w-1.5 h-1.5 rounded-full bg-white transition-all super-dot active opacity-100"></button>
+              <button onclick="setRoomSlide('super', 1)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all super-dot"></button>
+              <button onclick="setRoomSlide('super', 2)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all super-dot"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROOM 3: EXECUTIVE SUITE -->
+        <div class="grid grid-cols-12 gap-4 sm:gap-10 items-center reveal">
+          <!-- Slideshow Left -->
+          <div class="col-span-12 sm:col-span-6 relative rounded-lg sm:rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-sm aspect-[16/10] group">
+            <div id="slider-executive" class="absolute inset-0 flex transition-transform duration-700 ease-out">
+              <img src="https://images.unsplash.com/photo-1582719478250-c89cae4db85b?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Executive Suite" class="w-full h-full object-cover shrink-0">
+              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Executive Suite Interior" class="w-full h-full object-cover shrink-0">
+              <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Executive Suite Lounge" class="w-full h-full object-cover shrink-0">
+            </div>
+            
+            <!-- Controls -->
+            <button onclick="prevRoomSlide('executive')" class="absolute left-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button onclick="nextRoomSlide('executive')" class="absolute right-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+            
+            <!-- Indicators -->
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1.5 z-10">
+              <button onclick="setRoomSlide('executive', 0)" class="w-1.5 h-1.5 rounded-full bg-white transition-all executive-dot active opacity-100"></button>
+              <button onclick="setRoomSlide('executive', 1)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all executive-dot"></button>
+              <button onclick="setRoomSlide('executive', 2)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all executive-dot"></button>
+            </div>
+          </div>
+
+          <!-- Content Right -->
+          <div class="col-span-12 sm:col-span-6 space-y-2 sm:space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-wider uppercase font-semibold">Presidential Living</span>
+              <span class="text-[8px] sm:text-xs text-luxury-muted uppercase tracking-wider font-semibold">From ₹4,500 / night</span>
+            </div>
+            <h3 class="font-serif text-[12px] sm:text-2xl md:text-3xl font-light text-luxury-charcoal">Executive Suite</h3>
+            <p class="text-luxury-muted text-[8px] sm:text-xs md:text-sm leading-relaxed font-light">
+              Our crown experience. Boasts expansive living quarters, beautiful custom furniture, and direct premium VIP room service from Maharana Thal.
+            </p>
+            
+            <div class="grid grid-cols-2 gap-y-1 gap-x-2 pt-1 border-t border-luxury-gold/15 text-[7px] sm:text-xs text-luxury-muted">
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>Bespoke Living Lounge</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>Luxury Bath Tub Frame</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>VIP Room Service Access</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <span class="text-luxury-gold">✦</span> <span>Executive Double Desk</span>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2 pt-2">
+              <button onclick="openBookingModal('Executive Suite')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all">
+                Book Stay
+              </button>
+              <button onclick="openRoomDetailModal('Executive Suite')" class="border border-luxury-charcoal/20 text-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all bg-white/40">
+                Inclusions
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STAY EXPERIENCE & AMENITIES: Strict 4-column layout preserved on mobile to look identical to PC -->
+  <section id="amenities" class="py-6 sm:py-16 md:py-20 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+      <div class="text-center max-w-2xl mx-auto mb-4 sm:mb-12">
+        <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">REFINED LUXURY HIGHLIGHTS</span>
+        <h2 class="font-serif text-[12px] sm:text-3xl md:text-4xl font-light text-luxury-charcoal mt-1">Boutique Amenities</h2>
+      </div>
+
+      <!-- Preserved 4-Column Grid on all screen resolutions -->
+      <div class="grid grid-cols-4 gap-2 sm:gap-4 lg:gap-6">
+        <!-- Amenity Box 1 -->
+        <div class="p-1.5 sm:p-6 border border-luxury-gold/15 rounded-md sm:rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300">
+          <div class="text-luxury-gold text-xs sm:text-2xl mb-1 sm:mb-3">🔑</div>
+          <h4 class="font-cinzel text-[6px] sm:text-[11px] font-bold text-luxury-charcoal uppercase tracking-wider">24/7 Check-In</h4>
+          <p class="text-luxury-muted text-[5px] sm:text-[11px] leading-tight mt-0.5 sm:mt-1">Arrive on your terms, any hour.</p>
+        </div>
+
+        <!-- Amenity Box 2 -->
+        <div class="p-1.5 sm:p-6 border border-luxury-gold/15 rounded-md sm:rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300">
+          <div class="text-luxury-gold text-xs sm:text-2xl mb-1 sm:mb-3">📡</div>
+          <h4 class="font-cinzel text-[6px] sm:text-[11px] font-bold text-luxury-charcoal uppercase tracking-wider">Gigabit WiFi</h4>
+          <p class="text-luxury-muted text-[5px] sm:text-[11px] leading-tight mt-0.5 sm:mt-1">High speed coverage throughout.</p>
+        </div>
+
+        <!-- Amenity Box 3 -->
+        <div class="p-1.5 sm:p-6 border border-luxury-gold/15 rounded-md sm:rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300">
+          <div class="text-luxury-gold text-xs sm:text-2xl mb-1 sm:mb-3">🍲</div>
+          <h4 class="font-cinzel text-[6px] sm:text-[11px] font-bold text-luxury-charcoal uppercase tracking-wider">Royal Dining</h4>
+          <p class="text-luxury-muted text-[5px] sm:text-[11px] leading-tight mt-0.5 sm:mt-1">Maharana Thal inside the hotel.</p>
+        </div>
+
+        <!-- Amenity Box 4 -->
+        <div class="p-1.5 sm:p-6 border border-luxury-gold/15 rounded-md sm:rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300">
+          <div class="text-luxury-gold text-xs sm:text-2xl mb-1 sm:mb-3">🅿️</div>
+          <h4 class="font-cinzel text-[6px] sm:text-[11px] font-bold text-luxury-charcoal uppercase tracking-wider">Secure Park</h4>
+          <p class="text-luxury-muted text-[5px] sm:text-[11px] leading-tight mt-0.5 sm:mt-1">Private guarded parking area.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAHARANA THAL CULINARY EXPERIENCE -->
+  <section id="menu-explorer" class="py-6 sm:py-16 md:py-24 bg-luxury-white relative overflow-hidden">
+    <div class="absolute inset-0 ambient-glow pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+      
+      <!-- Section Storytelling Header -->
+      <div class="text-center max-w-2xl mx-auto mb-6 sm:mb-14">
+        <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">LEGENDARY ULTIMATE CULINARY EXPERIENCE</span>
+        <h2 class="font-serif text-[14px] sm:text-3xl md:text-5xl font-light text-luxury-charcoal mt-1">The Maharana Thal</h2>
+        <p class="text-luxury-muted text-[7px] sm:text-xs italic mt-1" id="live-menu-header-date">
+          Gastronomic Heritage Presentation
+        </p>
+      </div>
+
+      <!-- Live Dynamic Menu Layout: Highly Optimized card (Remains double column) -->
+      <div class="bg-luxury-white border border-luxury-gold/30 rounded-lg sm:rounded-3xl shadow-xl p-4 sm:p-12 relative overflow-hidden max-w-5xl mx-auto">
+        <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-luxury-gold via-luxury-cream to-luxury-gold"></div>
+        
+        <!-- Interactive Legacy Navigator tabs (Scrollable Row on tiny mobile) -->
+        <div class="flex items-center justify-center space-x-1 sm:space-x-4 mb-4 sm:mb-10 pb-3 sm:pb-6 border-b border-luxury-gold/10 overflow-x-auto whitespace-nowrap">
+          <button onclick="switchMenuTab('welcome')" id="tab-welcome" class="px-3 py-1.5 sm:px-6 sm:py-2.5 rounded-full text-[6px] sm:text-[11px] font-cinzel tracking-wider uppercase bg-luxury-charcoal text-white transition-all">Welcome</button>
+          <button onclick="switchMenuTab('mains')" id="tab-mains" class="px-3 py-1.5 sm:px-6 sm:py-2.5 rounded-full text-[6px] sm:text-[11px] font-cinzel tracking-wider uppercase bg-luxury-ivory text-luxury-charcoal hover:bg-luxury-gold/20 transition-all">Mains</button>
+          <button onclick="switchMenuTab('sides')" id="tab-sides" class="px-3 py-1.5 sm:px-6 sm:py-2.5 rounded-full text-[6px] sm:text-[11px] font-cinzel tracking-wider uppercase bg-luxury-ivory text-luxury-charcoal hover:bg-luxury-gold/20 transition-all">Staples</button>
+          <button onclick="switchMenuTab('sweets')" id="tab-sweets" class="px-3 py-1.5 sm:px-6 sm:py-2.5 rounded-full text-[6px] sm:text-[11px] font-cinzel tracking-wider uppercase bg-luxury-ivory text-luxury-charcoal hover:bg-luxury-gold/20 transition-all">Mithai</button>
+        </div>
+
+        <!-- Tab 1: Welcome & Farsan -->
+        <div id="content-welcome" class="menu-tab-content grid grid-cols-12 gap-4 sm:gap-10">
+          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
+              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">WELCOME REFRESHERS</span>
+              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Elixir Infusions</h3>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Kesar Thandai Chach</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Chilled buttermilk simmered carefully with premium hand-pounded Kashmiri saffron filaments, green pistachios, and cooling garden-fresh ground mint essence.
+              </p>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Seasonal Gulab Sarbat</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Hand-pressed heritage rose blossom water balanced cleanly with natural sweet rock candy crystals and a subtle splash of organic Key lime.
+              </p>
+            </div>
+          </div>
+          
+          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
+              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">SAVORY APETIZERS</span>
+              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Farsan Selections</h3>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Paneer Lifafa</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Crispy golden pastry envelope stuffed with spiced fresh-grated cottage cheese, native coriander leaves, green ginger juliennes, and dynamic spice blend.
+              </p>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Steamed Nylon Dhokla</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Spongy, lightweight fermented gram flour blocks tempered meticulously with dynamic mustard seeds, curry leaves, and green chilli shreds.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Main Entrées -->
+        <div id="content-mains" class="menu-tab-content hidden grid grid-cols-12 gap-4 sm:gap-10">
+          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
+              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">RAJASTHANI HERITAGE</span>
+              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Shahi Gravis</h3>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Rajasthani Gatta Curry</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Hand-kneaded cylinder dumplings of gram flour cooked in an authentic cumin-infused, thick whipped local yogurt sauce.
+              </p>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Shahi Paneer Cream</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Plump, hand-pressed cottage cheese cubes slow-cooked in a rich base of sweet cashew nut paste, cardamoms, and velvet cream.
+              </p>
+            </div>
+          </div>
+          
+          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
+              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">NATIVE CLASSICS</span>
+              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Curated Sabjis</h3>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Adraki Aloo Gobhi</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Copper-pan tossed fresh cauliflower florets and gold potatoes, pan-roasted dry with ginger strips, turmeric, and local spices.
+              </p>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Seasonal Specialty Sabji</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Regional farm vegetable selected daily, cooked with lightweight cold-pressed oils to preserve original nourishment and purity.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Staples & Dals -->
+        <div id="content-sides" class="menu-tab-content hidden grid grid-cols-12 gap-4 sm:gap-10">
+          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
+              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">SLOW FIRED LEGUMES</span>
+              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Dals & Varans</h3>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Panchmel Dal</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Traditional thick wood-fired combination of five unique regional lentils, tempered with direct ghee-roasted cumin and dry red chillies.
+              </p>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Maharashtrian Varan</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Smooth golden lentils slow-boiled with organic turmeric, curry leaves, ginger, and a strong pinch of dynamic premium asafoetida (hing).
+              </p>
+            </div>
+          </div>
+          
+          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
+              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">CLAY OVEN & HEARTH</span>
+              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Warm Breads</h3>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Hot Ghee Phulkas & Rotlas</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Hand-rolled wheat breads served steaming hot straight onto your royal plate, brushed generously with hand-churned A2 cow ghee.
+              </p>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Papad & House Relishes</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Crispy hand-stretched lentil papads served along with our curated family pickles, green mustard relishes, and mint pestos.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Mithai & Drinks -->
+        <div id="content-sweets" class="menu-tab-content hidden grid grid-cols-12 gap-4 sm:gap-10">
+          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
+              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">CONFECTIONERY LEGACIES</span>
+              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Royal Sweets</h3>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Warm Moong Dal Halwa</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Gently roasted split yellow gram simmered over low fire with copious amounts of pure ghee, organic sugars, and slivered almonds.
+              </p>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Chilled Elaneer Payasam</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Velvety blend of fresh tender coconut shavings, condensed cardamom-scented milk, saffron threads, and golden raisins.
+              </p>
+            </div>
+          </div>
+          
+          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
+              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">DIGESTIVE FINALES</span>
+              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Mithais</h3>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Kesar Saffron Lassi</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Creamy whole-milk yogurt whipped carefully with real organic saffron honey, topped with slivered dry fruits and silver leaf.
+              </p>
+            </div>
+            
+            <div class="space-y-1.5 group">
+              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Warm Gulab Jamun</h4>
+              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+                Delicate, soft condensed-milk spheres steeped deeply in light cardamom-infused sugar syrup and rose water essence.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu Bottom Row: Elegant side-by-side split -->
+        <div class="mt-4 sm:mt-12 pt-2 sm:pt-8 border-t border-luxury-gold/15 flex items-center justify-between gap-2">
+          <span class="text-[5px] sm:text-xs text-luxury-muted italic font-light">Endless refills served direct to plate. Jain options prepared with strict compliance.</span>
+          <button onclick="openBookingModal('Maharana Thal Dining')" class="text-[5px] sm:text-xs font-cinzel tracking-widest text-luxury-gold hover:text-luxury-charcoal transition-colors uppercase font-medium whitespace-nowrap">Reserve Table ⟶</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANQUET & GATHERING SPACES: Strict 2-column side-by-side grid preserved -->
+  <section id="banquet" class="py-6 sm:py-16 md:py-24 bg-luxury-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-4 sm:mb-16 space-y-1">
+        <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">MAJESTIC CELEBRATIONS</span>
+        <h2 class="font-serif text-[12px] sm:text-3xl md:text-5xl font-light text-luxury-charcoal tracking-tight">Gatherings & Events</h2>
+        <div class="h-0.5 w-8 sm:w-16 bg-luxury-gold/30 mx-auto"></div>
+        <p class="text-luxury-muted text-[6px] sm:text-sm font-light max-w-xl mx-auto">
+          Combine premium gathering spaces with our authentic catering services.
+        </p>
+      </div>
+
+      <!-- Preserved Side-by-Side 2-Column Spaces Layout -->
+      <div class="grid grid-cols-2 gap-3 sm:gap-10">
+        <!-- AC Banquet -->
+        <div class="group space-y-1.5 sm:space-y-6">
+          <div class="zoom-img-container rounded-lg sm:rounded-2xl overflow-hidden shadow border border-luxury-gold/10 aspect-[16/10]">
+            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200&auto=format&fit=crop" 
+                 alt="AC Banquet Room" 
+                 class="w-full h-full object-cover"
+                 onerror="this.src='https://placehold.co/800x500/EDE5D8/211E1B?text=AC+Banquet+Hall'">
+          </div>
+          <div class="space-y-0.5 sm:space-y-2">
+            <div class="flex items-center justify-between text-[5px] sm:text-xs font-semibold text-luxury-gold tracking-widest uppercase">
+              <span>Up to 130 Guests</span>
+              <span>Fully AC</span>
+            </div>
+            <h3 class="font-serif text-[8px] sm:text-2xl font-light text-luxury-charcoal group-hover:text-luxury-gold transition-colors">The AC Banquet Room</h3>
+            <p class="text-luxury-muted text-[5px] sm:text-xs leading-normal font-light">
+              Perfect for weddings, corporate meets, and ring ceremonies. Features custom acoustic setups.
+            </p>
+          </div>
+        </div>
+
+        <!-- Family Seating layout -->
+        <div class="group space-y-1.5 sm:space-y-6">
+          <div class="zoom-img-container rounded-lg sm:rounded-2xl overflow-hidden shadow border border-luxury-gold/10 aspect-[16/10]">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" 
+                 alt="Family Dining" 
+                 class="w-full h-full object-cover"
+                 onerror="this.src='https://placehold.co/800x500/EDE5D8/211E1B?text=Royal+Family+Court'">
+          </div>
+          <div class="space-y-0.5 sm:space-y-2">
+            <div class="flex items-center justify-between text-[5px] sm:text-xs font-semibold text-luxury-gold tracking-widest uppercase">
+              <span>Flexible Capacity</span>
+              <span>Intimate Atmosphere</span>
+            </div>
+            <h3 class="font-serif text-[8px] sm:text-2xl font-light text-luxury-charcoal group-hover:text-luxury-gold transition-colors">The Family Court</h3>
+            <p class="text-luxury-muted text-[5px] sm:text-xs leading-normal font-light">
+              Designed specifically for multi-generational family get-togethers and large banqueting tables.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SLIDER SECTION -->
+  <section class="py-6 sm:py-16 md:py-24 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15 relative overflow-hidden">
+    <div class="absolute inset-0 ambient-glow pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-8 md:px-12 text-center relative z-10">
+      <div class="text-luxury-gold text-2xl sm:text-5xl font-serif opacity-30 select-none">“</div>
+      
+      <!-- Interactive Slider -->
+      <div class="relative min-h-[90px] sm:min-h-[180px] flex items-center justify-center">
+        <!-- Slide 1 -->
+        <div id="testimonial-slide-0" class="testimonial-slide duration-500 space-y-2 sm:space-y-6">
+          <p class="font-serif text-[9px] sm:text-lg md:text-2xl font-light italic text-luxury-charcoal leading-relaxed">
+            "The hospitality blew us away! The unlimited thali at Maharana is legendary, but staying right upstairs at Hotel SK Inn made it a perfect weekend getaway. The suites were spotless and quiet."
           </p>
-          <div class="hero-stats">
-            <div>
-              <div class="stat-num">₹280 <span>net</span></div>
-              <div class="stat-label">Unlimited Thali</div>
-            </div>
-            <div class="stat-divider"></div>
-            <div>
-              <div class="stat-num">15+ <span style="color:var(--gold);">dishes</span></div>
-              <div class="stat-label">Warm Refills</div>
-            </div>
-            <div class="stat-divider"></div>
-            <div>
-              <div class="stat-num">7 <span style="color:var(--muted);">days</span></div>
-              <div class="stat-label">Open Daily</div>
-            </div>
-          </div>
-          <div class="hero-actions">
-            <a href="#menu" class="btn-primary">View Today's Menu</a>
-            <a href="tel:+918552982999" class="btn-outline">Call Guest Desk</a>
-          </div>
-        </div>
-        <div class="hero-image reveal reveal-delay-2">
-          <div class="hero-decor-box"></div>
-          <div class="hero-img-frame">
-            <img src="image/image12.jpeg"
-                 alt="Premium Royal Thali Spread"
-                 onerror="this.src='https://placehold.co/800x1000/F5EFE5/8A7E76?text=Maharana+Thal'">
-          </div>
-          <div class="hero-badge">
-            <p>"Served with absolute warmth."</p>
-            <span>Nashik's Finest Thali</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
-
-<style>
-.hero-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 56px;
-  align-items: center;
-}
-@media (min-width: 900px) {
-  .hero-layout { grid-template-columns: 1fr 1fr; }
-}
-</style>
-
-<!-- MARQUEE -->
-<div class="marquee-section">
-  <div class="marquee-track" id="marquee-track">
-    <span>Rajasthani Gatte Curry</span><span class="dot">·</span>
-    <span>Slow-Cooked Dal</span><span class="dot">·</span>
-    <span>Shahi Paneer</span><span class="dot">·</span>
-    <span>Fresh Phulkas</span><span class="dot">·</span>
-    <span>Moong Dal Halwa</span><span class="dot">·</span>
-    <span>Kesar Thandai Chach</span><span class="dot">·</span>
-    <span>Stone-Ground Spices</span><span class="dot">·</span>
-    <span>100% Vegetarian</span><span class="dot">·</span>
-    <span>Unlimited Refills</span><span class="dot">·</span>
-    <span>Rajasthani Gatte Curry</span><span class="dot">·</span>
-    <span>Slow-Cooked Dal</span><span class="dot">·</span>
-    <span>Shahi Paneer</span><span class="dot">·</span>
-    <span>Fresh Phulkas</span><span class="dot">·</span>
-    <span>Moong Dal Halwa</span><span class="dot">·</span>
-    <span>Kesar Thandai Chach</span><span class="dot">·</span>
-    <span>Stone-Ground Spices</span><span class="dot">·</span>
-    <span>100% Vegetarian</span><span class="dot">·</span>
-    <span>Unlimited Refills</span><span class="dot">·</span>
-  </div>
-</div>
-
-<!-- HERITAGE -->
-<section class="heritage" id="heritage">
-  <div class="container">
-    <div class="heritage-grid">
-      <div class="heritage-img-wrap reveal">
-        <div class="heritage-img-inner">
-          <img src="image/image12.jpeg"
-               alt="Traditional kitchen spices"
-               onerror="this.src='https://placehold.co/600x800/F5EFE5/8A7E76?text=Heritage'">
-        </div>
-        <div class="heritage-img-accent"></div>
-      </div>
-      <div class="heritage-content">
-        <div class="label-row left section-label reveal">
-          <span class="label">The Culinary Path</span>
-        </div>
-        <h2 class="reveal reveal-delay-1">
-          A Beautiful Union<br>
-          of <em>Three Legacies.</em>
-        </h2>
-        <p class="reveal reveal-delay-2">
-          At Maharana Thal, dining is a performance of generosity. Inspired by the legendary hospitality of Indian royal courts, our masters have curated a menu that flows across the fiery spices of Rajasthan, the subtle sweetness of Gujarat, and the comforting textures of Maharashtra.
-        </p>
-        <p class="reveal reveal-delay-2">
-          Every bread is rolled by hand, every dal slow-cooked over low flame for hours. Refills arrive directly onto your plate — hot, aromatic, and endless.
-        </p>
-        <div class="principles reveal reveal-delay-3">
           <div>
-            <div class="principle-num">01</div>
-            <div class="principle-title">Hand-Pounded Spices</div>
-            <div class="principle-sub">Stone-ground local ingredients, daily.</div>
+            <div class="font-cinzel text-[6px] sm:text-xs font-bold tracking-wider text-luxury-charcoal">Anjali & Vikram Deshmukh</div>
+            <div class="text-[5px] sm:text-[9px] uppercase text-luxury-muted tracking-widest mt-0.5">Stay Guests · Pune</div>
           </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div id="testimonial-slide-1" class="testimonial-slide duration-500 space-y-2 sm:space-y-6 hidden">
+          <p class="font-serif text-[9px] sm:text-lg md:text-2xl font-light italic text-luxury-charcoal leading-relaxed">
+            "An unmatched elite experience in Nashik. After busy corporate work sessions, returning to clean, beautifully isolated rooms upstairs after dining on hot phulkas is absolute perfection."
+          </p>
           <div>
-            <div class="principle-num">02</div>
-            <div class="principle-title">100% Vegetarian</div>
-            <div class="principle-sub">Prepared fresh, without exception.</div>
+            <div class="font-cinzel text-[6px] sm:text-xs font-bold tracking-wider text-luxury-charcoal">Rajesh K. Singhania</div>
+            <div class="text-[5px] sm:text-[9px] uppercase text-luxury-muted tracking-widest mt-0.5">Corporate VP · Mumbai</div>
           </div>
-          <div>
-            <div class="principle-num">03</div>
-            <div class="principle-title">A2 Ghee & Dairy</div>
-            <div class="principle-sub">Sourced from local farms only.</div>
-          </div>
-
         </div>
+      </div>
+
+      <!-- Dots Controls -->
+      <div class="flex items-center justify-center space-x-1.5 sm:space-x-3 mt-3 sm:mt-8">
+        <button id="dot-0" onclick="showTestimonial(0)" class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-luxury-gold transition-all duration-300"></button>
+        <button id="dot-1" onclick="showTestimonial(1)" class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-luxury-gold/30 transition-all duration-300"></button>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- MENU -->
-<section class="menu-section" id="menu">
-  <div class="container">
-    <div class="section-header">
-      <div class="label-row" style="justify-content:center;">
-        <span class="label">The Presentation</span>
-      </div>
-      <h2>Today's Menu</h2>
-      <p class="date-line" id="menu-date">The Feast of Today</p>
-    </div>
-
-    <div class="menu-card reveal">
-      <div class="menu-card-inner">
-        <!-- Ornament -->
-        <div class="menu-ornament">
-          <div class="menu-ornament-line"></div>
-          <div class="menu-ornament-diamond"></div>
-          <div class="menu-ornament-line right"></div>
+  <!-- LOCATION & CONTACT: Preserved Side-by-Side Split Grid -->
+  <section id="contact" class="py-6 sm:py-16 md:py-24 bg-luxury-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-12 gap-3 sm:gap-10 items-start">
+      
+      <!-- Contact Cards -->
+      <div class="col-span-12 sm:col-span-6 space-y-2 sm:space-y-8 reveal">
+        <div class="space-y-1">
+          <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">VISIT US TODAY</span>
+          <h2 class="font-serif text-[12px] sm:text-3xl md:text-5xl font-light text-luxury-charcoal tracking-tight">Location & Hours</h2>
+          <p class="text-luxury-muted text-[6px] sm:text-xs leading-normal">
+            Located conveniently on Ambad-Pathardi Road. Walk-ins are highly welcome for dining; advance table and room bookings are highly recommended.
+          </p>
         </div>
 
-        <div class="menu-cols">
-          <!-- LEFT COLUMN -->
-          <div style="display:flex; flex-direction:column; gap:48px;">
-
-            <!-- Welcome Drink -->
-            <div class="menu-cat">
-              <div class="menu-cat-header">
-                <div class="menu-cat-num">01 · Welcome Drink</div>
-                <div class="menu-cat-title">To Refresh</div>
-              </div>
-              <div class="menu-items">
-                <div class="menu-item">
-                  <div class="menu-item-name">Kesar Thandai Chach</div>
-                  <div class="menu-item-desc">Cold spiced buttermilk infused with organic saffron, crushed cardamom oil, and dry garden mint.</div>
-                </div>
-                <div class="menu-item">
-                  <div class="menu-item-name">Seasonal Rose Sarbat</div>
-                  <div class="menu-item-desc">Gentle cooler of hand-pressed rose petals, fresh lemon juice, and sweet organic rock sugar.</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Farsan -->
-            <div class="menu-cat">
-              <div class="menu-cat-header">
-                <div class="menu-cat-num">02 · Farsan</div>
-                <div class="menu-cat-title">Crispy & Savory</div>
-              </div>
-              <div class="menu-items">
-                <div class="menu-item">
-                  <div class="menu-item-name">Paneer Lifafa</div>
-                  <div class="menu-item-desc">Flaky golden pastry wrapped around lightly seasoned cottage cheese, fresh coriander, and ginger paste.</div>
-                </div>
-                <div class="menu-item">
-                  <div class="menu-item-name">Steamed Nylon Dhokla</div>
-                  <div class="menu-item-desc">Airy steamed chickpea flour squares with fresh mustard seed and green chilli tempering.</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Common -->
-            <div class="menu-cat">
-              <div class="menu-cat-header">
-                <div class="menu-cat-num">03 · Common</div>
-                <div class="menu-cat-title">Table Staples</div>
-              </div>
-              <div class="menu-items">
-                <div class="menu-item">
-                  <div class="menu-item-name">Fire-Roasted Phulkas</div>
-                  <div class="menu-item-desc">Puffed whole-wheat flatbreads served hot from the flame, brushed with hand-churned A2 ghee.</div>
-                </div>
-                <div class="menu-item">
-                  <div class="menu-item-name">Roasted Papad & Pickles</div>
-                  <div class="menu-item-desc">Crisp lentil papad with hand-pounded mango mustard pickle and mint-coriander chutney.</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Dal -->
-            <div class="menu-cat">
-              <div class="menu-cat-header">
-                <div class="menu-cat-num">04 · Dal</div>
-                <div class="menu-cat-title">Slow-Cooked Lentils</div>
-              </div>
-              <div class="menu-items">
-                <div class="menu-item">
-                  <div class="menu-item-name">Panchmel Dal</div>
-                  <div class="menu-item-desc">Traditional Rajasthani blend of five pulses, slow-cooked in earthenware over woodfire.</div>
-                </div>
-                <div class="menu-item">
-                  <div class="menu-item-name">Maharashtrian Varan</div>
-                  <div class="menu-item-desc">Comforting yellow lentils tempered with fresh turmeric, golden cumin, and curry leaves.</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- RIGHT COLUMN -->
-          <div style="display:flex; flex-direction:column; gap:48px;">
-
-            <!-- Sabji -->
-            <div class="menu-cat">
-              <div class="menu-cat-header">
-                <div class="menu-cat-num">05 · Sabji</div>
-                <div class="menu-cat-title">Main Course Entrées</div>
-              </div>
-              <div class="menu-items">
-                <div class="menu-item">
-                  <div class="menu-item-name">Shahi Paneer</div>
-                  <div class="menu-item-desc">Freshly pressed cottage cheese in a silky cashew gravy with mild green cardamoms.</div>
-                </div>
-                <div class="menu-item">
-                  <div class="menu-item-name">Rajasthani Gatta Curry</div>
-                  <div class="menu-item-desc">Hand-rolled gram flour dumplings in a beautifully spiced whipped yogurt gravy.</div>
-                </div>
-                <div class="menu-item">
-                  <div class="menu-item-name">Aloo Gobhi Adraki</div>
-                  <div class="menu-item-desc">Cauliflower and potatoes dry-tossed in copper pans with ginger juliennes and whole spices.</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Rice -->
-            <div class="menu-cat">
-              <div class="menu-cat-header">
-                <div class="menu-cat-num">06 · Rice</div>
-                <div class="menu-cat-title">Harvest Grains</div>
-              </div>
-              <div class="menu-items">
-                <div class="menu-item">
-                  <div class="menu-item-name">Steamed Saffron Basmati</div>
-                  <div class="menu-item-desc">Aged long-grain basmati steamed with whole green cardamoms and cloves.</div>
-                </div>
-                <div class="menu-item">
-                  <div class="menu-item-name">Moong Dal Khichdi</div>
-                  <div class="menu-item-desc">Soft split yellow lentils and premium rice, paired best with pure ghee.</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Sweet -->
-            <div class="menu-cat">
-              <div class="menu-cat-header">
-                <div class="menu-cat-num">07 · Sweet</div>
-                <div class="menu-cat-title">Mithai & Confections</div>
-              </div>
-              <div class="menu-items">
-                <div class="menu-item">
-                  <div class="menu-item-name">Warm Moong Dal Halwa</div>
-                  <div class="menu-item-desc">Golden lentils hand-roasted in warm local ghee, finished with slivered almonds.</div>
-                </div>
-                <div class="menu-item">
-                  <div class="menu-item-name">Elaneer Payasam</div>
-                  <div class="menu-item-desc">Chilled tender coconut water, sweet condensed milk, and fresh soft coconut meat.</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="menu-footer">
-          <span class="menu-footer-note">Prepared fresh daily. Jain preparation available on request.</span>
-          <span class="menu-footer-brand">Maharana Pure Vegetarian Heritage</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICE BANNER -->
-<div class="price-banner">
-  <div class="container">
-    <div class="price-banner-inner reveal">
-      <div class="price-banner-left">
-        <h3>Unlimited Thali,<br>Endless Warmth.</h3>
-        <p>Refills served directly to your plate — always hot, always generous.</p>
-      </div>
-      <div class="price-divider"></div>
-      <div class="price-banner-center">
-        <div class="price-big"><sub>₹</sub>280</div>
-        <div class="price-tag">Per person · Net price</div>
-      </div>
-      <div class="price-divider"></div>
-      <div class="price-banner-right">
-        <div class="price-feature">15+ rotating dishes daily</div>
-        <div class="price-feature">A2 ghee & fresh dairy</div>
-        <div class="price-feature">100% pure vegetarian</div>
-        <div class="price-feature">Jain options on request</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SPACES -->
-<section class="experiences" id="spaces">
-  <div class="container">
-    <div class="experiences-grid">
-      <div class="experiences-intro">
-        <div class="label-row left reveal">
-          <span class="label">The Spaces</span>
-        </div>
-        <h2 class="reveal reveal-delay-1">Spaces Built<br>For <em>Gathering.</em></h2>
-        <p class="reveal reveal-delay-2">Every corner of Maharana Thal is built for familial celebration — light, breathable, and beautiful. From intimate family meals to grand corporate banquets.</p>
-      </div>
-      <div class="spaces-list">
-        <div class="space-card reveal">
-          <div class="space-img">
-            <img src="image/image13.png"
-                 alt="AC Banquet Room"
-                 onerror="this.src='https://placehold.co/600x450/F5EFE5/8A7E76?text=AC+Banquet'">
-          </div>
-          <div class="space-info">
-            <div class="space-capacity">Up to 130 Guests</div>
-            <div class="space-name">The AC Banquet Room</div>
-            <div class="space-desc">Fully air-conditioned with dedicated sound acoustics and exclusive dynamic dining service layout. Ideal for weddings, corporate events, and celebrations.</div>
-          </div>
-        </div>
-        <div class="space-card reveal reveal-delay-1">
-          <div class="space-img">
-            <img src="image/image14.png"
-                 alt="Family Dining Court"
-                 onerror="this.src='https://placehold.co/600x450/F5EFE5/8A7E76?text=Family+Court'">
-          </div>
-          <div class="space-info">
-            <div class="space-capacity">Generous Seating</div>
-            <div class="space-name">The Family Court</div>
-            <div class="space-desc">Intended for long tables, multi-generational gatherings, and the kind of laughter that travels across rooms. Warm, open, and effortlessly welcoming.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials">
-  <div class="container">
-    <div class="testimonials-inner reveal">
-      <div class="quote-mark">"</div>
-      <p class="quote-text" id="quote-text">Our family was astonished by the hospitality. No sooner had we finished a dish than a hot phulka arrived. Authentic luxury with genuine warmth.</p>
-      <div class="quote-divider"></div>
-      <div class="quote-author" id="quote-author">Priya Sharma</div>
-      <div class="quote-location" id="quote-location">Nashik Guest · Celebrating Anniversary</div>
-      <div class="testimonial-dots">
-        <button class="t-dot active" onclick="setQuote(0)"></button>
-        <button class="t-dot" onclick="setQuote(1)"></button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- VENUE -->
-<section class="venue" id="venue">
-  <div class="container">
-    <div class="venue-grid">
-      <div class="venue-content">
-        <div class="label-row left reveal">
-          <span class="label">Location & Inquiries</span>
-        </div>
-        <h2 class="reveal reveal-delay-1">Come and<br><em>Dine with Us.</em></h2>
-        <p class="reveal reveal-delay-2">Located inside Hotel SK Inn at MIDC Ambad, Nashik. Walk-ins welcome; advance booking recommended for groups and banquets.</p>
-        <div class="venue-details reveal reveal-delay-3">
-          <div>
-            <div class="venue-detail-label">Address</div>
-            <div class="venue-detail-text">
-              Hotel SK Inn, Pathardi to Ambad Rd,<br>
+        <div class="grid grid-cols-2 gap-2 sm:gap-6 pt-1 sm:pt-4 border-t border-luxury-gold/15">
+          <!-- Address -->
+          <div class="space-y-0.5">
+            <h4 class="font-cinzel text-[5px] sm:text-[10px] font-bold text-luxury-gold tracking-widest uppercase">The Destination</h4>
+            <p class="text-luxury-muted text-[5px] sm:text-xs leading-tight">
+              Maharana Thal & Hotel SK Inn,<br>
               Shravan Sector, MIDC Ambad,<br>
               Nashik, Maharashtra
+            </p>
+          </div>
+          <!-- Hours -->
+          <div class="space-y-0.5">
+            <h4 class="font-cinzel text-[5px] sm:text-[10px] font-bold text-luxury-gold tracking-widest uppercase">Feast Hours</h4>
+            <p class="text-luxury-muted text-[5px] sm:text-xs leading-tight">
+              Lunch: 12:00 – 3:30 PM<br>
+              Dinner: 7:00 – 10:30 PM<br>
+              Open Daily
+            </p>
+          </div>
+          <!-- Phone -->
+          <div class="space-y-0.5">
+            <h4 class="font-cinzel text-[5px] sm:text-[10px] font-bold text-luxury-gold tracking-widest uppercase">Direct Bookings</h4>
+            <div class="text-luxury-muted text-[5px] sm:text-xs leading-none space-y-0.5">
+              <a href="tel:+918552982999" class="block hover:text-luxury-gold transition-colors font-semibold">+91 85529 82999</a>
+              <a href="tel:+919822844737" class="block hover:text-luxury-gold transition-colors font-semibold">+91 98228 44737</a>
             </div>
           </div>
-          <div>
-            <div class="venue-detail-label">Hours</div>
-            <div class="venue-detail-text">
-              Lunch: 12:00 PM – 3:30 PM<br>
-              Dinner: 7:00 PM – 10:30 PM<br>
-              Open Seven Days a Week
-            </div>
-          </div>
-          <div>
-            <div class="venue-detail-label">Reservations</div>
-            <div class="venue-detail-text">
-              <a href="tel:+919822844737">+91 98228 44737</a>
-              <a href="tel:+919970048880">+91 99700 48880</a>
-              <a href="tel:+918552982999">+91 85529 82999</a>
-            </div>
-          </div>
-          <div>
-            <div class="venue-detail-label">Digital</div>
-            <div class="venue-detail-text">
-              <a href="mailto:maharanathalnashik@gmail.com">maharanathalnashik@gmail.com</a>
-              <a href="http://www.hotelskinn.in" target="_blank">www.hotelskinn.in</a>
+          <!-- Contact email -->
+          <div class="space-y-0.5">
+            <h4 class="font-cinzel text-[5px] sm:text-[10px] font-bold text-luxury-gold tracking-widest uppercase">Digital Concierge</h4>
+            <div class="text-luxury-muted text-[5px] sm:text-xs leading-none space-y-0.5">
+              <a href="mailto:maharanathalnashik@gmail.com" class="block hover:text-luxury-gold transition-colors">maharanathalnashik@gmail.com</a>
             </div>
           </div>
         </div>
+
+        <div class="flex items-center gap-1.5 sm:gap-4 pt-1 sm:pt-4">
+          <a href="https://maps.google.com/?q=Hotel+SK+Inn+MIDC+Ambad+Nashik" target="_blank" class="border border-luxury-charcoal text-luxury-charcoal text-center text-[5px] sm:text-[10px] tracking-wider uppercase px-2 py-1 sm:px-6 sm:py-3.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all whitespace-nowrap">
+            Get Directions
+          </a>
+          <button onclick="openBookingModal('Maharana Thal Dining')" class="bg-luxury-charcoal border border-luxury-charcoal text-luxury-white text-center text-[5px] sm:text-[10px] tracking-wider uppercase px-2 py-1 sm:px-6 sm:py-3.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all whitespace-nowrap">
+            Reserve Table
+          </button>
+        </div>
       </div>
-      <div class="reveal reveal-delay-2">
-        <div class="venue-map-wrap">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.957539828552!2d73.7431289!3d19.9682662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdd9623e1aaaaab%3A0xe5a36ee7bf309cf!2sHotel%20SK%20Inn!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin"
-            allowfullscreen="" loading="lazy">
+
+      <!-- Map Block -->
+      <div class="col-span-12 sm:col-span-6 reveal">
+        <div class="rounded-lg sm:rounded-2xl overflow-hidden shadow-md border border-luxury-gold/15 aspect-[16/10] h-full">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.957539828552!2d73.7431289!3d19.9682662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdd9623e1aaaaab%3A0xe5a36ee7bf309cf!2sHotel%20SK%20Inn!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
+            class="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
           </iframe>
         </div>
-        <div class="venue-actions">
-          <a href="https://maps.google.com/?q=Hotel+SK+Inn+MIDC+Ambad+Nashik" target="_blank" class="venue-btn-outline">Get Directions</a>
-          <a href="tel:+918552982999" class="venue-btn-fill">Reserve Table</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER: Preserves elegant multi-column side-by-side branding details -->
+  <footer class="bg-luxury-charcoal text-luxury-white py-4 sm:py-16 border-t border-luxury-gold/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+      <div class="grid grid-cols-4 gap-3 sm:gap-12 mb-4 sm:mb-16">
+        
+        <!-- Column 1: Core Story -->
+        <div class="col-span-4 sm:col-span-1 space-y-1">
+          <div class="flex flex-col">
+            <span class="font-cinzel text-[10px] sm:text-lg tracking-wider text-white">MAHARANA THAL</span>
+            <span class="font-serif text-[7px] sm:text-[10px] italic text-luxury-gold tracking-widest mt-0.5">By Hotel SK Inn, Nashik</span>
+          </div>
+          <p class="text-luxury-muted text-[8px] sm:text-xs leading-normal">
+            An iconic hospitality destination in Nashik committed to pure vegetarian culinary traditions and elite stay comfort.
+          </p>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="col-span-2 sm:col-span-1 space-y-1">
+          <h4 class="font-cinzel text-[7px] sm:text-xs font-bold tracking-wider text-luxury-gold uppercase">Explore</h4>
+          <ul class="space-y-0.5 text-[8px] sm:text-xs text-luxury-muted">
+            <li><a href="#about" class="hover:text-white transition-colors">The Legacy</a></li>
+            <li><a href="#menu-explorer" class="hover:text-white transition-colors">Today's Menu</a></li>
+            <li><a href="#rooms" class="hover:text-white transition-colors">Boutique Stay</a></li>
+            <li><a href="#banquet" class="hover:text-white transition-colors">Banquets</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contacts -->
+        <div class="col-span-2 sm:col-span-1 space-y-1">
+          <h4 class="font-cinzel text-[7px] sm:text-xs font-bold tracking-wider text-luxury-gold uppercase">Contact</h4>
+          <p class="text-[8px] sm:text-xs text-luxury-muted leading-tight">
+            MIDC Ambad, Nashik<br>
+            Desk: +91 85529 82999<br>
+            Email: maharanathalnashik@gmail.com
+          </p>
+        </div>
+
+        <!-- Column 4: Socials -->
+        <div class="col-span-4 sm:col-span-1 space-y-1">
+          <h4 class="font-cinzel text-[7px] sm:text-xs font-bold tracking-wider text-luxury-gold uppercase">Social</h4>
+          <p class="text-[8px] sm:text-xs text-luxury-muted leading-tight">
+            Follow our culinary chapters online.
+          </p>
+          <div class="flex items-center space-x-1 sm:space-x-4 mt-1">
+            <a href="https://www.instagram.com/hotel_sk_inn" target="_blank" class="h-4 w-4 sm:h-8 sm:w-8 rounded-full border border-luxury-gold/30 flex items-center justify-center hover:border-luxury-gold text-luxury-muted hover:text-white transition-colors">
+              <span class="text-[8px] sm:text-xs">📸</span>
+            </a>
+            <span class="text-[8px] sm:text-[10px] text-luxury-muted font-cinzel">@hotel_sk_inn</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="pt-2 sm:pt-8 border-t border-luxury-gold/20 flex items-center justify-between text-[5px] sm:text-[11px] text-luxury-muted">
+        <span>© 2026 Maharana Thal & Hotel SK Inn. All rights reserved.</span>
+        <div class="space-x-1.5 sm:space-x-4">
+          <a href="#" class="hover:text-white transition-colors">Privacy Standards</a>
+          <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL: Room Detail Overlay -->
+  <div id="room-detail-modal" class="fixed inset-0 bg-luxury-charcoal/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+    <div class="bg-luxury-white max-w-lg w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-luxury-gold/30 flex flex-col relative">
+      <!-- Image frame -->
+      <div class="h-32 sm:h-64 relative bg-luxury-cream">
+        <img id="modal-room-image" src="" alt="Room detail view" class="w-full h-full object-cover">
+        <button onclick="closeRoomDetailModal()" class="absolute top-2 right-2 h-5 w-5 sm:h-8 sm:w-8 bg-luxury-charcoal/85 hover:bg-luxury-gold text-white rounded-full flex items-center justify-center text-[10px] sm:text-sm transition-colors font-bold">✕</button>
+      </div>
+      <!-- Body details -->
+      <div class="p-3 sm:p-8 space-y-2 sm:space-y-4">
+        <h3 id="modal-room-title" class="font-serif text-[12px] sm:text-3xl text-luxury-charcoal">Room Name</h3>
+        <p id="modal-room-desc" class="text-luxury-muted text-[7px] sm:text-sm leading-relaxed font-light">Description of room details.</p>
+        
+        <div class="pt-1.5 sm:pt-4 border-t border-luxury-gold/20">
+          <h4 class="font-cinzel text-[6px] sm:text-xs font-bold tracking-wider text-luxury-gold uppercase mb-1 sm:mb-3">Premium In-Room Inclusions</h4>
+          <div class="grid grid-cols-2 gap-1 text-[6px] sm:text-xs text-luxury-muted" id="modal-room-amenities">
+            <!-- Amenities dynamically loaded -->
+          </div>
+        </div>
+
+        <div class="pt-2 sm:pt-6 flex justify-between items-center border-t border-luxury-gold/10">
+          <div>
+            <span class="text-[5px] sm:text-[10px] text-luxury-muted tracking-widest uppercase block">Est Rate</span>
+            <span id="modal-room-price" class="font-serif text-[10px] sm:text-xl text-luxury-charcoal font-semibold">Price</span>
+          </div>
+          <button id="modal-room-cta" onclick="" class="bg-luxury-charcoal text-white text-[6px] sm:text-xs tracking-wider uppercase px-3 py-1.5 sm:px-6 sm:py-3 rounded-full hover:bg-luxury-gold transition-colors">
+            Reserve Suite
+          </button>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-top">
-      <div>
-        <div class="insta-name">
-          <div class="footer-brand-name">Maharana Thal</div>
-          <a href="https://www.instagram.com/hotel_sk_inn?igsh=MW1kY3Z2ZHpjdDg3"><div><video src="/image/video1.mp4" autoplay muted loop playsinline></video></div></a>
+  <!-- MODAL: Universal WhatsApp Reservation Booking Form -->
+  <div id="booking-modal" class="fixed inset-0 bg-luxury-charcoal/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+    <div class="bg-luxury-white max-w-sm sm:max-w-md w-full rounded-xl sm:rounded-2xl shadow-2xl border border-luxury-gold/30 overflow-hidden relative p-4 sm:p-8 space-y-3 sm:space-y-6">
+      <button onclick="closeBookingModal()" class="absolute top-2 right-2 text-luxury-charcoal hover:text-luxury-gold text-[10px] sm:text-sm font-bold transition-colors">✕</button>
+      
+      <div class="text-center space-y-0.5 sm:space-y-2">
+        <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-bold">GUEST RELATIONS DESK</span>
+        <h3 class="font-serif text-[12px] sm:text-2xl text-luxury-charcoal">Select Your Experience</h3>
+        <p class="text-luxury-muted text-[6px] sm:text-xs font-light">Choose your desired booking option below.</p>
+      </div>
+
+      <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-1.5 sm:space-y-4 text-[6px] sm:text-xs">
+        <div>
+          <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Reservation Option</label>
+          <select id="booking-type" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+            <option value="Maharana Thal Dining">Royal Dining — Maharana Thal Table</option>
+            <option value="Deluxe Room">Boutique Stay — Deluxe Room</option>
+            <option value="Super Deluxe Room">Boutique Stay — Super Deluxe Room</option>
+            <option value="Executive Suite">Boutique Stay — Executive Suite</option>
+            <option value="Banquet & Gathering">Celebrations & Gatherings Space</option>
+          </select>
         </div>
-        <p class="footer-brand-desc">A modern hospitality brand committed to pure vegetarian traditions and boundless Indian generosity. Fresh daily at MIDC Ambad, Nashik.</p>
-      </div>
-      <div class="footer-col">
-        <div class="footer-col-title">Navigate</div>
-        <ul>
-          <li><a href="#heritage">Heritage</a></li>
-          <li><a href="#menu">Today's Menu</a></li>
-          <li><a href="#spaces">Spaces</a></li>
-          <li><a href="#venue">Visit Us</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-col-title">Reservations</div>
-        <p>No booking required for standard dining. For banquets or parties of 12+, please call us directly.</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Maharana Thal. Crafted with absolute devotion.</span>
-      <span>Hotel SK Inn, Nashik, Maharashtra</span>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Your Name</label>
+            <input id="booking-name" type="text" required placeholder="Full name" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+          </div>
+          <div>
+            <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Mobile No</label>
+            <input id="booking-phone" type="tel" required placeholder="Contact phone" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Date</label>
+            <input id="booking-date" type="date" required class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1.5 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+          </div>
+          <div>
+            <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Total Guests</label>
+            <input id="booking-guests" type="number" min="1" max="250" value="2" required class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+          </div>
+        </div>
+
+        <div class="bg-luxury-goldlight p-1.5 sm:p-4 rounded-lg sm:rounded-xl border border-luxury-gold/20 text-[5px] sm:text-[11px] text-luxury-muted leading-relaxed">
+          <strong>Instant Desk Response:</strong> Enquiries instantly route to our reservation desk's WhatsApp console to verify availability.
+        </div>
+
+        <button type="submit" class="w-full bg-luxury-charcoal text-white text-[6px] sm:text-xs tracking-widest uppercase py-1.5 sm:py-4 rounded-full hover:bg-luxury-gold transition-colors font-semibold">
+          Initiate Reservation
+        </button>
+      </form>
     </div>
   </div>
-</footer>
 
-<script>
-// NAV SCROLL
-const nav = document.getElementById('main-nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-});
+  <script>
+    // Navigation Scroll Dynamics
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        nav.classList.add('shadow-md', 'py-1', 'sm:py-2');
+        nav.classList.remove('py-2', 'sm:py-4');
+      } else {
+        nav.classList.remove('shadow-md', 'py-1', 'sm:py-2');
+        nav.classList.add('py-2', 'sm:py-4');
+      }
+    });
 
-// HAMBURGER
-const ham = document.getElementById('hamburger');
-const mob = document.getElementById('mobile-menu');
-ham.addEventListener('click', () => {
-  ham.classList.toggle('open');
-  mob.classList.toggle('open');
-});
-function closeMobileMenu() {
-  ham.classList.remove('open');
-  mob.classList.remove('open');
-}
+    // Scroll Reveal Observers
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+    reveals.forEach(el => revealObserver.observe(el));
 
-// REVEAL ON SCROLL
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-  });
-}, { threshold: 0.1 });
-reveals.forEach(el => io.observe(el));
+    // Live Date Generator for Maharana Thal Menu Header
+    const liveMenuHeader = document.getElementById('live-menu-header-date');
+    if (liveMenuHeader) {
+      const today = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      liveMenuHeader.innerText = "Curated Indian Culinary Presentation for " + today.toLocaleDateString('en-IN', options);
+    }
 
-// LIVE DATE
-const d = new Date();
-const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-const dateEl = document.getElementById('menu-date');
-if (dateEl) dateEl.textContent = 'Presentation for ' + d.toLocaleDateString('en-IN', opts);
+    // Dynamic Menu Tab switching logic
+    function switchMenuTab(tabId) {
+      const contentSections = document.querySelectorAll('.menu-tab-content');
+      contentSections.forEach(section => section.classList.add('hidden'));
 
-// TESTIMONIALS
-const quotes = [
-  {
-    text: 'Our family was astonished by the hospitality. No sooner had we finished a dish than a hot phulka arrived. Authentic luxury with genuine warmth.',
-    author: 'Priya Sharma',
-    location: 'Nashik Guest · Celebrating Anniversary'
-  },
-  {
-    text: 'The Gatte ki sabji and Panchmel dal are prepared to unmatched levels. You can taste the genuine woodfire freshness in the stone-ground spices. Absolute value.',
-    author: 'Amit Desai',
-    location: 'Nashik Regular · Corporate Team Dining'
-  }
-];
-function setQuote(i) {
-  const text = document.getElementById('quote-text');
-  const author = document.getElementById('quote-author');
-  const loc = document.getElementById('quote-location');
-  const dots = document.querySelectorAll('.t-dot');
-  [text, author, loc].forEach(el => el.style.opacity = 0);
-  setTimeout(() => {
-    text.textContent = quotes[i].text;
-    author.textContent = quotes[i].author;
-    loc.textContent = quotes[i].location;
-    [text, author, loc].forEach(el => el.style.opacity = 1);
-  }, 320);
-  dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
-}
+      const tabs = ['welcome', 'mains', 'sides', 'sweets'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (btn) {
+          btn.classList.remove('bg-luxury-charcoal', 'text-white');
+          btn.classList.add('bg-luxury-ivory', 'text-luxury-charcoal');
+        }
+      });
 
-// Auto-rotate testimonials
-let qi = 0;
-setInterval(() => { qi = (qi + 1) % quotes.length; setQuote(qi); }, 5000);
+      const activeContent = document.getElementById(`content-${tabId}`);
+      if (activeContent) activeContent.classList.remove('hidden');
 
-// SMOOTH TRANSITION on quote elements
-['quote-text','quote-author','quote-location'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) el.style.transition = 'opacity 0.35s ease';
-});
-</script>
+      const activeBtn = document.getElementById(`tab-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-luxury-ivory', 'text-luxury-charcoal');
+        activeBtn.classList.add('bg-luxury-charcoal', 'text-white');
+      }
+    }
+
+    // Interactive Room Slideshow State & Engine
+    const slideshowState = {
+      deluxe: { current: 0, total: 3 },
+      super: { current: 0, total: 3 },
+      executive: { current: 0, total: 3 }
+    };
+
+    function updateRoomSliderPosition(sliderKey) {
+      const state = slideshowState[sliderKey];
+      const sliderEl = document.getElementById(`slider-${sliderKey}`);
+      if (sliderEl) {
+        sliderEl.style.transform = `translateX(-${state.current * 100}%)`;
+      }
+      
+      // Update dot indicators
+      const dots = document.querySelectorAll(`.${sliderKey}-dot`);
+      dots.forEach((dot, index) => {
+        if (index === state.current) {
+          dot.classList.add('bg-white', 'opacity-100');
+          dot.classList.remove('bg-white/50');
+        } else {
+          dot.classList.remove('bg-white', 'opacity-100');
+          dot.classList.add('bg-white/50');
+        }
+      });
+    }
+
+    function nextRoomSlide(sliderKey) {
+      const state = slideshowState[sliderKey];
+      state.current = (state.current + 1) % state.total;
+      updateRoomSliderPosition(sliderKey);
+    }
+
+    function prevRoomSlide(sliderKey) {
+      const state = slideshowState[sliderKey];
+      state.current = (state.current - 1 + state.total) % state.total;
+      updateRoomSliderPosition(sliderKey);
+    }
+
+    function setRoomSlide(sliderKey, slideIndex) {
+      const state = slideshowState[sliderKey];
+      state.current = slideIndex;
+      updateRoomSliderPosition(sliderKey);
+    }
+
+    // Auto-advance sliders gently every 6 seconds
+    setInterval(() => { nextRoomSlide('deluxe'); }, 6000);
+    setInterval(() => { nextRoomSlide('super'); }, 6500);
+    setInterval(() => { nextRoomSlide('executive'); }, 7000);
+
+    // Static Suite details configuration
+    const roomsData = {
+      'Deluxe Room': {
+        desc: 'Quiet architectural elegance optimized for business travelers. Offers beautiful comfort isolation and bespoke ambient temperature regulators.',
+        img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1200&auto=format&fit=crop',
+        price: '₹2,500 / night',
+        amenities: ['Premium Orthopedic Bedding', 'Smart LED TV with Casting', 'Fast Dedicated Fiber WiFi', 'Individual Climate AC Control', 'Pristine Bathroom with Rain Shower', 'In-Suite Tea & Coffee Station']
+      },
+      'Super Deluxe Room': {
+        desc: 'Generously scaled with custom panoramic window structure offering exceptional ambient lighting. The optimal suite choice for families and long stays.',
+        img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop',
+        price: '₹3,500 / night',
+        amenities: ['Bespoke King size Bedding', '4K Smart LED TV Suite', 'Fast Dedicated Fiber WiFi', 'Individual Climate AC Control', 'Walk-in Shower System', 'Premium Wardrobe & Vanity Desk']
+      },
+      'Executive Suite': {
+        desc: 'Our crown jewel experience. Boasts expansive living quarters, beautiful custom furniture, and direct premium VIP room service from Maharana Thal.',
+        img: 'https://images.unsplash.com/photo-1582719478250-c89cae4db85b?q=80&w=1200&auto=format&fit=crop',
+        price: '₹4,500 / night',
+        amenities: ['Ultra Luxurious Royal Bedding', 'Dedicated Lounge & Sofa Section', 'Bespoke Mini Bar Access', 'Workspace Station with USB points', 'Luxury Rain-Shower and Bathrobe Set', 'Priority Room-Service from Maharana Thal']
+      }
+    };
+
+    // Modal Display Modules
+    const roomModal = document.getElementById('room-detail-modal');
+    const bookingModal = document.getElementById('booking-modal');
+
+    function openRoomDetailModal(roomKey) {
+      const data = roomsData[roomKey];
+      if (!data) return;
+
+      document.getElementById('modal-room-image').src = data.img;
+      document.getElementById('modal-room-title').innerText = roomKey;
+      document.getElementById('modal-room-desc').innerText = data.desc;
+      document.getElementById('modal-room-price').innerText = data.price;
+
+      const amenitiesBox = document.getElementById('modal-room-amenities');
+      amenitiesBox.innerHTML = '';
+      data.amenities.forEach(item => {
+        amenitiesBox.innerHTML += `
+          <div class="flex items-center space-x-1 sm:space-x-2">
+            <span class="text-luxury-gold">✦</span>
+            <span>${item}</span>
+          </div>
+        `;
+      });
+
+      const ctaBtn = document.getElementById('modal-room-cta');
+      ctaBtn.onclick = function() {
+        closeRoomDetailModal();
+        openBookingModal(roomKey);
+      };
+
+      roomModal.classList.remove('hidden');
+    }
+
+    function closeRoomDetailModal() {
+      roomModal.classList.add('hidden');
+    }
+
+    function openBookingModal(initialType = 'Maharana Thal Dining') {
+      const bookingTypeSelect = document.getElementById('booking-type');
+      if (initialType !== 'General') {
+        const option = Array.from(bookingTypeSelect.options).find(opt => opt.value.includes(initialType));
+        if (option) {
+          bookingTypeSelect.value = option.value;
+        }
+      }
+      bookingModal.classList.remove('hidden');
+    }
+
+    function closeBookingModal() {
+      bookingModal.classList.add('hidden');
+    }
+
+    // Custom WhatsApp Enquiry routing handler
+    function handleBookingSubmit(event) {
+      event.preventDefault();
+      
+      const type = document.getElementById('booking-type').value;
+      const name = document.getElementById('booking-name').value;
+      const phone = document.getElementById('booking-phone').value;
+      const date = document.getElementById('booking-date').value;
+      const guests = document.getElementById('booking-guests').value;
+
+      const msg = `Hello Maharana Thal & Hotel SK Inn Reservations Desk,\n\nI would like to initiate a custom reservation enquiry:\n\n*Reservation Type:* ${type}\n*Guest Name:* ${name}\n*Mobile Contact:* ${phone}\n*Preferred Date:* ${date}\n*Total Guests:* ${guests}\n\nPlease confirm availability. Thank you!`;
+      const encodedMsg = encodeURIComponent(msg);
+      
+      window.open(`https://wa.me/918552982999?text=${encodedMsg}`, '_blank');
+      closeBookingModal();
+    }
+
+    // Testimonial Auto Rotatory Mechanism
+    let currentTestimonial = 0;
+    const testimonialsCount = 2;
+
+    function showTestimonial(index) {
+      for (let i = 0; i < testimonialsCount; i++) {
+        const slide = document.getElementById(`testimonial-slide-${i}`);
+        const dot = document.getElementById(`dot-${i}`);
+        if (i === index) {
+          slide.classList.remove('hidden');
+          dot.classList.add('bg-luxury-gold');
+          dot.classList.remove('bg-luxury-gold/30');
+        } else {
+          slide.classList.add('hidden');
+          dot.classList.remove('bg-luxury-gold');
+          dot.classList.add('bg-luxury-gold/30');
+        }
+      }
+      currentTestimonial = index;
+    }
+
+    setInterval(() => {
+      let next = (currentTestimonial + 1) % testimonialsCount;
+      showTestimonial(next);
+    }, 6000);
+  </script>
 </body>
 </html>
