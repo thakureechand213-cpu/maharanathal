@@ -74,26 +74,31 @@
     .zoom-img-container:hover img {
       transform: scale(1.05);
     }
+
+    /* Mobile drawer transition helper */
+    #mobile-drawer {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
   </style>
 </head>
-<body class="bg-luxury-white text-luxury-charcoal font-sans antialiased">
+<body class="bg-luxury-white text-luxury-charcoal font-sans antialiased overflow-x-hidden">
 
-  <!-- Top Announcement Bar (Preserves compact height across all devices) -->
-  <div class="bg-luxury-charcoal text-luxury-white text-[8px] sm:text-[10px] tracking-[0.2em] uppercase py-2 px-4 text-center border-b border-luxury-gold/20 font-cinzel">
+  <!-- Top Announcement Bar (Legible and clean across all viewports) -->
+  <div class="bg-luxury-charcoal text-luxury-white text-[9px] sm:text-[11px] tracking-[0.18em] uppercase py-2 px-4 text-center border-b border-luxury-gold/20 font-cinzel">
     Maharana Thal: Unlimited Royal Feast & Boutique Rooms Upstairs at Hotel SK Inn
   </div>
 
-  <!-- Header / Navigation Bar -->
-  <nav id="main-nav" class="sticky top-0 z-50 bg-luxury-white/90 backdrop-blur-md border-b border-luxury-gold/10 transition-all duration-300 py-2 sm:py-4">
+  <!-- Header / Navigation Bar with collapsible Drawer for mobile -->
+  <nav id="main-nav" class="sticky top-0 z-50 bg-luxury-white/95 backdrop-blur-md border-b border-luxury-gold/10 transition-all duration-300 py-3 sm:py-4">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between">
       <!-- Direct Brand Branding Layout -->
       <a href="#" class="flex flex-col">
-        <span class="font-cinzel text-xs sm:text-base lg:text-2xl font-bold tracking-[0.15em] text-luxury-charcoal transition-colors hover:text-luxury-gold">MAHARANA THAL</span>
-        <span class="font-serif text-[7px] sm:text-[10px] italic text-luxury-gold tracking-[0.08em] mt-0.5">Stay & Dine: SK Inn Luxury Suites</span>
+        <span class="font-cinzel text-lg sm:text-xl lg:text-2xl font-bold tracking-[0.12em] text-luxury-charcoal transition-colors hover:text-luxury-gold leading-none">MAHARANA THAL</span>
+        <span class="font-serif text-[9px] sm:text-[10px] italic text-luxury-gold tracking-[0.08em] mt-1 leading-none">Stay & Dine: SK Inn Luxury Suites</span>
       </a>
 
-      <!-- Desktop Links -->
-      <div class="flex items-center space-x-2 sm:space-x-6 lg:space-x-10 text-[7px] sm:text-[10px] lg:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase font-medium">
+      <!-- Desktop Links - Hidden on Mobile, Flex on Desktop (md and up) -->
+      <div class="hidden md:flex items-center space-x-6 lg:space-x-10 text-[10px] lg:text-xs tracking-[0.2em] uppercase font-semibold">
         <a href="#about" class="hover:text-luxury-gold transition-colors">The Legacy</a>
         <a href="#menu-explorer" class="hover:text-luxury-gold transition-colors">Royal Menu</a>
         <a href="#rooms" class="hover:text-luxury-gold transition-colors">Stay Rooms</a>
@@ -101,83 +106,126 @@
         <a href="#contact" class="hover:text-luxury-gold transition-colors">Find Us</a>
       </div>
 
-      <!-- Quick Action Controls -->
-      <div class="flex items-center space-x-2 sm:space-x-4">
-        <a href="tel:+918552982999" class="text-[7px] sm:text-xs font-semibold text-luxury-muted hover:text-luxury-gold transition-colors whitespace-nowrap">
-          +91 85529
+      <!-- Quick Action Controls & Menu Trigger -->
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        <!-- Phone Link is clean and readable on mobile -->
+        <a href="tel:+918552982999" class="text-xs sm:text-sm font-semibold text-luxury-muted hover:text-luxury-gold transition-colors flex items-center gap-1">
+          <span class="hidden sm:inline">📞 +91 85529</span>
+          <span class="sm:hidden text-lg">📞</span>
         </a>
-        <button onclick="openBookingModal('Maharana Thal Dining')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[6px] sm:text-[9px] tracking-wider uppercase px-2 py-1 sm:px-4 sm:py-2 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all whitespace-nowrap">
+        <button onclick="openBookingModal('General')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[10px] sm:text-[11px] tracking-wider uppercase px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all font-medium">
           Book
+        </button>
+
+        <!-- Mobile Menu Hamburger Trigger -->
+        <button onclick="toggleMobileDrawer()" class="md:hidden text-luxury-charcoal focus:outline-none p-1" aria-label="Toggle menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+          </svg>
         </button>
       </div>
     </div>
   </nav>
 
-  <!-- HERO SECTION: Side-By-Side Structure preserved on mobile -->
-  <header id="hero" class="relative min-h-[55vh] sm:min-h-[85vh] flex items-center justify-center overflow-hidden bg-luxury-ivory/20 py-4 sm:py-12 border-b border-luxury-gold/10">
+  <!-- Mobile Drawer Menu Overlay -->
+  <div id="drawer-overlay" class="fixed inset-0 bg-luxury-charcoal/60 z-50 backdrop-blur-sm hidden transition-opacity duration-300" onclick="toggleMobileDrawer()"></div>
+  <!-- Mobile Side Drawer -->
+  <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-luxury-white z-50 shadow-2xl transform translate-x-full flex flex-col p-6 border-l border-luxury-gold/20">
+    <div class="flex items-center justify-between border-b border-luxury-gold/10 pb-4 mb-6">
+      <div class="flex flex-col">
+        <span class="font-cinzel text-base font-bold tracking-wider text-luxury-charcoal">MAHARANA THAL</span>
+        <span class="font-serif text-[9px] italic text-luxury-gold">Hotel SK Inn, Nashik</span>
+      </div>
+      <button onclick="toggleMobileDrawer()" class="text-luxury-charcoal text-xl p-1 font-bold">✕</button>
+    </div>
+    
+    <div class="flex flex-col space-y-5 text-sm uppercase tracking-widest font-semibold font-cinzel text-luxury-charcoal">
+      <a href="#about" onclick="toggleMobileDrawer()" class="hover:text-luxury-gold transition-colors py-2 border-b border-luxury-gold/5">The Legacy</a>
+      <a href="#menu-explorer" onclick="toggleMobileDrawer()" class="hover:text-luxury-gold transition-colors py-2 border-b border-luxury-gold/5">Royal Menu</a>
+      <a href="#rooms" onclick="toggleMobileDrawer()" class="hover:text-luxury-gold transition-colors py-2 border-b border-luxury-gold/5">Stay Rooms</a>
+      <a href="#banquet" onclick="toggleMobileDrawer()" class="hover:text-luxury-gold transition-colors py-2 border-b border-luxury-gold/5">Banquets</a>
+      <a href="#contact" onclick="toggleMobileDrawer()" class="hover:text-luxury-gold transition-colors py-2 border-b border-luxury-gold/5">Find Us</a>
+    </div>
+
+    <div class="mt-auto pt-6 border-t border-luxury-gold/10 space-y-4">
+      <div class="text-xs text-luxury-muted">
+        <p class="font-semibold text-luxury-charcoal uppercase tracking-wider font-cinzel mb-1">Direct Reservations</p>
+        <p class="space-y-1">
+          <a href="tel:+918552982999" class="block hover:text-luxury-gold">+91 85529 82999</a>
+          <a href="tel:+919822844737" class="block hover:text-luxury-gold">+91 98228 44737</a>
+        </p>
+      </div>
+      <button onclick="toggleMobileDrawer(); openBookingModal('General')" class="w-full bg-luxury-charcoal text-white text-xs tracking-widest uppercase py-3.5 rounded-full hover:bg-luxury-gold transition-colors font-semibold">
+        Reserve Experience
+      </button>
+    </div>
+  </div>
+
+  <!-- HERO SECTION: Mobile stacks vertically, Desktop displays gorgeous side-by-side -->
+  <header id="hero" class="relative min-h-[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden bg-luxury-ivory/20 py-8 md:py-16 border-b border-luxury-gold/10">
     <div class="absolute inset-0 ambient-glow pointer-events-none"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 w-full grid grid-cols-12 gap-3 sm:gap-8 items-center relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center relative z-10">
       
-      <!-- Left Column text -->
-      <div class="col-span-7 flex flex-col justify-center text-left space-y-2 sm:space-y-6 reveal visible">
-        <div class="flex items-center space-x-1 sm:space-x-2 text-luxury-gold">
-          <span class="h-px w-3 sm:w-6 bg-luxury-gold"></span>
-          <span class="text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold font-cinzel">NASHIK'S LEGENDARY LUXURY SANCTUARY</span>
+      <!-- Left Column Text (Full width on mobile, 7/12 columns on desktop) -->
+      <div class="col-span-1 lg:col-span-7 flex flex-col justify-center text-left space-y-4 sm:space-y-6 reveal visible">
+        <div class="flex items-center space-x-2 text-luxury-gold">
+          <span class="h-px w-6 bg-luxury-gold"></span>
+          <span class="text-[9px] sm:text-[11px] tracking-[0.2em] uppercase font-bold font-cinzel">NASHIK'S LEGENDARY LUXURY SANCTUARY</span>
         </div>
-        <h1 class="font-serif text-[15px] xs:text-[20px] sm:text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-luxury-charcoal leading-[1.1]">
+        <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light tracking-tight text-luxury-charcoal leading-[1.15] sm:leading-[1.1]">
           Royal Dining & <br>
           <span class="font-serif italic text-luxury-gold font-normal">Luxury Suites</span> <br>
           In Nashik.
         </h1>
-        <p class="text-luxury-muted font-sans text-[8px] sm:text-xs md:text-sm lg:text-base leading-relaxed max-w-md">
+        <p class="text-luxury-muted font-sans text-sm sm:text-base leading-relaxed max-w-xl">
           Indulge in our legendary unlimited pure-vegetarian thali at Maharana Thal, and enjoy premium boutique rest just upstairs in our sanctuary suites at Hotel SK Inn.
         </p>
         
         <!-- Compact Stats Rows -->
-        <div class="grid grid-cols-3 gap-2 border-t border-b border-luxury-gold/20 py-2 sm:py-4 max-w-md">
+        <div class="grid grid-cols-3 gap-4 border-t border-b border-luxury-gold/20 py-3 sm:py-5 max-w-lg">
           <div>
-            <div class="font-cinzel text-[10px] sm:text-lg md:text-2xl font-bold text-luxury-charcoal">₹280<sub>net</sub></div>
-            <div class="text-[5px] sm:text-[9px] tracking-widest uppercase text-luxury-muted">Royal Feast</div>
+            <div class="font-cinzel text-lg sm:text-2xl md:text-3xl font-bold text-luxury-charcoal">₹280<sub>net</sub></div>
+            <div class="text-[8px] sm:text-[10px] tracking-widest uppercase text-luxury-muted mt-0.5">Royal Feast</div>
           </div>
           <div>
-            <div class="font-cinzel text-[10px] sm:text-lg md:text-2xl font-bold text-luxury-charcoal">15+</div>
-            <div class="text-[5px] sm:text-[9px] tracking-widest uppercase text-luxury-muted">Daily Dishes</div>
+            <div class="font-cinzel text-lg sm:text-2xl md:text-3xl font-bold text-luxury-charcoal">15+</div>
+            <div class="text-[8px] sm:text-[10px] tracking-widest uppercase text-luxury-muted mt-0.5">Daily Dishes</div>
           </div>
           <div>
-            <div class="font-cinzel text-[10px] sm:text-lg md:text-2xl font-bold text-luxury-charcoal">27</div>
-            <div class="text-[5px] sm:text-[9px] tracking-widest uppercase text-luxury-muted">Suites Upstairs</div>
+            <div class="font-cinzel text-lg sm:text-2xl md:text-3xl font-bold text-luxury-charcoal">27</div>
+            <div class="text-[8px] sm:text-[10px] tracking-widest uppercase text-luxury-muted mt-0.5">Suites Upstairs</div>
           </div>
         </div>
 
         <!-- Integrated CTA Controls -->
-        <div class="flex items-center gap-2 pt-1 sm:pt-2">
-          <button onclick="openBookingModal('Maharana Thal Dining')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-6 sm:py-3.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all whitespace-nowrap">
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <button onclick="openBookingModal('Maharana Thal Dining')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[11px] sm:text-[12px] tracking-wider uppercase px-6 py-3.5 sm:px-8 sm:py-4 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all whitespace-nowrap font-medium shadow-md">
             Reserve Table
           </button>
-          <a href="#rooms" class="border border-luxury-charcoal/20 text-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-6 sm:py-3.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all whitespace-nowrap bg-white/50 backdrop-blur-sm">
+          <a href="#rooms" class="border border-luxury-charcoal/20 text-luxury-charcoal text-[11px] sm:text-[12px] tracking-wider uppercase px-6 py-3.5 sm:px-8 sm:py-4 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all whitespace-nowrap bg-white/50 backdrop-blur-sm font-medium">
             Explore Rooms
           </a>
         </div>
       </div>
 
-      <!-- Right Column: Immersive visual badge, remains side-by-side -->
-      <div class="col-span-5 relative flex justify-center items-center reveal visible">
-        <div class="absolute -inset-1.5 sm:-inset-4 border border-luxury-gold/20 rounded-[1rem] sm:rounded-[2rem] transform rotate-3 pointer-events-none"></div>
-        <div class="relative w-full aspect-[4/5] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl border border-luxury-gold/15 group zoom-img-container">
+      <!-- Right Column: Immersive visual badge (Stacks cleanly below text on mobile, 5/12 columns on desktop) -->
+      <div class="col-span-1 lg:col-span-5 relative flex justify-center items-center reveal visible mt-4 lg:mt-0">
+        <div class="absolute -inset-2 md:-inset-4 border border-luxury-gold/20 rounded-[1.5rem] md:rounded-[2rem] transform rotate-3 pointer-events-none"></div>
+        <div class="relative w-full max-w-sm lg:max-w-none aspect-[4/5] rounded-2xl overflow-hidden shadow-xl md:shadow-2xl border border-luxury-gold/15 group zoom-img-container">
           <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" 
                alt="Maharana Thal Feast" 
                class="w-full h-full object-cover"
                onerror="this.src='https://placehold.co/800x1000/F5EFE5/8A7E76?text=Maharana+Royal+Thali'">
           <div class="absolute inset-0 bg-gradient-to-t from-luxury-charcoal/70 via-transparent to-transparent"></div>
           
-          <div class="absolute bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 bg-white/95 backdrop-blur-sm border border-luxury-gold/20 p-1.5 sm:p-3 rounded-lg flex items-center justify-between shadow shadow-luxury-gold/10">
+          <div class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-white/95 backdrop-blur-sm border border-luxury-gold/20 p-3 sm:p-4 rounded-xl flex items-center justify-between shadow shadow-luxury-gold/10">
             <div>
-              <p class="font-serif italic text-[6px] sm:text-[10px] text-luxury-charcoal">"Gold standard of dining"</p>
-              <span class="text-[5px] sm:text-[8px] tracking-widest uppercase text-luxury-muted block mt-0.5">Continuous Service</span>
+              <p class="font-serif italic text-xs sm:text-sm text-luxury-charcoal">"Gold standard of dining"</p>
+              <span class="text-[9px] sm:text-[10px] tracking-widest uppercase text-luxury-muted block mt-0.5">Continuous Service</span>
             </div>
-            <div class="flex items-center space-x-0.5 text-luxury-gold">
-              <span class="text-[6px] sm:text-xs">★</span>
-              <span class="text-[6px] sm:text-[9px] font-semibold text-luxury-charcoal">4.9 Rating</span>
+            <div class="flex items-center space-x-1 text-luxury-gold">
+              <span class="text-xs sm:text-sm">★</span>
+              <span class="text-xs sm:text-sm font-semibold text-luxury-charcoal">4.9 Rating</span>
             </div>
           </div>
         </div>
@@ -186,101 +234,94 @@
   </header>
 
   <!-- Animated Infinite Marquee Ticker -->
-  <div class="border-b border-luxury-gold/15 py-1.5 sm:py-3 overflow-hidden bg-luxury-ivory/35">
-    <div class="flex whitespace-nowrap gap-0 animate-[marquee_25s_linear_infinite] uppercase text-[6px] sm:text-[10px] tracking-[0.2em] text-luxury-muted font-cinzel">
-      <span class="px-3 sm:px-6">PURE COW GHEE RECIPES</span> <span class="text-luxury-gold">✦</span>
-      <span class="px-3 sm:px-6">RAJASTHANI GATTE CURRY</span> <span class="text-luxury-gold">✦</span>
-      <span class="px-3 sm:px-6">SHAHI PANEER</span> <span class="text-luxury-gold">✦</span>
-      <span class="px-3 sm:px-6">WARM MOONG DAL HALWA</span> <span class="text-luxury-gold">✦</span>
-      <span class="px-3 sm:px-6">BOUTIQUE SUITES BY HOTEL SK INN</span> <span class="text-luxury-gold">✦</span>
-      <span class="px-3 sm:px-6">100% PURE VEGETARIAN PREPARATION</span> <span class="text-luxury-gold">✦</span>
+  <div class="border-b border-luxury-gold/15 py-3 overflow-hidden bg-luxury-ivory/35">
+    <div class="flex whitespace-nowrap gap-0 animate-[marquee_25s_linear_infinite] uppercase text-[9px] sm:text-xs tracking-[0.2em] text-luxury-muted font-cinzel">
+      <span class="px-4 sm:px-6">PURE COW GHEE RECIPES</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-4 sm:px-6">RAJASTHANI GATTE CURRY</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-4 sm:px-6">SHAHI PANEER</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-4 sm:px-6">WARM MOONG DAL HALWA</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-4 sm:px-6">BOUTIQUE SUITES BY HOTEL SK INN</span> <span class="text-luxury-gold">✦</span>
+      <span class="px-4 sm:px-6">100% PURE VEGETARIAN PREPARATION</span> <span class="text-luxury-gold">✦</span>
     </div>
   </div>
 
-  <style>
-    @keyframes marquee {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-50%); }
-    }
-  </style>
-
   <!-- FEATURED BOUTIQUE ROOMS WITH IMAGE SLIDESHOWS -->
-  <section id="rooms" class="py-6 sm:py-16 md:py-24 bg-luxury-white">
+  <section id="rooms" class="py-12 sm:py-20 md:py-24 bg-luxury-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
       
       <!-- Structured Header -->
-      <div class="flex items-baseline justify-between mb-4 sm:mb-12 border-b border-luxury-gold/20 pb-2 sm:pb-6">
+      <div class="flex flex-col sm:flex-row items-start sm:items-baseline justify-between mb-8 sm:mb-16 border-b border-luxury-gold/20 pb-4 sm:pb-6 gap-2">
         <div class="space-y-1">
-          <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">PREMIUM HOSPITALITY BY HOTEL SK INN</span>
-          <h2 class="font-serif text-[14px] xs:text-[18px] sm:text-3xl md:text-5xl font-light tracking-tight text-luxury-charcoal">Suites & Accommodations</h2>
+          <span class="text-luxury-gold text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-bold">PREMIUM HOSPITALITY BY HOTEL SK INN</span>
+          <h2 class="font-serif text-2xl sm:text-3xl md:text-5xl font-light tracking-tight text-luxury-charcoal">Suites & Accommodations</h2>
         </div>
-        <p class="text-luxury-muted text-[6px] sm:text-xs max-w-[120px] sm:max-w-xs text-right font-light leading-relaxed">
+        <p class="text-luxury-muted text-xs sm:text-sm max-w-xs text-left sm:text-right font-light leading-relaxed">
           Premium guest rooms with custom noise-isolation and fine comforts right upstairs.
         </p>
       </div>
 
-      <!-- Alternating Rooms Layout with dynamic slideshows -->
-      <div class="space-y-12 sm:space-y-24">
+      <!-- Alternating Rooms Layout (Mobile stacks cleanly, Desktop alternates side-by-side) -->
+      <div class="space-y-16 sm:space-y-24">
         
         <!-- ROOM 1: DELUXE ROOM -->
-        <div class="grid grid-cols-12 gap-4 sm:gap-10 items-center reveal">
-          <!-- Slideshow Left -->
-          <div class="col-span-12 sm:col-span-6 relative rounded-lg sm:rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-sm aspect-[16/10] group">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center reveal">
+          <!-- Slideshow Left (Full width on mobile, 6/12 columns on desktop) -->
+          <div class="col-span-1 lg:col-span-6 relative rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-md aspect-[16/10] group">
             <div id="slider-deluxe" class="absolute inset-0 flex transition-transform duration-700 ease-out">
               <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Deluxe Room" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Deluxe Room Detail" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Deluxe Bath View" class="w-full h-full object-cover shrink-0">
             </div>
             
-            <!-- Controls -->
-            <button onclick="prevRoomSlide('deluxe')" class="absolute left-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            <!-- Controls (Touch optimized tap target scales) -->
+            <button onclick="prevRoomSlide('deluxe')" class="absolute left-3 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-2.5 rounded-full transition-all opacity-100 lg:opacity-0 lg:group-hover:opacity-100 duration-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <button onclick="nextRoomSlide('deluxe')" class="absolute right-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            <button onclick="nextRoomSlide('deluxe')" class="absolute right-3 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-2.5 rounded-full transition-all opacity-100 lg:opacity-0 lg:group-hover:opacity-100 duration-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
             </button>
             
             <!-- Indicators -->
-            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1.5 z-10">
-              <button onclick="setRoomSlide('deluxe', 0)" class="w-1.5 h-1.5 rounded-full bg-white transition-all deluxe-dot active opacity-100"></button>
-              <button onclick="setRoomSlide('deluxe', 1)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all deluxe-dot"></button>
-              <button onclick="setRoomSlide('deluxe', 2)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all deluxe-dot"></button>
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+              <button onclick="setRoomSlide('deluxe', 0)" class="w-2 h-2 rounded-full bg-white transition-all deluxe-dot active opacity-100"></button>
+              <button onclick="setRoomSlide('deluxe', 1)" class="w-2 h-2 rounded-full bg-white/50 transition-all deluxe-dot"></button>
+              <button onclick="setRoomSlide('deluxe', 2)" class="w-2 h-2 rounded-full bg-white/50 transition-all deluxe-dot"></button>
             </div>
           </div>
 
           <!-- Content Right -->
-          <div class="col-span-12 sm:col-span-6 space-y-2 sm:space-y-4">
+          <div class="col-span-1 lg:col-span-6 space-y-4 sm:space-y-5">
             <div class="flex items-center justify-between">
-              <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-wider uppercase font-semibold">Boutique Comfort</span>
-              <span class="text-[8px] sm:text-xs text-luxury-muted uppercase tracking-wider font-semibold">From ₹2,500 / night</span>
+              <span class="text-luxury-gold text-[10px] sm:text-xs tracking-wider uppercase font-bold">Boutique Comfort</span>
+              <span class="text-xs sm:text-sm text-luxury-muted uppercase tracking-wider font-semibold">From ₹2,500 / night</span>
             </div>
-            <h3 class="font-serif text-[12px] sm:text-2xl md:text-3xl font-light text-luxury-charcoal">Deluxe Room</h3>
-            <p class="text-luxury-muted text-[8px] sm:text-xs md:text-sm leading-relaxed font-light">
+            <h3 class="font-serif text-xl sm:text-2xl md:text-3xl font-light text-luxury-charcoal leading-snug">Deluxe Room</h3>
+            <p class="text-luxury-muted text-sm sm:text-base leading-relaxed font-light">
               Quiet elegance designed beautifully for business travelers. Enjoy direct private in-room room-service access from Maharana Thal.
             </p>
             
             <!-- Features Row List -->
-            <div class="grid grid-cols-2 gap-y-1 gap-x-2 pt-1 border-t border-luxury-gold/15 text-[7px] sm:text-xs text-luxury-muted">
-              <div class="flex items-center space-x-1">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 pt-4 border-t border-luxury-gold/15 text-xs sm:text-sm text-luxury-muted">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>King Size Bed</span>
               </div>
-              <div class="flex items-center space-x-1">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>Smart LED TV with Casting</span>
               </div>
-              <div class="flex items-center space-x-1">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>Dedicated Fast WiFi</span>
               </div>
-              <div class="flex items-center space-x-1">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>Premium Air Conditioning</span>
               </div>
             </div>
 
             <!-- Integrated CTAs -->
-            <div class="flex items-center space-x-2 pt-2">
-              <button onclick="openBookingModal('Deluxe Room')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all">
+            <div class="flex items-center space-x-3 pt-3">
+              <button onclick="openBookingModal('Deluxe Room')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-xs tracking-wider uppercase px-5 py-3 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all font-medium">
                 Book Stay
               </button>
-              <button onclick="openRoomDetailModal('Deluxe Room')" class="border border-luxury-charcoal/20 text-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all bg-white/40">
+              <button onclick="openRoomDetailModal('Deluxe Room')" class="border border-luxury-charcoal/20 text-luxury-charcoal text-xs tracking-wider uppercase px-5 py-3 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all bg-white/40 font-medium">
                 Inclusions
               </button>
             </div>
@@ -288,45 +329,45 @@
         </div>
 
         <!-- ROOM 2: SUPER DELUXE ROOM -->
-        <div class="grid grid-cols-12 gap-4 sm:gap-10 items-center reveal">
-          <!-- Content Left (on desktop) -->
-          <div class="col-span-12 sm:col-span-6 order-2 sm:order-1 space-y-2 sm:space-y-4">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center reveal">
+          <!-- Content Left (on desktop layout, orders second on mobile stack) -->
+          <div class="col-span-1 lg:col-span-6 order-2 lg:order-1 space-y-4 sm:space-y-5">
             <div class="flex items-center justify-between">
-              <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-wider uppercase font-semibold">Premium Space</span>
-              <span class="text-[8px] sm:text-xs text-luxury-muted uppercase tracking-wider font-semibold">From ₹3,500 / night</span>
+              <span class="text-luxury-gold text-[10px] sm:text-xs tracking-wider uppercase font-bold">Premium Space</span>
+              <span class="text-xs sm:text-sm text-luxury-muted uppercase tracking-wider font-semibold">From ₹3,500 / night</span>
             </div>
-            <h3 class="font-serif text-[12px] sm:text-2xl md:text-3xl font-light text-luxury-charcoal">Super Deluxe Room</h3>
-            <p class="text-luxury-muted text-[8px] sm:text-xs md:text-sm leading-relaxed font-light">
+            <h3 class="font-serif text-xl sm:text-2xl md:text-3xl font-light text-luxury-charcoal leading-snug">Super Deluxe Room</h3>
+            <p class="text-luxury-muted text-sm sm:text-base leading-relaxed font-light">
               Elevated style. These suites offer generous lounge space, gorgeous customized lighting setups, and executive desk environments.
             </p>
             
-            <div class="grid grid-cols-2 gap-y-1 gap-x-2 pt-1 border-t border-luxury-gold/15 text-[7px] sm:text-xs text-luxury-muted">
-              <div class="flex items-center space-x-1">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 pt-4 border-t border-luxury-gold/15 text-xs sm:text-sm text-luxury-muted">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>Luxurious King Mattress</span>
               </div>
-              <div class="flex items-center space-x-1">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>4K Smart TV</span>
               </div>
-              <div class="flex items-center space-x-1">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>Fiber Optic WiFi</span>
               </div>
-              <div class="flex items-center space-x-1">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>Bespoke Pantry Station</span>
               </div>
             </div>
 
-            <div class="flex items-center space-x-2 pt-2">
-              <button onclick="openBookingModal('Super Deluxe Room')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all">
+            <div class="flex items-center space-x-3 pt-3">
+              <button onclick="openBookingModal('Super Deluxe Room')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-xs tracking-wider uppercase px-5 py-3 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all font-medium">
                 Book Stay
               </button>
-              <button onclick="openRoomDetailModal('Super Deluxe Room')" class="border border-luxury-charcoal/20 text-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all bg-white/40">
+              <button onclick="openRoomDetailModal('Super Deluxe Room')" class="border border-luxury-charcoal/20 text-luxury-charcoal text-xs tracking-wider uppercase px-5 py-3 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all bg-white/40 font-medium">
                 Inclusions
               </button>
             </div>
           </div>
 
-          <!-- Slideshow Right (on desktop) -->
-          <div class="col-span-12 sm:col-span-6 order-1 sm:order-2 relative rounded-lg sm:rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-sm aspect-[16/10] group">
+          <!-- Slideshow Right (orders first on mobile stack) -->
+          <div class="col-span-1 lg:col-span-6 order-1 lg:order-2 relative rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-md aspect-[16/10] group">
             <div id="slider-super" class="absolute inset-0 flex transition-transform duration-700 ease-out">
               <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Super Deluxe Room" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Super Deluxe Comfort" class="w-full h-full object-cover shrink-0">
@@ -334,26 +375,26 @@
             </div>
             
             <!-- Controls -->
-            <button onclick="prevRoomSlide('super')" class="absolute left-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            <button onclick="prevRoomSlide('super')" class="absolute left-3 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-2.5 rounded-full transition-all opacity-100 lg:opacity-0 lg:group-hover:opacity-100 duration-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <button onclick="nextRoomSlide('super')" class="absolute right-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            <button onclick="nextRoomSlide('super')" class="absolute right-3 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-2.5 rounded-full transition-all opacity-100 lg:opacity-0 lg:group-hover:opacity-100 duration-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
             </button>
             
             <!-- Indicators -->
-            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1.5 z-10">
-              <button onclick="setRoomSlide('super', 0)" class="w-1.5 h-1.5 rounded-full bg-white transition-all super-dot active opacity-100"></button>
-              <button onclick="setRoomSlide('super', 1)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all super-dot"></button>
-              <button onclick="setRoomSlide('super', 2)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all super-dot"></button>
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+              <button onclick="setRoomSlide('super', 0)" class="w-2 h-2 rounded-full bg-white transition-all super-dot active opacity-100"></button>
+              <button onclick="setRoomSlide('super', 1)" class="w-2 h-2 rounded-full bg-white/50 transition-all super-dot"></button>
+              <button onclick="setRoomSlide('super', 2)" class="w-2 h-2 rounded-full bg-white/50 transition-all super-dot"></button>
             </div>
           </div>
         </div>
 
         <!-- ROOM 3: EXECUTIVE SUITE -->
-        <div class="grid grid-cols-12 gap-4 sm:gap-10 items-center reveal">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center reveal">
           <!-- Slideshow Left -->
-          <div class="col-span-12 sm:col-span-6 relative rounded-lg sm:rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-sm aspect-[16/10] group">
+          <div class="col-span-1 lg:col-span-6 relative rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-md aspect-[16/10] group">
             <div id="slider-executive" class="absolute inset-0 flex transition-transform duration-700 ease-out">
               <img src="https://images.unsplash.com/photo-1582719478250-c89cae4db85b?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Executive Suite" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Executive Suite Interior" class="w-full h-full object-cover shrink-0">
@@ -361,52 +402,52 @@
             </div>
             
             <!-- Controls -->
-            <button onclick="prevRoomSlide('executive')" class="absolute left-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            <button onclick="prevRoomSlide('executive')" class="absolute left-3 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-2.5 rounded-full transition-all opacity-100 lg:opacity-0 lg:group-hover:opacity-100 duration-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <button onclick="nextRoomSlide('executive')" class="absolute right-2 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-1 sm:p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 duration-300">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            <button onclick="nextRoomSlide('executive')" class="absolute right-3 top-1/2 -translate-y-1/2 bg-luxury-charcoal/60 hover:bg-luxury-gold text-white p-2.5 rounded-full transition-all opacity-100 lg:opacity-0 lg:group-hover:opacity-100 duration-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
             </button>
             
             <!-- Indicators -->
-            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1.5 z-10">
-              <button onclick="setRoomSlide('executive', 0)" class="w-1.5 h-1.5 rounded-full bg-white transition-all executive-dot active opacity-100"></button>
-              <button onclick="setRoomSlide('executive', 1)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all executive-dot"></button>
-              <button onclick="setRoomSlide('executive', 2)" class="w-1.5 h-1.5 rounded-full bg-white/50 transition-all executive-dot"></button>
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+              <button onclick="setRoomSlide('executive', 0)" class="w-2 h-2 rounded-full bg-white transition-all executive-dot active opacity-100"></button>
+              <button onclick="setRoomSlide('executive', 1)" class="w-2 h-2 rounded-full bg-white/50 transition-all executive-dot"></button>
+              <button onclick="setRoomSlide('executive', 2)" class="w-2 h-2 rounded-full bg-white/50 transition-all executive-dot"></button>
             </div>
           </div>
 
           <!-- Content Right -->
-          <div class="col-span-12 sm:col-span-6 space-y-2 sm:space-y-4">
+          <div class="col-span-1 lg:col-span-6 space-y-4 sm:space-y-5">
             <div class="flex items-center justify-between">
-              <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-wider uppercase font-semibold">Presidential Living</span>
-              <span class="text-[8px] sm:text-xs text-luxury-muted uppercase tracking-wider font-semibold">From ₹4,500 / night</span>
+              <span class="text-luxury-gold text-[10px] sm:text-xs tracking-wider uppercase font-bold">Presidential Living</span>
+              <span class="text-xs sm:text-sm text-luxury-muted uppercase tracking-wider font-semibold">From ₹4,500 / night</span>
             </div>
-            <h3 class="font-serif text-[12px] sm:text-2xl md:text-3xl font-light text-luxury-charcoal">Executive Suite</h3>
-            <p class="text-luxury-muted text-[8px] sm:text-xs md:text-sm leading-relaxed font-light">
+            <h3 class="font-serif text-xl sm:text-2xl md:text-3xl font-light text-luxury-charcoal leading-snug">Executive Suite</h3>
+            <p class="text-luxury-muted text-sm sm:text-base leading-relaxed font-light">
               Our crown experience. Boasts expansive living quarters, beautiful custom furniture, and direct premium VIP room service from Maharana Thal.
             </p>
             
-            <div class="grid grid-cols-2 gap-y-1 gap-x-2 pt-1 border-t border-luxury-gold/15 text-[7px] sm:text-xs text-luxury-muted">
-              <div class="flex items-center space-x-1">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 pt-4 border-t border-luxury-gold/15 text-xs sm:text-sm text-luxury-muted">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>Bespoke Living Lounge</span>
               </div>
-              <div class="flex items-center space-x-1">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>Luxury Bath Tub Frame</span>
               </div>
-              <div class="flex items-center space-x-1">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>VIP Room Service Access</span>
               </div>
-              <div class="flex items-center space-x-1">
+              <div class="flex items-center space-x-2">
                 <span class="text-luxury-gold">✦</span> <span>Executive Double Desk</span>
               </div>
             </div>
 
-            <div class="flex items-center space-x-2 pt-2">
-              <button onclick="openBookingModal('Executive Suite')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all">
+            <div class="flex items-center space-x-3 pt-3">
+              <button onclick="openBookingModal('Executive Suite')" class="bg-luxury-charcoal text-luxury-white border border-luxury-charcoal text-xs tracking-wider uppercase px-5 py-3 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all font-medium">
                 Book Stay
               </button>
-              <button onclick="openRoomDetailModal('Executive Suite')" class="border border-luxury-charcoal/20 text-luxury-charcoal text-[7px] sm:text-[10px] tracking-wider uppercase px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all bg-white/40">
+              <button onclick="openRoomDetailModal('Executive Suite')" class="border border-luxury-charcoal/20 text-luxury-charcoal text-xs tracking-wider uppercase px-5 py-3 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all bg-white/40 font-medium">
                 Inclusions
               </button>
             </div>
@@ -417,112 +458,112 @@
     </div>
   </section>
 
-  <!-- STAY EXPERIENCE & AMENITIES: Strict 4-column layout preserved on mobile to look identical to PC -->
-  <section id="amenities" class="py-6 sm:py-16 md:py-20 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15">
+  <!-- STAY EXPERIENCE & AMENITIES: Responsive Grid layout (2x2 on Mobile, 4x1 on Desktop) -->
+  <section id="amenities" class="py-12 sm:py-16 md:py-20 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-      <div class="text-center max-w-2xl mx-auto mb-4 sm:mb-12">
-        <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">REFINED LUXURY HIGHLIGHTS</span>
-        <h2 class="font-serif text-[12px] sm:text-3xl md:text-4xl font-light text-luxury-charcoal mt-1">Boutique Amenities</h2>
+      <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+        <span class="text-luxury-gold text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-bold">REFINED LUXURY HIGHLIGHTS</span>
+        <h2 class="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-luxury-charcoal mt-1.5">Boutique Amenities</h2>
       </div>
 
-      <!-- Preserved 4-Column Grid on all screen resolutions -->
-      <div class="grid grid-cols-4 gap-2 sm:gap-4 lg:gap-6">
+      <!-- Grid: 2-column layout on mobile, 4-column layout on desktop (md and up) -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
         <!-- Amenity Box 1 -->
-        <div class="p-1.5 sm:p-6 border border-luxury-gold/15 rounded-md sm:rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300">
-          <div class="text-luxury-gold text-xs sm:text-2xl mb-1 sm:mb-3">🔑</div>
-          <h4 class="font-cinzel text-[6px] sm:text-[11px] font-bold text-luxury-charcoal uppercase tracking-wider">24/7 Check-In</h4>
-          <p class="text-luxury-muted text-[5px] sm:text-[11px] leading-tight mt-0.5 sm:mt-1">Arrive on your terms, any hour.</p>
+        <div class="p-4 sm:p-6 border border-luxury-gold/15 rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
+          <div class="text-luxury-gold text-2xl md:text-3xl mb-2 md:mb-3">🔑</div>
+          <h4 class="font-cinzel text-xs sm:text-[13px] font-bold text-luxury-charcoal uppercase tracking-wider">24/7 Check-In</h4>
+          <p class="text-luxury-muted text-xs leading-snug mt-1 font-light">Arrive on your terms, any hour.</p>
         </div>
 
         <!-- Amenity Box 2 -->
-        <div class="p-1.5 sm:p-6 border border-luxury-gold/15 rounded-md sm:rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300">
-          <div class="text-luxury-gold text-xs sm:text-2xl mb-1 sm:mb-3">📡</div>
-          <h4 class="font-cinzel text-[6px] sm:text-[11px] font-bold text-luxury-charcoal uppercase tracking-wider">Gigabit WiFi</h4>
-          <p class="text-luxury-muted text-[5px] sm:text-[11px] leading-tight mt-0.5 sm:mt-1">High speed coverage throughout.</p>
+        <div class="p-4 sm:p-6 border border-luxury-gold/15 rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
+          <div class="text-luxury-gold text-2xl md:text-3xl mb-2 md:mb-3">📡</div>
+          <h4 class="font-cinzel text-xs sm:text-[13px] font-bold text-luxury-charcoal uppercase tracking-wider">Gigabit WiFi</h4>
+          <p class="text-luxury-muted text-xs leading-snug mt-1 font-light">High speed coverage throughout.</p>
         </div>
 
         <!-- Amenity Box 3 -->
-        <div class="p-1.5 sm:p-6 border border-luxury-gold/15 rounded-md sm:rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300">
-          <div class="text-luxury-gold text-xs sm:text-2xl mb-1 sm:mb-3">🍲</div>
-          <h4 class="font-cinzel text-[6px] sm:text-[11px] font-bold text-luxury-charcoal uppercase tracking-wider">Royal Dining</h4>
-          <p class="text-luxury-muted text-[5px] sm:text-[11px] leading-tight mt-0.5 sm:mt-1">Maharana Thal inside the hotel.</p>
+        <div class="p-4 sm:p-6 border border-luxury-gold/15 rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
+          <div class="text-luxury-gold text-2xl md:text-3xl mb-2 md:mb-3">🍲</div>
+          <h4 class="font-cinzel text-xs sm:text-[13px] font-bold text-luxury-charcoal uppercase tracking-wider">Royal Dining</h4>
+          <p class="text-luxury-muted text-xs leading-snug mt-1 font-light">Maharana Thal inside the hotel.</p>
         </div>
 
         <!-- Amenity Box 4 -->
-        <div class="p-1.5 sm:p-6 border border-luxury-gold/15 rounded-md sm:rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300">
-          <div class="text-luxury-gold text-xs sm:text-2xl mb-1 sm:mb-3">🅿️</div>
-          <h4 class="font-cinzel text-[6px] sm:text-[11px] font-bold text-luxury-charcoal uppercase tracking-wider">Secure Park</h4>
-          <p class="text-luxury-muted text-[5px] sm:text-[11px] leading-tight mt-0.5 sm:mt-1">Private guarded parking area.</p>
+        <div class="p-4 sm:p-6 border border-luxury-gold/15 rounded-xl bg-luxury-white hover:border-luxury-gold transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
+          <div class="text-luxury-gold text-2xl md:text-3xl mb-2 md:mb-3">🅿️</div>
+          <h4 class="font-cinzel text-xs sm:text-[13px] font-bold text-luxury-charcoal uppercase tracking-wider">Secure Park</h4>
+          <p class="text-luxury-muted text-xs leading-snug mt-1 font-light">Private guarded parking area.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- MAHARANA THAL CULINARY EXPERIENCE -->
-  <section id="menu-explorer" class="py-6 sm:py-16 md:py-24 bg-luxury-white relative overflow-hidden">
+  <section id="menu-explorer" class="py-12 sm:py-20 md:py-24 bg-luxury-white relative overflow-hidden">
     <div class="absolute inset-0 ambient-glow pointer-events-none"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
       
       <!-- Section Storytelling Header -->
-      <div class="text-center max-w-2xl mx-auto mb-6 sm:mb-14">
-        <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">LEGENDARY ULTIMATE CULINARY EXPERIENCE</span>
-        <h2 class="font-serif text-[14px] sm:text-3xl md:text-5xl font-light text-luxury-charcoal mt-1">The Maharana Thal</h2>
-        <p class="text-luxury-muted text-[7px] sm:text-xs italic mt-1" id="live-menu-header-date">
+      <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
+        <span class="text-luxury-gold text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-bold">LEGENDARY ULTIMATE CULINARY EXPERIENCE</span>
+        <h2 class="font-serif text-2xl sm:text-3xl md:text-5xl font-light text-luxury-charcoal mt-1">The Maharana Thal</h2>
+        <p class="text-luxury-muted text-xs sm:text-sm italic mt-2" id="live-menu-header-date">
           Gastronomic Heritage Presentation
         </p>
       </div>
 
       <!-- Live Dynamic Menu Layout: Highly Optimized card (Remains double column) -->
-      <div class="bg-luxury-white border border-luxury-gold/30 rounded-lg sm:rounded-3xl shadow-xl p-4 sm:p-12 relative overflow-hidden max-w-5xl mx-auto">
+      <div class="bg-luxury-white border border-luxury-gold/30 rounded-2xl md:rounded-3xl shadow-xl p-5 sm:p-12 relative overflow-hidden max-w-5xl mx-auto">
         <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-luxury-gold via-luxury-cream to-luxury-gold"></div>
         
-        <!-- Interactive Legacy Navigator tabs (Scrollable Row on tiny mobile) -->
-        <div class="flex items-center justify-center space-x-1 sm:space-x-4 mb-4 sm:mb-10 pb-3 sm:pb-6 border-b border-luxury-gold/10 overflow-x-auto whitespace-nowrap">
-          <button onclick="switchMenuTab('welcome')" id="tab-welcome" class="px-3 py-1.5 sm:px-6 sm:py-2.5 rounded-full text-[6px] sm:text-[11px] font-cinzel tracking-wider uppercase bg-luxury-charcoal text-white transition-all">Welcome</button>
-          <button onclick="switchMenuTab('mains')" id="tab-mains" class="px-3 py-1.5 sm:px-6 sm:py-2.5 rounded-full text-[6px] sm:text-[11px] font-cinzel tracking-wider uppercase bg-luxury-ivory text-luxury-charcoal hover:bg-luxury-gold/20 transition-all">Mains</button>
-          <button onclick="switchMenuTab('sides')" id="tab-sides" class="px-3 py-1.5 sm:px-6 sm:py-2.5 rounded-full text-[6px] sm:text-[11px] font-cinzel tracking-wider uppercase bg-luxury-ivory text-luxury-charcoal hover:bg-luxury-gold/20 transition-all">Staples</button>
-          <button onclick="switchMenuTab('sweets')" id="tab-sweets" class="px-3 py-1.5 sm:px-6 sm:py-2.5 rounded-full text-[6px] sm:text-[11px] font-cinzel tracking-wider uppercase bg-luxury-ivory text-luxury-charcoal hover:bg-luxury-gold/20 transition-all">Mithai</button>
+        <!-- Interactive Legacy Navigator tabs (Touch optimized horizontal scrollbar with swipe targets) -->
+        <div class="flex items-center justify-start sm:justify-center space-x-2 sm:space-x-4 mb-8 pb-4 border-b border-luxury-gold/10 overflow-x-auto whitespace-nowrap scroll-smooth">
+          <button onclick="switchMenuTab('welcome')" id="tab-welcome" class="px-5 py-2.5 sm:px-6 rounded-full text-xs font-cinzel tracking-wider uppercase bg-luxury-charcoal text-white transition-all">Welcome</button>
+          <button onclick="switchMenuTab('mains')" id="tab-mains" class="px-5 py-2.5 sm:px-6 rounded-full text-xs font-cinzel tracking-wider uppercase bg-luxury-ivory text-luxury-charcoal hover:bg-luxury-gold/20 transition-all">Mains</button>
+          <button onclick="switchMenuTab('sides')" id="tab-sides" class="px-5 py-2.5 sm:px-6 rounded-full text-xs font-cinzel tracking-wider uppercase bg-luxury-ivory text-luxury-charcoal hover:bg-luxury-gold/20 transition-all">Staples</button>
+          <button onclick="switchMenuTab('sweets')" id="tab-sweets" class="px-5 py-2.5 sm:px-6 rounded-full text-xs font-cinzel tracking-wider uppercase bg-luxury-ivory text-luxury-charcoal hover:bg-luxury-gold/20 transition-all">Mithai</button>
         </div>
 
         <!-- Tab 1: Welcome & Farsan -->
-        <div id="content-welcome" class="menu-tab-content grid grid-cols-12 gap-4 sm:gap-10">
-          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
-            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
-              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">WELCOME REFRESHERS</span>
-              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Elixir Infusions</h3>
+        <div id="content-welcome" class="menu-tab-content grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div class="space-y-6 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4">
+              <span class="text-[9px] sm:text-[10px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">WELCOME REFRESHERS</span>
+              <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-normal text-luxury-charcoal">Elixir Infusions</h3>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Kesar Thandai Chach</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Kesar Thandai Chach</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Chilled buttermilk simmered carefully with premium hand-pounded Kashmiri saffron filaments, green pistachios, and cooling garden-fresh ground mint essence.
               </p>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Seasonal Gulab Sarbat</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Seasonal Gulab Sarbat</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Hand-pressed heritage rose blossom water balanced cleanly with natural sweet rock candy crystals and a subtle splash of organic Key lime.
               </p>
             </div>
           </div>
           
-          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
-            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
-              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">SAVORY APETIZERS</span>
-              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Farsan Selections</h3>
+          <div class="space-y-6 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4">
+              <span class="text-[9px] sm:text-[10px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">SAVORY APETIZERS</span>
+              <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-normal text-luxury-charcoal">Farsan Selections</h3>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Paneer Lifafa</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Paneer Lifafa</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Crispy golden pastry envelope stuffed with spiced fresh-grated cottage cheese, native coriander leaves, green ginger juliennes, and dynamic spice blend.
               </p>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Steamed Nylon Dhokla</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Steamed Nylon Dhokla</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Spongy, lightweight fermented gram flour blocks tempered meticulously with dynamic mustard seeds, curry leaves, and green chilli shreds.
               </p>
             </div>
@@ -530,44 +571,44 @@
         </div>
 
         <!-- Tab 2: Main Entrées -->
-        <div id="content-mains" class="menu-tab-content hidden grid grid-cols-12 gap-4 sm:gap-10">
-          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
-            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
-              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">RAJASTHANI HERITAGE</span>
-              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Shahi Gravis</h3>
+        <div id="content-mains" class="menu-tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div class="space-y-6 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4">
+              <span class="text-[9px] sm:text-[10px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">RAJASTHANI HERITAGE</span>
+              <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-normal text-luxury-charcoal">Shahi Gravis</h3>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Rajasthani Gatta Curry</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Rajasthani Gatta Curry</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Hand-kneaded cylinder dumplings of gram flour cooked in an authentic cumin-infused, thick whipped local yogurt sauce.
               </p>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Shahi Paneer Cream</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Shahi Paneer Cream</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Plump, hand-pressed cottage cheese cubes slow-cooked in a rich base of sweet cashew nut paste, cardamoms, and velvet cream.
               </p>
             </div>
           </div>
           
-          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
-            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
-              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">NATIVE CLASSICS</span>
-              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Curated Sabjis</h3>
+          <div class="space-y-6 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4">
+              <span class="text-[9px] sm:text-[10px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">NATIVE CLASSICS</span>
+              <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-normal text-luxury-charcoal">Curated Sabjis</h3>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Adraki Aloo Gobhi</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Adraki Aloo Gobhi</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Copper-pan tossed fresh cauliflower florets and gold potatoes, pan-roasted dry with ginger strips, turmeric, and local spices.
               </p>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Seasonal Specialty Sabji</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Seasonal Specialty Sabji</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Regional farm vegetable selected daily, cooked with lightweight cold-pressed oils to preserve original nourishment and purity.
               </p>
             </div>
@@ -575,44 +616,44 @@
         </div>
 
         <!-- Tab 3: Staples & Dals -->
-        <div id="content-sides" class="menu-tab-content hidden grid grid-cols-12 gap-4 sm:gap-10">
-          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
-            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
-              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">SLOW FIRED LEGUMES</span>
-              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Dals & Varans</h3>
+        <div id="content-sides" class="menu-tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div class="space-y-6 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4">
+              <span class="text-[9px] sm:text-[10px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">SLOW FIRED LEGUMES</span>
+              <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-normal text-luxury-charcoal">Dals & Varans</h3>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Panchmel Dal</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Panchmel Dal</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Traditional thick wood-fired combination of five unique regional lentils, tempered with direct ghee-roasted cumin and dry red chillies.
               </p>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Maharashtrian Varan</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Maharashtrian Varan</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Smooth golden lentils slow-boiled with organic turmeric, curry leaves, ginger, and a strong pinch of dynamic premium asafoetida (hing).
               </p>
             </div>
           </div>
           
-          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
-            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
-              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">CLAY OVEN & HEARTH</span>
-              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Warm Breads</h3>
+          <div class="space-y-6 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4">
+              <span class="text-[9px] sm:text-[10px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">CLAY OVEN & HEARTH</span>
+              <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-normal text-luxury-charcoal">Warm Breads</h3>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Hot Ghee Phulkas & Rotlas</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Hot Ghee Phulkas & Rotlas</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Hand-rolled wheat breads served steaming hot straight onto your royal plate, brushed generously with hand-churned A2 cow ghee.
               </p>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Papad & House Relishes</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Papad & House Relishes</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Crispy hand-stretched lentil papads served along with our curated family pickles, green mustard relishes, and mint pestos.
               </p>
             </div>
@@ -620,44 +661,44 @@
         </div>
 
         <!-- Tab 4: Mithai & Drinks -->
-        <div id="content-sweets" class="menu-tab-content hidden grid grid-cols-12 gap-4 sm:gap-10">
-          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
-            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
-              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">CONFECTIONERY LEGACIES</span>
-              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Royal Sweets</h3>
+        <div id="content-sweets" class="menu-tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div class="space-y-6 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4">
+              <span class="text-[9px] sm:text-[10px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">CONFECTIONERY LEGACIES</span>
+              <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-normal text-luxury-charcoal">Royal Sweets</h3>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Warm Moong Dal Halwa</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Warm Moong Dal Halwa</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Gently roasted split yellow gram simmered over low fire with copious amounts of pure ghee, organic sugars, and slivered almonds.
               </p>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Chilled Elaneer Payasam</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Chilled Elaneer Payasam</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Velvety blend of fresh tender coconut shavings, condensed cardamom-scented milk, saffron threads, and golden raisins.
               </p>
             </div>
           </div>
           
-          <div class="col-span-12 sm:col-span-6 space-y-4 sm:space-y-8">
-            <div class="border-b border-luxury-gold/10 pb-4 mb-4">
-              <span class="text-[6px] sm:text-[9px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">DIGESTIVE FINALES</span>
-              <h3 class="font-serif text-[14px] sm:text-2xl font-normal text-luxury-charcoal">Mithais</h3>
+          <div class="space-y-6 sm:space-y-8">
+            <div class="border-b border-luxury-gold/10 pb-4">
+              <span class="text-[9px] sm:text-[10px] font-bold text-luxury-gold tracking-widest block uppercase mb-1">DIGESTIVE FINALES</span>
+              <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-normal text-luxury-charcoal">Mithais</h3>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Kesar Saffron Lassi</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Kesar Saffron Lassi</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Creamy whole-milk yogurt whipped carefully with real organic saffron honey, topped with slivered dry fruits and silver leaf.
               </p>
             </div>
             
-            <div class="space-y-1.5 group">
-              <h4 class="font-serif text-[11px] sm:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Warm Gulab Jamun</h4>
-              <p class="text-luxury-muted text-[8px] sm:text-sm leading-relaxed font-light">
+            <div class="space-y-2 group">
+              <h4 class="font-serif text-base sm:text-lg md:text-xl font-medium text-luxury-charcoal group-hover:text-luxury-gold transition-colors">Warm Gulab Jamun</h4>
+              <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
                 Delicate, soft condensed-milk spheres steeped deeply in light cardamom-infused sugar syrup and rose water essence.
               </p>
             </div>
@@ -665,65 +706,67 @@
         </div>
 
         <!-- Menu Bottom Row: Elegant side-by-side split -->
-        <div class="mt-4 sm:mt-12 pt-2 sm:pt-8 border-t border-luxury-gold/15 flex items-center justify-between gap-2">
-          <span class="text-[5px] sm:text-xs text-luxury-muted italic font-light">Endless refills served direct to plate. Jain options prepared with strict compliance.</span>
-          <button onclick="openBookingModal('Maharana Thal Dining')" class="text-[5px] sm:text-xs font-cinzel tracking-widest text-luxury-gold hover:text-luxury-charcoal transition-colors uppercase font-medium whitespace-nowrap">Reserve Table ⟶</button>
+        <div class="mt-8 pt-6 border-t border-luxury-gold/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <span class="text-xs text-luxury-muted italic font-light">Endless refills served direct to plate. Jain options prepared with strict compliance.</span>
+          <button onclick="openBookingModal('Maharana Thal Dining')" class="text-xs font-cinzel tracking-widest text-luxury-gold hover:text-luxury-charcoal transition-colors uppercase font-bold flex items-center gap-1">
+            Reserve Table ⟶
+          </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BANQUET & GATHERING SPACES: Strict 2-column side-by-side grid preserved -->
-  <section id="banquet" class="py-6 sm:py-16 md:py-24 bg-luxury-white">
+  <!-- BANQUET & GATHERING SPACES: Fully Responsive Grid (1 column on Mobile, 2 columns on PC) -->
+  <section id="banquet" class="py-12 sm:py-20 md:py-24 bg-luxury-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
       
       <!-- Section Header -->
-      <div class="text-center max-w-3xl mx-auto mb-4 sm:mb-16 space-y-1">
-        <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">MAJESTIC CELEBRATIONS</span>
-        <h2 class="font-serif text-[12px] sm:text-3xl md:text-5xl font-light text-luxury-charcoal tracking-tight">Gatherings & Events</h2>
-        <div class="h-0.5 w-8 sm:w-16 bg-luxury-gold/30 mx-auto"></div>
-        <p class="text-luxury-muted text-[6px] sm:text-sm font-light max-w-xl mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-8 sm:mb-16 space-y-2">
+        <span class="text-luxury-gold text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-bold">MAJESTIC CELEBRATIONS</span>
+        <h2 class="font-serif text-2xl sm:text-3xl md:text-5xl font-light text-luxury-charcoal tracking-tight">Gatherings & Events</h2>
+        <div class="h-0.5 w-16 bg-luxury-gold/30 mx-auto mt-2"></div>
+        <p class="text-luxury-muted text-xs sm:text-sm font-light max-w-xl mx-auto">
           Combine premium gathering spaces with our authentic catering services.
         </p>
       </div>
 
-      <!-- Preserved Side-by-Side 2-Column Spaces Layout -->
-      <div class="grid grid-cols-2 gap-3 sm:gap-10">
+      <!-- Grid Layout: Responsive vertical stacks on mobile, columns on desktop -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
         <!-- AC Banquet -->
-        <div class="group space-y-1.5 sm:space-y-6">
-          <div class="zoom-img-container rounded-lg sm:rounded-2xl overflow-hidden shadow border border-luxury-gold/10 aspect-[16/10]">
+        <div class="group space-y-4">
+          <div class="zoom-img-container rounded-2xl overflow-hidden shadow-md border border-luxury-gold/10 aspect-[16/10]">
             <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200&auto=format&fit=crop" 
                  alt="AC Banquet Room" 
                  class="w-full h-full object-cover"
                  onerror="this.src='https://placehold.co/800x500/EDE5D8/211E1B?text=AC+Banquet+Hall'">
           </div>
-          <div class="space-y-0.5 sm:space-y-2">
-            <div class="flex items-center justify-between text-[5px] sm:text-xs font-semibold text-luxury-gold tracking-widest uppercase">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-[10px] sm:text-xs font-bold text-luxury-gold tracking-widest uppercase">
               <span>Up to 130 Guests</span>
               <span>Fully AC</span>
             </div>
-            <h3 class="font-serif text-[8px] sm:text-2xl font-light text-luxury-charcoal group-hover:text-luxury-gold transition-colors">The AC Banquet Room</h3>
-            <p class="text-luxury-muted text-[5px] sm:text-xs leading-normal font-light">
+            <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-light text-luxury-charcoal group-hover:text-luxury-gold transition-colors">The AC Banquet Room</h3>
+            <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
               Perfect for weddings, corporate meets, and ring ceremonies. Features custom acoustic setups.
             </p>
           </div>
         </div>
 
         <!-- Family Seating layout -->
-        <div class="group space-y-1.5 sm:space-y-6">
-          <div class="zoom-img-container rounded-lg sm:rounded-2xl overflow-hidden shadow border border-luxury-gold/10 aspect-[16/10]">
+        <div class="group space-y-4">
+          <div class="zoom-img-container rounded-2xl overflow-hidden shadow-md border border-luxury-gold/10 aspect-[16/10]">
             <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" 
                  alt="Family Dining" 
                  class="w-full h-full object-cover"
                  onerror="this.src='https://placehold.co/800x500/EDE5D8/211E1B?text=Royal+Family+Court'">
           </div>
-          <div class="space-y-0.5 sm:space-y-2">
-            <div class="flex items-center justify-between text-[5px] sm:text-xs font-semibold text-luxury-gold tracking-widest uppercase">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-[10px] sm:text-xs font-bold text-luxury-gold tracking-widest uppercase">
               <span>Flexible Capacity</span>
               <span>Intimate Atmosphere</span>
             </div>
-            <h3 class="font-serif text-[8px] sm:text-2xl font-light text-luxury-charcoal group-hover:text-luxury-gold transition-colors">The Family Court</h3>
-            <p class="text-luxury-muted text-[5px] sm:text-xs leading-normal font-light">
+            <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-light text-luxury-charcoal group-hover:text-luxury-gold transition-colors">The Family Court</h3>
+            <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
               Designed specifically for multi-generational family get-togethers and large banqueting tables.
             </p>
           </div>
@@ -733,107 +776,107 @@
   </section>
 
   <!-- TESTIMONIALS SLIDER SECTION -->
-  <section class="py-6 sm:py-16 md:py-24 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15 relative overflow-hidden">
+  <section class="py-12 sm:py-20 md:py-24 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15 relative overflow-hidden">
     <div class="absolute inset-0 ambient-glow pointer-events-none"></div>
     <div class="max-w-4xl mx-auto px-4 sm:px-8 md:px-12 text-center relative z-10">
-      <div class="text-luxury-gold text-2xl sm:text-5xl font-serif opacity-30 select-none">“</div>
+      <div class="text-luxury-gold text-3xl sm:text-5xl font-serif opacity-30 select-none">“</div>
       
       <!-- Interactive Slider -->
-      <div class="relative min-h-[90px] sm:min-h-[180px] flex items-center justify-center">
+      <div class="relative min-h-[140px] sm:min-h-[180px] flex items-center justify-center">
         <!-- Slide 1 -->
-        <div id="testimonial-slide-0" class="testimonial-slide duration-500 space-y-2 sm:space-y-6">
-          <p class="font-serif text-[9px] sm:text-lg md:text-2xl font-light italic text-luxury-charcoal leading-relaxed">
+        <div id="testimonial-slide-0" class="testimonial-slide duration-500 space-y-4 sm:space-y-6">
+          <p class="font-serif text-sm sm:text-lg md:text-2xl font-light italic text-luxury-charcoal leading-relaxed">
             "The hospitality blew us away! The unlimited thali at Maharana is legendary, but staying right upstairs at Hotel SK Inn made it a perfect weekend getaway. The suites were spotless and quiet."
           </p>
           <div>
-            <div class="font-cinzel text-[6px] sm:text-xs font-bold tracking-wider text-luxury-charcoal">Anjali & Vikram Deshmukh</div>
-            <div class="text-[5px] sm:text-[9px] uppercase text-luxury-muted tracking-widest mt-0.5">Stay Guests · Pune</div>
+            <div class="font-cinzel text-xs sm:text-sm font-bold tracking-wider text-luxury-charcoal">Anjali & Vikram Deshmukh</div>
+            <div class="text-[10px] sm:text-xs uppercase text-luxury-muted tracking-widest mt-1">Stay Guests · Pune</div>
           </div>
         </div>
 
         <!-- Slide 2 -->
-        <div id="testimonial-slide-1" class="testimonial-slide duration-500 space-y-2 sm:space-y-6 hidden">
-          <p class="font-serif text-[9px] sm:text-lg md:text-2xl font-light italic text-luxury-charcoal leading-relaxed">
+        <div id="testimonial-slide-1" class="testimonial-slide duration-500 space-y-4 sm:space-y-6 hidden">
+          <p class="font-serif text-sm sm:text-lg md:text-2xl font-light italic text-luxury-charcoal leading-relaxed">
             "An unmatched elite experience in Nashik. After busy corporate work sessions, returning to clean, beautifully isolated rooms upstairs after dining on hot phulkas is absolute perfection."
           </p>
           <div>
-            <div class="font-cinzel text-[6px] sm:text-xs font-bold tracking-wider text-luxury-charcoal">Rajesh K. Singhania</div>
-            <div class="text-[5px] sm:text-[9px] uppercase text-luxury-muted tracking-widest mt-0.5">Corporate VP · Mumbai</div>
+            <div class="font-cinzel text-xs sm:text-sm font-bold tracking-wider text-luxury-charcoal">Rajesh K. Singhania</div>
+            <div class="text-[10px] sm:text-xs uppercase text-luxury-muted tracking-widest mt-1">Corporate VP · Mumbai</div>
           </div>
         </div>
       </div>
 
-      <!-- Dots Controls -->
-      <div class="flex items-center justify-center space-x-1.5 sm:space-x-3 mt-3 sm:mt-8">
-        <button id="dot-0" onclick="showTestimonial(0)" class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-luxury-gold transition-all duration-300"></button>
-        <button id="dot-1" onclick="showTestimonial(1)" class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-luxury-gold/30 transition-all duration-300"></button>
+      <!-- Dots Controls (Padded generously to fit fingers easily on mobile touch screens) -->
+      <div class="flex items-center justify-center space-x-3 mt-6 sm:mt-8">
+        <button id="dot-0" onclick="showTestimonial(0)" class="w-3 h-3 rounded-full bg-luxury-gold transition-all duration-300"></button>
+        <button id="dot-1" onclick="showTestimonial(1)" class="w-3 h-3 rounded-full bg-luxury-gold/30 transition-all duration-300"></button>
       </div>
     </div>
   </section>
 
-  <!-- LOCATION & CONTACT: Preserved Side-by-Side Split Grid -->
-  <section id="contact" class="py-6 sm:py-16 md:py-24 bg-luxury-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-12 gap-3 sm:gap-10 items-start">
+  <!-- LOCATION & CONTACT: Responsive Stacking layout (Vertical stack on mobile, columns on desktop) -->
+  <section id="contact" class="py-12 sm:py-20 md:py-24 bg-luxury-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       
-      <!-- Contact Cards -->
-      <div class="col-span-12 sm:col-span-6 space-y-2 sm:space-y-8 reveal">
-        <div class="space-y-1">
-          <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-semibold">VISIT US TODAY</span>
-          <h2 class="font-serif text-[12px] sm:text-3xl md:text-5xl font-light text-luxury-charcoal tracking-tight">Location & Hours</h2>
-          <p class="text-luxury-muted text-[6px] sm:text-xs leading-normal">
+      <!-- Contact Cards (Full width on mobile, 6/12 columns on desktop) -->
+      <div class="col-span-1 lg:col-span-6 space-y-6 sm:space-y-8 reveal">
+        <div class="space-y-2">
+          <span class="text-luxury-gold text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-bold">VISIT US TODAY</span>
+          <h2 class="font-serif text-2xl sm:text-3xl md:text-5xl font-light text-luxury-charcoal tracking-tight">Location & Hours</h2>
+          <p class="text-luxury-muted text-sm leading-relaxed font-light">
             Located conveniently on Ambad-Pathardi Road. Walk-ins are highly welcome for dining; advance table and room bookings are highly recommended.
           </p>
         </div>
 
-        <div class="grid grid-cols-2 gap-2 sm:gap-6 pt-1 sm:pt-4 border-t border-luxury-gold/15">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-luxury-gold/15">
           <!-- Address -->
-          <div class="space-y-0.5">
-            <h4 class="font-cinzel text-[5px] sm:text-[10px] font-bold text-luxury-gold tracking-widest uppercase">The Destination</h4>
-            <p class="text-luxury-muted text-[5px] sm:text-xs leading-tight">
+          <div class="space-y-1">
+            <h4 class="font-cinzel text-xs font-bold text-luxury-gold tracking-widest uppercase">The Destination</h4>
+            <p class="text-luxury-muted text-sm leading-relaxed">
               Maharana Thal & Hotel SK Inn,<br>
               Shravan Sector, MIDC Ambad,<br>
               Nashik, Maharashtra
             </p>
           </div>
           <!-- Hours -->
-          <div class="space-y-0.5">
-            <h4 class="font-cinzel text-[5px] sm:text-[10px] font-bold text-luxury-gold tracking-widest uppercase">Feast Hours</h4>
-            <p class="text-luxury-muted text-[5px] sm:text-xs leading-tight">
+          <div class="space-y-1">
+            <h4 class="font-cinzel text-xs font-bold text-luxury-gold tracking-widest uppercase">Feast Hours</h4>
+            <p class="text-luxury-muted text-sm leading-relaxed">
               Lunch: 12:00 – 3:30 PM<br>
               Dinner: 7:00 – 10:30 PM<br>
               Open Daily
             </p>
           </div>
           <!-- Phone -->
-          <div class="space-y-0.5">
-            <h4 class="font-cinzel text-[5px] sm:text-[10px] font-bold text-luxury-gold tracking-widest uppercase">Direct Bookings</h4>
-            <div class="text-luxury-muted text-[5px] sm:text-xs leading-none space-y-0.5">
+          <div class="space-y-1">
+            <h4 class="font-cinzel text-xs font-bold text-luxury-gold tracking-widest uppercase">Direct Bookings</h4>
+            <div class="text-luxury-muted text-sm leading-relaxed space-y-1">
               <a href="tel:+918552982999" class="block hover:text-luxury-gold transition-colors font-semibold">+91 85529 82999</a>
               <a href="tel:+919822844737" class="block hover:text-luxury-gold transition-colors font-semibold">+91 98228 44737</a>
             </div>
           </div>
           <!-- Contact email -->
-          <div class="space-y-0.5">
-            <h4 class="font-cinzel text-[5px] sm:text-[10px] font-bold text-luxury-gold tracking-widest uppercase">Digital Concierge</h4>
-            <div class="text-luxury-muted text-[5px] sm:text-xs leading-none space-y-0.5">
-              <a href="mailto:maharanathalnashik@gmail.com" class="block hover:text-luxury-gold transition-colors">maharanathalnashik@gmail.com</a>
+          <div class="space-y-1">
+            <h4 class="font-cinzel text-xs font-bold text-luxury-gold tracking-widest uppercase">Digital Concierge</h4>
+            <div class="text-luxury-muted text-sm leading-relaxed">
+              <a href="mailto:maharanathalnashik@gmail.com" class="block hover:text-luxury-gold transition-colors break-words">maharanathalnashik@gmail.com</a>
             </div>
           </div>
         </div>
 
-        <div class="flex items-center gap-1.5 sm:gap-4 pt-1 sm:pt-4">
-          <a href="https://maps.google.com/?q=Hotel+SK+Inn+MIDC+Ambad+Nashik" target="_blank" class="border border-luxury-charcoal text-luxury-charcoal text-center text-[5px] sm:text-[10px] tracking-wider uppercase px-2 py-1 sm:px-6 sm:py-3.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all whitespace-nowrap">
+        <div class="flex flex-wrap items-center gap-3 pt-4">
+          <a href="https://maps.google.com/?q=Hotel+SK+Inn+MIDC+Ambad+Nashik" target="_blank" class="border border-luxury-charcoal text-luxury-charcoal text-center text-xs tracking-wider uppercase px-5 py-3.5 rounded-full hover:border-luxury-gold hover:text-luxury-gold transition-all whitespace-nowrap bg-white font-medium">
             Get Directions
           </a>
-          <button onclick="openBookingModal('Maharana Thal Dining')" class="bg-luxury-charcoal border border-luxury-charcoal text-luxury-white text-center text-[5px] sm:text-[10px] tracking-wider uppercase px-2 py-1 sm:px-6 sm:py-3.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all whitespace-nowrap">
+          <button onclick="openBookingModal('Maharana Thal Dining')" class="bg-luxury-charcoal border border-luxury-charcoal text-luxury-white text-center text-xs tracking-wider uppercase px-5 py-3.5 rounded-full hover:bg-luxury-gold hover:border-luxury-gold transition-all whitespace-nowrap font-medium">
             Reserve Table
           </button>
         </div>
       </div>
 
-      <!-- Map Block -->
-      <div class="col-span-12 sm:col-span-6 reveal">
-        <div class="rounded-lg sm:rounded-2xl overflow-hidden shadow-md border border-luxury-gold/15 aspect-[16/10] h-full">
+      <!-- Map Block (Full width on mobile, 6/12 columns on desktop) -->
+      <div class="col-span-1 lg:col-span-6 reveal">
+        <div class="rounded-2xl overflow-hidden shadow-md border border-luxury-gold/15 aspect-[16/10] h-full min-h-[240px] lg:min-h-0">
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.957539828552!2d73.7431289!3d19.9682662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdd9623e1aaaaab%3A0xe5a36ee7bf309cf!2sHotel%20SK%20Inn!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
             class="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700" 
@@ -846,26 +889,26 @@
     </div>
   </section>
 
-  <!-- FOOTER: Preserves elegant multi-column side-by-side branding details -->
-  <footer class="bg-luxury-charcoal text-luxury-white py-4 sm:py-16 border-t border-luxury-gold/30">
+  <!-- FOOTER: Responsive structural stack -->
+  <footer class="bg-luxury-charcoal text-luxury-white py-12 md:py-16 border-t border-luxury-gold/30">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-      <div class="grid grid-cols-4 gap-3 sm:gap-12 mb-4 sm:mb-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 lg:mb-16">
         
         <!-- Column 1: Core Story -->
-        <div class="col-span-4 sm:col-span-1 space-y-1">
+        <div class="space-y-3">
           <div class="flex flex-col">
-            <span class="font-cinzel text-[10px] sm:text-lg tracking-wider text-white">MAHARANA THAL</span>
-            <span class="font-serif text-[7px] sm:text-[10px] italic text-luxury-gold tracking-widest mt-0.5">By Hotel SK Inn, Nashik</span>
+            <span class="font-cinzel text-base md:text-lg tracking-wider text-white">MAHARANA THAL</span>
+            <span class="font-serif text-xs italic text-luxury-gold tracking-widest mt-1">By Hotel SK Inn, Nashik</span>
           </div>
-          <p class="text-luxury-muted text-[8px] sm:text-xs leading-normal">
+          <p class="text-luxury-muted text-xs leading-relaxed font-light">
             An iconic hospitality destination in Nashik committed to pure vegetarian culinary traditions and elite stay comfort.
           </p>
         </div>
 
         <!-- Column 2: Quick Links -->
-        <div class="col-span-2 sm:col-span-1 space-y-1">
-          <h4 class="font-cinzel text-[7px] sm:text-xs font-bold tracking-wider text-luxury-gold uppercase">Explore</h4>
-          <ul class="space-y-0.5 text-[8px] sm:text-xs text-luxury-muted">
+        <div class="space-y-3">
+          <h4 class="font-cinzel text-xs font-bold tracking-wider text-luxury-gold uppercase">Explore</h4>
+          <ul class="space-y-1.5 text-xs text-luxury-muted">
             <li><a href="#about" class="hover:text-white transition-colors">The Legacy</a></li>
             <li><a href="#menu-explorer" class="hover:text-white transition-colors">Today's Menu</a></li>
             <li><a href="#rooms" class="hover:text-white transition-colors">Boutique Stay</a></li>
@@ -874,9 +917,9 @@
         </div>
 
         <!-- Column 3: Contacts -->
-        <div class="col-span-2 sm:col-span-1 space-y-1">
-          <h4 class="font-cinzel text-[7px] sm:text-xs font-bold tracking-wider text-luxury-gold uppercase">Contact</h4>
-          <p class="text-[8px] sm:text-xs text-luxury-muted leading-tight">
+        <div class="space-y-3">
+          <h4 class="font-cinzel text-xs font-bold tracking-wider text-luxury-gold uppercase">Contact</h4>
+          <p class="text-xs text-luxury-muted leading-relaxed">
             MIDC Ambad, Nashik<br>
             Desk: +91 85529 82999<br>
             Email: maharanathalnashik@gmail.com
@@ -884,25 +927,25 @@
         </div>
 
         <!-- Column 4: Socials -->
-        <div class="col-span-4 sm:col-span-1 space-y-1">
-          <h4 class="font-cinzel text-[7px] sm:text-xs font-bold tracking-wider text-luxury-gold uppercase">Social</h4>
-          <p class="text-[8px] sm:text-xs text-luxury-muted leading-tight">
+        <div class="space-y-3">
+          <h4 class="font-cinzel text-xs font-bold tracking-wider text-luxury-gold uppercase">Social</h4>
+          <p class="text-xs text-luxury-muted leading-relaxed">
             Follow our culinary chapters online.
           </p>
-          <div class="flex items-center space-x-1 sm:space-x-4 mt-1">
-            <a href="https://www.instagram.com/hotel_sk_inn" target="_blank" class="h-4 w-4 sm:h-8 sm:w-8 rounded-full border border-luxury-gold/30 flex items-center justify-center hover:border-luxury-gold text-luxury-muted hover:text-white transition-colors">
-              <span class="text-[8px] sm:text-xs">📸</span>
+          <div class="flex items-center space-x-3 mt-2">
+            <a href="https://www.instagram.com/hotel_sk_inn" target="_blank" class="h-8 w-8 rounded-full border border-luxury-gold/30 flex items-center justify-center hover:border-luxury-gold text-luxury-muted hover:text-white transition-colors">
+              <span class="text-xs">📸</span>
             </a>
-            <span class="text-[8px] sm:text-[10px] text-luxury-muted font-cinzel">@hotel_sk_inn</span>
+            <span class="text-xs text-luxury-muted font-cinzel">@hotel_sk_inn</span>
           </div>
         </div>
 
       </div>
 
       <!-- Footer Bottom -->
-      <div class="pt-2 sm:pt-8 border-t border-luxury-gold/20 flex items-center justify-between text-[5px] sm:text-[11px] text-luxury-muted">
+      <div class="pt-6 border-t border-luxury-gold/20 flex flex-col sm:flex-row items-center justify-between text-xs text-luxury-muted gap-4 text-center">
         <span>© 2026 Maharana Thal & Hotel SK Inn. All rights reserved.</span>
-        <div class="space-x-1.5 sm:space-x-4">
+        <div class="space-x-4">
           <a href="#" class="hover:text-white transition-colors">Privacy Standards</a>
           <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
         </div>
@@ -911,31 +954,31 @@
   </footer>
 
   <!-- MODAL: Room Detail Overlay -->
-  <div id="room-detail-modal" class="fixed inset-0 bg-luxury-charcoal/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
-    <div class="bg-luxury-white max-w-lg w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-luxury-gold/30 flex flex-col relative">
+  <div id="room-detail-modal" class="fixed inset-0 bg-luxury-charcoal/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-luxury-white max-w-lg w-full rounded-2xl overflow-hidden shadow-2xl border border-luxury-gold/30 flex flex-col relative max-h-[90vh]">
       <!-- Image frame -->
-      <div class="h-32 sm:h-64 relative bg-luxury-cream">
+      <div class="h-44 sm:h-64 relative bg-luxury-cream shrink-0">
         <img id="modal-room-image" src="" alt="Room detail view" class="w-full h-full object-cover">
-        <button onclick="closeRoomDetailModal()" class="absolute top-2 right-2 h-5 w-5 sm:h-8 sm:w-8 bg-luxury-charcoal/85 hover:bg-luxury-gold text-white rounded-full flex items-center justify-center text-[10px] sm:text-sm transition-colors font-bold">✕</button>
+        <button onclick="closeRoomDetailModal()" class="absolute top-3 right-3 h-8 w-8 bg-luxury-charcoal/85 hover:bg-luxury-gold text-white rounded-full flex items-center justify-center text-sm transition-colors font-bold">✕</button>
       </div>
       <!-- Body details -->
-      <div class="p-3 sm:p-8 space-y-2 sm:space-y-4">
-        <h3 id="modal-room-title" class="font-serif text-[12px] sm:text-3xl text-luxury-charcoal">Room Name</h3>
-        <p id="modal-room-desc" class="text-luxury-muted text-[7px] sm:text-sm leading-relaxed font-light">Description of room details.</p>
+      <div class="p-6 space-y-4 overflow-y-auto">
+        <h3 id="modal-room-title" class="font-serif text-xl sm:text-3xl text-luxury-charcoal">Room Name</h3>
+        <p id="modal-room-desc" class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">Description of room details.</p>
         
-        <div class="pt-1.5 sm:pt-4 border-t border-luxury-gold/20">
-          <h4 class="font-cinzel text-[6px] sm:text-xs font-bold tracking-wider text-luxury-gold uppercase mb-1 sm:mb-3">Premium In-Room Inclusions</h4>
-          <div class="grid grid-cols-2 gap-1 text-[6px] sm:text-xs text-luxury-muted" id="modal-room-amenities">
+        <div class="pt-4 border-t border-luxury-gold/20">
+          <h4 class="font-cinzel text-xs font-bold tracking-wider text-luxury-gold uppercase mb-3">Premium In-Room Inclusions</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-luxury-muted" id="modal-room-amenities">
             <!-- Amenities dynamically loaded -->
           </div>
         </div>
 
-        <div class="pt-2 sm:pt-6 flex justify-between items-center border-t border-luxury-gold/10">
+        <div class="pt-4 flex justify-between items-center border-t border-luxury-gold/10">
           <div>
-            <span class="text-[5px] sm:text-[10px] text-luxury-muted tracking-widest uppercase block">Est Rate</span>
-            <span id="modal-room-price" class="font-serif text-[10px] sm:text-xl text-luxury-charcoal font-semibold">Price</span>
+            <span class="text-[9px] sm:text-[10px] text-luxury-muted tracking-widest uppercase block">Est Rate</span>
+            <span id="modal-room-price" class="font-serif text-sm sm:text-xl text-luxury-charcoal font-semibold">Price</span>
           </div>
-          <button id="modal-room-cta" onclick="" class="bg-luxury-charcoal text-white text-[6px] sm:text-xs tracking-wider uppercase px-3 py-1.5 sm:px-6 sm:py-3 rounded-full hover:bg-luxury-gold transition-colors">
+          <button id="modal-room-cta" onclick="" class="bg-luxury-charcoal text-white text-xs tracking-wider uppercase px-5 py-3 rounded-full hover:bg-luxury-gold transition-colors font-semibold">
             Reserve Suite
           </button>
         </div>
@@ -944,20 +987,20 @@
   </div>
 
   <!-- MODAL: Universal WhatsApp Reservation Booking Form -->
-  <div id="booking-modal" class="fixed inset-0 bg-luxury-charcoal/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
-    <div class="bg-luxury-white max-w-sm sm:max-w-md w-full rounded-xl sm:rounded-2xl shadow-2xl border border-luxury-gold/30 overflow-hidden relative p-4 sm:p-8 space-y-3 sm:space-y-6">
-      <button onclick="closeBookingModal()" class="absolute top-2 right-2 text-luxury-charcoal hover:text-luxury-gold text-[10px] sm:text-sm font-bold transition-colors">✕</button>
+  <div id="booking-modal" class="fixed inset-0 bg-luxury-charcoal/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-luxury-white max-w-sm sm:max-w-md w-full rounded-2xl shadow-2xl border border-luxury-gold/30 overflow-hidden relative p-6 sm:p-8 space-y-4 sm:space-y-6 max-h-[95vh] overflow-y-auto">
+      <button onclick="closeBookingModal()" class="absolute top-3 right-3 text-luxury-charcoal hover:text-luxury-gold text-sm font-bold transition-colors">✕</button>
       
-      <div class="text-center space-y-0.5 sm:space-y-2">
-        <span class="text-luxury-gold text-[6px] sm:text-[10px] tracking-[0.2em] uppercase font-bold">GUEST RELATIONS DESK</span>
-        <h3 class="font-serif text-[12px] sm:text-2xl text-luxury-charcoal">Select Your Experience</h3>
-        <p class="text-luxury-muted text-[6px] sm:text-xs font-light">Choose your desired booking option below.</p>
+      <div class="text-center space-y-1 sm:space-y-2">
+        <span class="text-luxury-gold text-[9px] sm:text-[10px] tracking-[0.2em] uppercase font-bold">GUEST RELATIONS DESK</span>
+        <h3 class="font-serif text-lg sm:text-2xl text-luxury-charcoal">Select Your Experience</h3>
+        <p class="text-luxury-muted text-xs font-light">Choose your desired booking option below.</p>
       </div>
 
-      <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-1.5 sm:space-y-4 text-[6px] sm:text-xs">
+      <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4 text-xs">
         <div>
-          <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Reservation Option</label>
-          <select id="booking-type" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+          <label class="text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-1">Reservation Option</label>
+          <select id="booking-type" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs font-medium">
             <option value="Maharana Thal Dining">Royal Dining — Maharana Thal Table</option>
             <option value="Deluxe Room">Boutique Stay — Deluxe Room</option>
             <option value="Super Deluxe Room">Boutique Stay — Super Deluxe Room</option>
@@ -966,33 +1009,33 @@
           </select>
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Your Name</label>
-            <input id="booking-name" type="text" required placeholder="Full name" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+            <label class="text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-1">Your Name</label>
+            <input id="booking-name" type="text" required placeholder="Full name" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
           </div>
           <div>
-            <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Mobile No</label>
-            <input id="booking-phone" type="tel" required placeholder="Contact phone" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Date</label>
-            <input id="booking-date" type="date" required class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1.5 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
-          </div>
-          <div>
-            <label class="text-[5px] sm:text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-0.5 sm:mb-1">Total Guests</label>
-            <input id="booking-guests" type="number" min="1" max="250" value="2" required class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-1 sm:p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+            <label class="text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-1">Mobile No</label>
+            <input id="booking-phone" type="tel" required placeholder="Contact phone" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
           </div>
         </div>
 
-        <div class="bg-luxury-goldlight p-1.5 sm:p-4 rounded-lg sm:rounded-xl border border-luxury-gold/20 text-[5px] sm:text-[11px] text-luxury-muted leading-relaxed">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-1">Date</label>
+            <input id="booking-date" type="date" required class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+          </div>
+          <div>
+            <label class="text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-1">Total Guests</label>
+            <input id="booking-guests" type="number" min="1" max="250" value="2" required class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs">
+          </div>
+        </div>
+
+        <div class="bg-luxury-goldlight p-3 rounded-xl border border-luxury-gold/20 text-[10px] sm:text-[11px] text-luxury-muted leading-relaxed">
           <strong>Instant Desk Response:</strong> Enquiries instantly route to our reservation desk's WhatsApp console to verify availability.
         </div>
 
-        <button type="submit" class="w-full bg-luxury-charcoal text-white text-[6px] sm:text-xs tracking-widest uppercase py-1.5 sm:py-4 rounded-full hover:bg-luxury-gold transition-colors font-semibold">
+        <button type="submit" class="w-full bg-luxury-charcoal text-white text-xs tracking-widest uppercase py-3.5 rounded-full hover:bg-luxury-gold transition-colors font-semibold shadow-md">
           Initiate Reservation
         </button>
       </form>
@@ -1000,15 +1043,30 @@
   </div>
 
   <script>
+    // Mobile Drawer Open/Close Handler
+    function toggleMobileDrawer() {
+      const drawer = document.getElementById('mobile-drawer');
+      const overlay = document.getElementById('drawer-overlay');
+      if (drawer.classList.contains('translate-x-full')) {
+        drawer.classList.remove('translate-x-full');
+        drawer.classList.add('translate-x-0');
+        overlay.classList.remove('hidden');
+      } else {
+        drawer.classList.add('translate-x-full');
+        drawer.classList.remove('translate-x-0');
+        overlay.classList.add('hidden');
+      }
+    }
+
     // Navigation Scroll Dynamics
     const nav = document.getElementById('main-nav');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 40) {
-        nav.classList.add('shadow-md', 'py-1', 'sm:py-2');
-        nav.classList.remove('py-2', 'sm:py-4');
+        nav.classList.add('shadow-md', 'py-2');
+        nav.classList.remove('py-3', 'sm:py-4');
       } else {
-        nav.classList.remove('shadow-md', 'py-1', 'sm:py-2');
-        nav.classList.add('py-2', 'sm:py-4');
+        nav.classList.remove('shadow-md', 'py-2');
+        nav.classList.add('py-3', 'sm:py-4');
       }
     });
 
@@ -1145,7 +1203,7 @@
       amenitiesBox.innerHTML = '';
       data.amenities.forEach(item => {
         amenitiesBox.innerHTML += `
-          <div class="flex items-center space-x-1 sm:space-x-2">
+          <div class="flex items-center space-x-2">
             <span class="text-luxury-gold">✦</span>
             <span>${item}</span>
           </div>
