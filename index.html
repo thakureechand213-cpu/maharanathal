@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth overflow-x-hidden w-full">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Maharana Thal — Royal Dining & Boutique Accommodations at Hotel SK Inn, Nashik</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,11 +38,8 @@
   </script>
 
   <style>
-    body{
-      margin: 0;
-    }
     ::-webkit-scrollbar {
-      width: 4;
+      width: 4px;
     }
     ::-webkit-scrollbar-track {
       background: #FDFBF8;
@@ -78,13 +75,12 @@
       transform: scale(1.05);
     }
 
-    /* Mobile drawer transition helper */
     #mobile-drawer {
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
   </style>
 </head>
-<body class="bg-luxury-white text-luxury-charcoal font-sans antialiased overflow-x-hidden">
+<body class="bg-luxury-white text-luxury-charcoal font-sans antialiased overflow-x-hidden w-full relative">
 
   <!-- Top Announcement Bar (Legible and clean across all viewports) -->
   <div class="bg-luxury-charcoal text-luxury-white text-[9px] sm:text-[11px] tracking-[0.18em] uppercase py-2 px-4 text-center border-b border-luxury-gold/20 font-cinzel">
@@ -165,7 +161,7 @@
   </div>
 
   <!-- HERO SECTION: Mobile stacks vertically, Desktop displays gorgeous side-by-side -->
-  <header id="hero" class="relative min-h-[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden bg-luxury-ivory/20 py-8 md:py-16 border-b border-luxury-gold/10">
+  <header id="hero" class="relative min-h-[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden bg-luxury-ivory/20 py-8 md:py-16 border-b border-luxury-gold/10 w-full">
     <div class="absolute inset-0 ambient-glow pointer-events-none"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center relative z-10">
       
@@ -211,9 +207,9 @@
         </div>
       </div>
 
-      <!-- Right Column: Immersive visual badge (Stacks cleanly below text on mobile, 5/12 columns on desktop) -->
-      <div class="col-span-1 lg:col-span-5 relative flex justify-center items-center reveal visible mt-4 lg:mt-0">
-        <div class="absolute -inset-2 md:-inset-4 border border-luxury-gold/20 rounded-[1.5rem] md:rounded-[2rem] transform rotate-3 pointer-events-none"></div>
+      <!-- Right Column: Immersive visual badge (Enclosed tightly in overflow-hidden col-container to prevent horizontal drift) -->
+      <div class="col-span-1 lg:col-span-5 relative flex justify-center items-center reveal visible mt-4 lg:mt-0 overflow-hidden py-4 px-2">
+        <div class="absolute -inset-1 border border-luxury-gold/20 rounded-[1.5rem] md:rounded-[2rem] transform rotate-3 pointer-events-none"></div>
         <div class="relative w-full max-w-sm lg:max-w-none aspect-[4/5] rounded-2xl overflow-hidden shadow-xl md:shadow-2xl border border-luxury-gold/15 group zoom-img-container">
           <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" 
                alt="Maharana Thal Feast" 
@@ -248,8 +244,15 @@
     </div>
   </div>
 
+  <style>
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+
   <!-- FEATURED BOUTIQUE ROOMS WITH IMAGE SLIDESHOWS -->
-  <section id="rooms" class="py-12 sm:py-20 md:py-24 bg-luxury-white">
+  <section id="rooms" class="py-12 sm:py-20 md:py-24 bg-luxury-white overflow-hidden w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
       
       <!-- Structured Header -->
@@ -270,7 +273,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center reveal">
           <!-- Slideshow Left (Full width on mobile, 6/12 columns on desktop) -->
           <div class="col-span-1 lg:col-span-6 relative rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-md aspect-[16/10] group">
-            <div id="slider-deluxe" class="absolute inset-0 flex transition-transform duration-700 ease-out">
+            <div id="slider-deluxe" class="absolute inset-0 flex transition-transform duration-700 ease-out w-full h-full">
               <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Deluxe Room" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Deluxe Room Detail" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Deluxe Bath View" class="w-full h-full object-cover shrink-0">
@@ -371,7 +374,7 @@
 
           <!-- Slideshow Right (orders first on mobile stack) -->
           <div class="col-span-1 lg:col-span-6 order-1 lg:order-2 relative rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-md aspect-[16/10] group">
-            <div id="slider-super" class="absolute inset-0 flex transition-transform duration-700 ease-out">
+            <div id="slider-super" class="absolute inset-0 flex transition-transform duration-700 ease-out w-full h-full">
               <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Super Deluxe Room" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Super Deluxe Comfort" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1608198399260-396a9c1282e7?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Super Deluxe Detail" class="w-full h-full object-cover shrink-0">
@@ -398,7 +401,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center reveal">
           <!-- Slideshow Left -->
           <div class="col-span-1 lg:col-span-6 relative rounded-2xl overflow-hidden border border-luxury-gold/20 shadow-md aspect-[16/10] group">
-            <div id="slider-executive" class="absolute inset-0 flex transition-transform duration-700 ease-out">
+            <div id="slider-executive" class="absolute inset-0 flex transition-transform duration-700 ease-out w-full h-full">
               <img src="https://images.unsplash.com/photo-1582719478250-c89cae4db85b?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Executive Suite" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Executive Suite Interior" class="w-full h-full object-cover shrink-0">
               <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1200&auto=format&fit=crop" alt="Hotel SK Inn Executive Suite Lounge" class="w-full h-full object-cover shrink-0">
@@ -462,7 +465,7 @@
   </section>
 
   <!-- STAY EXPERIENCE & AMENITIES: Responsive Grid layout (2x2 on Mobile, 4x1 on Desktop) -->
-  <section id="amenities" class="py-12 sm:py-16 md:py-20 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15">
+  <section id="amenities" class="py-12 sm:py-16 md:py-20 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15 overflow-hidden w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
       <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
         <span class="text-luxury-gold text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-bold">REFINED LUXURY HIGHLIGHTS</span>
@@ -503,7 +506,7 @@
   </section>
 
   <!-- MAHARANA THAL CULINARY EXPERIENCE -->
-  <section id="menu-explorer" class="py-12 sm:py-20 md:py-24 bg-luxury-white relative overflow-hidden">
+  <section id="menu-explorer" class="py-12 sm:py-20 md:py-24 bg-luxury-white relative overflow-hidden w-full">
     <div class="absolute inset-0 ambient-glow pointer-events-none"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
       
@@ -710,7 +713,7 @@
 
         <!-- Menu Bottom Row: Elegant side-by-side split -->
         <div class="mt-8 pt-6 border-t border-luxury-gold/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <span class="text-xs text-luxury-muted italic font-light">Endless refills served direct to plate. Jain options prepared with strict compliance.</span>
+          <span class="text-xs text-luxury-muted italic font-light font-sans">Endless refills served direct to plate. Jain options prepared with strict compliance.</span>
           <button onclick="openBookingModal('Maharana Thal Dining')" class="text-xs font-cinzel tracking-widest text-luxury-gold hover:text-luxury-charcoal transition-colors uppercase font-bold flex items-center gap-1">
             Reserve Table ⟶
           </button>
@@ -720,7 +723,7 @@
   </section>
 
   <!-- BANQUET & GATHERING SPACES: Fully Responsive Grid (1 column on Mobile, 2 columns on PC) -->
-  <section id="banquet" class="py-12 sm:py-20 md:py-24 bg-luxury-white">
+  <section id="banquet" class="py-12 sm:py-20 md:py-24 bg-luxury-white overflow-hidden w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
       
       <!-- Section Header -->
@@ -749,7 +752,7 @@
               <span>Fully AC</span>
             </div>
             <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-light text-luxury-charcoal group-hover:text-luxury-gold transition-colors">The AC Banquet Room</h3>
-            <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
+            <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light font-sans">
               Perfect for weddings, corporate meets, and ring ceremonies. Features custom acoustic setups.
             </p>
           </div>
@@ -769,7 +772,7 @@
               <span>Intimate Atmosphere</span>
             </div>
             <h3 class="font-serif text-lg sm:text-xl md:text-2xl font-light text-luxury-charcoal group-hover:text-luxury-gold transition-colors">The Family Court</h3>
-            <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">
+            <p class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light font-sans">
               Designed specifically for multi-generational family get-togethers and large banqueting tables.
             </p>
           </div>
@@ -779,7 +782,7 @@
   </section>
 
   <!-- TESTIMONIALS SLIDER SECTION -->
-  <section class="py-12 sm:py-20 md:py-24 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15 relative overflow-hidden">
+  <section class="py-12 sm:py-20 md:py-24 bg-luxury-ivory/20 border-t border-b border-luxury-gold/15 relative overflow-hidden w-full">
     <div class="absolute inset-0 ambient-glow pointer-events-none"></div>
     <div class="max-w-4xl mx-auto px-4 sm:px-8 md:px-12 text-center relative z-10">
       <div class="text-luxury-gold text-3xl sm:text-5xl font-serif opacity-30 select-none">“</div>
@@ -818,7 +821,7 @@
   </section>
 
   <!-- LOCATION & CONTACT: Responsive Stacking layout (Vertical stack on mobile, columns on desktop) -->
-  <section id="contact" class="py-12 sm:py-20 md:py-24 bg-luxury-white">
+  <section id="contact" class="py-12 sm:py-20 md:py-24 bg-luxury-white overflow-hidden w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       
       <!-- Contact Cards (Full width on mobile, 6/12 columns on desktop) -->
@@ -826,7 +829,7 @@
         <div class="space-y-2">
           <span class="text-luxury-gold text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-bold">VISIT US TODAY</span>
           <h2 class="font-serif text-2xl sm:text-3xl md:text-5xl font-light text-luxury-charcoal tracking-tight">Location & Hours</h2>
-          <p class="text-luxury-muted text-sm leading-relaxed font-light">
+          <p class="text-luxury-muted text-sm leading-relaxed font-light font-sans">
             Located conveniently on Ambad-Pathardi Road. Walk-ins are highly welcome for dining; advance table and room bookings are highly recommended.
           </p>
         </div>
@@ -835,7 +838,7 @@
           <!-- Address -->
           <div class="space-y-1">
             <h4 class="font-cinzel text-xs font-bold text-luxury-gold tracking-widest uppercase">The Destination</h4>
-            <p class="text-luxury-muted text-sm leading-relaxed">
+            <p class="text-luxury-muted text-sm leading-relaxed font-sans">
               Maharana Thal & Hotel SK Inn,<br>
               Shravan Sector, MIDC Ambad,<br>
               Nashik, Maharashtra
@@ -844,7 +847,7 @@
           <!-- Hours -->
           <div class="space-y-1">
             <h4 class="font-cinzel text-xs font-bold text-luxury-gold tracking-widest uppercase">Feast Hours</h4>
-            <p class="text-luxury-muted text-sm leading-relaxed">
+            <p class="text-luxury-muted text-sm leading-relaxed font-sans">
               Lunch: 12:00 – 3:30 PM<br>
               Dinner: 7:00 – 10:30 PM<br>
               Open Daily
@@ -853,7 +856,7 @@
           <!-- Phone -->
           <div class="space-y-1">
             <h4 class="font-cinzel text-xs font-bold text-luxury-gold tracking-widest uppercase">Direct Bookings</h4>
-            <div class="text-luxury-muted text-sm leading-relaxed space-y-1">
+            <div class="text-luxury-muted text-sm leading-relaxed space-y-1 font-sans">
               <a href="tel:+918552982999" class="block hover:text-luxury-gold transition-colors font-semibold">+91 85529 82999</a>
               <a href="tel:+919822844737" class="block hover:text-luxury-gold transition-colors font-semibold">+91 98228 44737</a>
             </div>
@@ -861,7 +864,7 @@
           <!-- Contact email -->
           <div class="space-y-1">
             <h4 class="font-cinzel text-xs font-bold text-luxury-gold tracking-widest uppercase">Digital Concierge</h4>
-            <div class="text-luxury-muted text-sm leading-relaxed">
+            <div class="text-luxury-muted text-sm leading-relaxed font-sans">
               <a href="mailto:maharanathalnashik@gmail.com" class="block hover:text-luxury-gold transition-colors break-words">maharanathalnashik@gmail.com</a>
             </div>
           </div>
@@ -893,7 +896,7 @@
   </section>
 
   <!-- FOOTER: Responsive structural stack -->
-  <footer class="bg-luxury-charcoal text-luxury-white py-12 md:py-16 border-t border-luxury-gold/30">
+  <footer class="bg-luxury-charcoal text-luxury-white py-12 md:py-16 border-t border-luxury-gold/30 overflow-hidden w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 lg:mb-16">
         
@@ -911,7 +914,7 @@
         <!-- Column 2: Quick Links -->
         <div class="space-y-3">
           <h4 class="font-cinzel text-xs font-bold tracking-wider text-luxury-gold uppercase">Explore</h4>
-          <ul class="space-y-1.5 text-xs text-luxury-muted">
+          <ul class="space-y-1.5 text-xs text-luxury-muted font-sans">
             <li><a href="#about" class="hover:text-white transition-colors">The Legacy</a></li>
             <li><a href="#menu-explorer" class="hover:text-white transition-colors">Today's Menu</a></li>
             <li><a href="#rooms" class="hover:text-white transition-colors">Boutique Stay</a></li>
@@ -922,7 +925,7 @@
         <!-- Column 3: Contacts -->
         <div class="space-y-3">
           <h4 class="font-cinzel text-xs font-bold tracking-wider text-luxury-gold uppercase">Contact</h4>
-          <p class="text-xs text-luxury-muted leading-relaxed">
+          <p class="text-xs text-luxury-muted leading-relaxed font-sans">
             MIDC Ambad, Nashik<br>
             Desk: +91 85529 82999<br>
             Email: maharanathalnashik@gmail.com
@@ -932,7 +935,7 @@
         <!-- Column 4: Socials -->
         <div class="space-y-3">
           <h4 class="font-cinzel text-xs font-bold tracking-wider text-luxury-gold uppercase">Social</h4>
-          <p class="text-xs text-luxury-muted leading-relaxed">
+          <p class="text-xs text-luxury-muted leading-relaxed font-sans">
             Follow our culinary chapters online.
           </p>
           <div class="flex items-center space-x-3 mt-2">
@@ -948,7 +951,7 @@
       <!-- Footer Bottom -->
       <div class="pt-6 border-t border-luxury-gold/20 flex flex-col sm:flex-row items-center justify-between text-xs text-luxury-muted gap-4 text-center">
         <span>© 2026 Maharana Thal & Hotel SK Inn. All rights reserved.</span>
-        <div class="space-x-4">
+        <div class="space-x-4 font-sans">
           <a href="#" class="hover:text-white transition-colors">Privacy Standards</a>
           <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
         </div>
@@ -967,11 +970,11 @@
       <!-- Body details -->
       <div class="p-6 space-y-4 overflow-y-auto">
         <h3 id="modal-room-title" class="font-serif text-xl sm:text-3xl text-luxury-charcoal">Room Name</h3>
-        <p id="modal-room-desc" class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light">Description of room details.</p>
+        <p id="modal-room-desc" class="text-luxury-muted text-xs sm:text-sm leading-relaxed font-light font-sans">Description of room details.</p>
         
         <div class="pt-4 border-t border-luxury-gold/20">
           <h4 class="font-cinzel text-xs font-bold tracking-wider text-luxury-gold uppercase mb-3">Premium In-Room Inclusions</h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-luxury-muted" id="modal-room-amenities">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-luxury-muted" id="modal-room-amenities font-sans">
             <!-- Amenities dynamically loaded -->
           </div>
         </div>
@@ -1000,7 +1003,7 @@
         <p class="text-luxury-muted text-xs font-light">Choose your desired booking option below.</p>
       </div>
 
-      <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4 text-xs">
+      <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4 text-xs font-sans">
         <div>
           <label class="text-[9px] font-cinzel tracking-wider text-luxury-muted uppercase block mb-1">Reservation Option</label>
           <select id="booking-type" class="w-full bg-luxury-ivory/50 border border-luxury-gold/20 p-3 rounded-lg text-luxury-charcoal focus:outline-none focus:border-luxury-gold text-xs font-medium">
