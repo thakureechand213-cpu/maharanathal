@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Maharana Thal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        maharana: {
+                            dark: '#2d2d2d',
+                            yellow: '#fcd34d',
+                            yellowDark: '#eab308',
+                            bg: '#f8f7f4'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f3f0e8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #e2c84a; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #eab308; }
+        .progress-bar { transition: width 1s ease-in-out; }
+        .sfbtn { transition: all 0.15s ease; }
+        .sfbtn.active { background: #fefce8; border-color: #eab308; color: #854d0e; font-weight: 700; }
+        .sfbtn.active-all { background: #2d2d2d; border-color: #2d2d2d; color: #fff; font-weight: 700; }
+        .kpi-card { transition: transform 0.15s ease, border-color 0.15s ease; }
+        .kpi-card:hover { transform: translateY(-2px); border-color: #fcd34d !important; }
+        .review-card { transition: all 0.15s ease; }
+        .review-card:hover { border-color: #fcd34d !important; box-shadow: 0 2px 12px rgba(234,179,8,0.1); }
+    </style>
+</head>
+<body class="bg-maharana-bg font-sans antialiased text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Top Navigation -->
+    <nav class="bg-maharana-dark text-white py-0 px-6 shadow-md z-10 sticky top-0" style="height:66px;display:flex;align-items:center;">
+        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-maharana-yellow rounded-xl flex items-center justify-center text-maharana-dark shadow-sm">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wide">Maharana Thal Insights</h1>
+                    <p class="text-xs text-gray-400 tracking-widest uppercase" style="font-size:10px">Admin Dashboard</p>
+                </div>
+            </div>
+            <button onclick="fetchData()" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all"
+                style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#ddd;"
+                onmouseover="this.style.background='rgba(252,211,77,0.15)';this.style.borderColor='rgba(252,211,77,0.35)';this.style.color='#fcd34d';"
+                onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='#ddd';">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                Refresh Data
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-6 w-full max-w-7xl mx-auto relative">
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="absolute inset-0 z-20 flex-col items-center justify-center rounded-xl" style="display:none;background:rgba(248,247,244,0.88);">
+            <div class="w-11 h-11 rounded-full mb-4 animate-spin" style="border:3px solid #e5e2d8;border-top-color:#eab308;"></div>
+            <p class="text-gray-500 font-medium animate-pulse">Loading feedback data...</p>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+            <div class="kpi-card bg-white rounded-2xl border p-6 flex items-center gap-4" style="border-color:#ede9dc;">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style="background:#eff6ff;">📝</div>
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Total Feedbacks</p>
+                    <h2 id="totalFeedbacks" class="text-3xl font-extrabold text-gray-900">0</h2>
+                </div>
+            </div>
+            <div class="kpi-card bg-white rounded-2xl border p-6 flex items-center gap-4" style="border-color:#ede9dc;">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style="background:#fefce8;">⭐</div>
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Overall Average</p>
+                    <div class="flex items-baseline gap-1">
+                        <h2 id="overallRating" class="text-3xl font-extrabold text-gray-900">0.0</h2>
+                        <span class="text-sm text-gray-400">/ 5</span>
+                    </div>
+                </div>
+            </div>
+            <div class="kpi-card bg-white rounded-2xl border p-6 flex items-center gap-4" style="border-color:#ede9dc;">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style="background:#f0fdf4;">👍</div>
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Would Recommend</p>
+                    <h2 id="recommendRate" class="text-3xl font-extrabold text-gray-900">0%</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Category Performance -->
+            <div class="lg:col-span-1 bg-white rounded-2xl border p-6" style="border-color:#ede9dc;">
+                <h3 class="font-bold text-gray-900 mb-5 flex items-center gap-2" style="font-size:15px;">
+                    <span style="width:4px;height:18px;background:#eab308;border-radius:2px;display:inline-block;"></span>
+                    Category Performance
+                </h3>
+                <div id="categoryBars" class="space-y-4"></div>
+            </div>
+
+            <!-- Reviews Panel -->
+            <div class="lg:col-span-2 bg-white rounded-2xl border p-6 flex flex-col" style="border-color:#ede9dc;min-height:580px;">
+
+                <!-- Header + Filter -->
+                <div class="flex flex-wrap justify-between items-start gap-3 mb-5">
+                    <h3 class="font-bold text-gray-900 flex items-center gap-2" style="font-size:15px;">
+                        <span style="width:4px;height:18px;background:#eab308;border-radius:2px;display:inline-block;"></span>
+                        Recent Reviews
+                    </h3>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Filter by ★</span>
+                        <div class="flex gap-1.5">
+                            <button class="sfbtn active-all px-3 py-1 rounded-full text-xs border" style="border-color:#2d2d2d;background:#2d2d2d;color:#fff;" data-star="all" onclick="setFilter('all')">All</button>
+                            <button class="sfbtn px-3 py-1 rounded-full text-xs border" style="border-color:#e5e1d5;color:#6b6560;" data-star="1" onclick="setFilter(1)">1★</button>
+                            <button class="sfbtn px-3 py-1 rounded-full text-xs border" style="border-color:#e5e1d5;color:#6b6560;" data-star="2" onclick="setFilter(2)">2★</button>
+                            <button class="sfbtn px-3 py-1 rounded-full text-xs border" style="border-color:#e5e1d5;color:#6b6560;" data-star="3" onclick="setFilter(3)">3★</button>
+                            <button class="sfbtn px-3 py-1 rounded-full text-xs border" style="border-color:#e5e1d5;color:#6b6560;" data-star="4" onclick="setFilter(4)">4★+</button>
+                            <button class="sfbtn px-3 py-1 rounded-full text-xs border" style="border-color:#e5e1d5;color:#6b6560;" data-star="5" onclick="setFilter(5)">5★</button>
+                        </div>
+                        <span id="showingText" class="text-xs text-gray-400 px-2 py-1 rounded-full" style="background:#f3f0e8;">0 records</span>
+                    </div>
+                </div>
+
+                <!-- List -->
+                <div id="reviewsList" class="flex-1 overflow-y-auto pr-1 space-y-3"></div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden flex-1 flex flex-col items-center justify-center text-center py-16">
+                    <div class="text-5xl mb-3">📭</div>
+                    <h4 class="font-bold text-gray-500 mb-1">No reviews found</h4>
+                    <p class="text-sm text-gray-400">Try a different star filter or refresh.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const categoriesMap = {
+            'welcomeDrink': { label: 'Welcome Drink', emoji: '🍹' },
+            'farsan':        { label: 'Farsan',        emoji: '🥟' },
+            'sabji':         { label: 'Sabji',         emoji: '🥘' },
+            'roti':          { label: 'Roti',          emoji: '🫓' },
+            'rice':          { label: 'Rice',          emoji: '🍚' },
+            'dal':           { label: 'Dal',           emoji: '🥣' },
+            'sweet':         { label: 'Sweet',         emoji: '🍨' },
+            'staffBehaviour':{ label: 'Staff Behaviour',emoji: '👨‍🍳' }
+        };
+
+        let db, allData = [], activeFilter = 'all';
+
+        // ── Init Firebase ──────────────────────────────────────────────
+        function initFirebase() {
+            try {
+                const app = initializeApp({
+                    apiKey: "AIzaSyCwrIpkmQzLc6fBpr25yHBPs5sMyIb0zHg",
+                    authDomain: "sk-mt-5d484.firebaseapp.com",
+                    projectId: "sk-mt-5d484",
+                    storageBucket: "sk-mt-5d484.firebasestorage.app",
+                    messagingSenderId: "334698656699",
+                    appId: "1:334698656699:web:45b38758d976d94e23ca9e",
+                    measurementId: "G-WZJ5PB0P4L"
+                });
+                db = getFirestore(app);
+                return true;
+            } catch (e) {
+                console.error("Firebase init error:", e);
+                alert("Failed to connect to database.");
+                return false;
+            }
+        }
+
+        // ── Fetch Data ─────────────────────────────────────────────────
+        window.fetchData = async function () {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.style.display = 'flex';
+            try {
+                const snapshot = await getDocs(collection(db, 'feedbacks'));
+                allData = [];
+                snapshot.forEach(doc => allData.push({ id: doc.id, ...doc.data() }));
+                allData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                processMetrics(allData);
+                applyFilter();
+            } catch (e) {
+                console.error("Fetch error:", e);
+                alert("Error fetching data. Check Firestore rules.");
+            } finally {
+                overlay.style.display = 'none';
+            }
+        };
+
+        // ── Helper: avg rating for one feedback ───────────────────────
+        function getReviewAvg(feedback) {
+            if (!feedback.ratings) return 0;
+            const vals = Object.values(feedback.ratings).filter(v => v > 0);
+            if (!vals.length) return 0;
+            return vals.reduce((a, b) => a + b, 0) / vals.length;
+        }
+
+        // ── Star Filter ────────────────────────────────────────────────
+        window.setFilter = function (star) {
+            activeFilter = star;
+            document.querySelectorAll('.sfbtn').forEach(btn => {
+                btn.classList.remove('active', 'active-all');
+                btn.style.background = '';
+                btn.style.borderColor = '#e5e1d5';
+                btn.style.color = '#6b6560';
+                btn.style.fontWeight = '';
+                if (String(btn.dataset.star) === String(star)) {
+                    if (star === 'all') {
+                        btn.classList.add('active-all');
+                        btn.style.background = '#2d2d2d';
+                        btn.style.borderColor = '#2d2d2d';
+                        btn.style.color = '#fff';
+                    } else {
+                        btn.classList.add('active');
+                        btn.style.background = '#fefce8';
+                        btn.style.borderColor = '#eab308';
+                        btn.style.color = '#854d0e';
+                    }
+                }
+            });
+            applyFilter();
+        };
+
+        function applyFilter() {
+            let filtered;
+            if (activeFilter === 'all') {
+                filtered = allData;
+            } else {
+                const s = Number(activeFilter);
+                filtered = allData.filter(f => {
+                    const avg = getReviewAvg(f);
+                    if (s === 5) return avg >= 5;
+                    if (s === 4) return avg >= 4;
+                    return Math.floor(avg) === s;
+                });
+            }
+            const label = activeFilter === 'all' ? 'All records'
+                        : activeFilter === 5     ? '5★ only'
+                        : `${activeFilter}★+ reviews`;
+            document.getElementById('showingText').textContent = `${filtered.length} — ${label}`;
+            renderReviews(filtered);
+        }
+
+        // ── Metrics & Category Bars ────────────────────────────────────
+        function processMetrics(data) {
+            let gSum = 0, gCount = 0, recYes = 0, recTotal = 0;
+            let catStats = {};
+            Object.keys(categoriesMap).forEach(k => catStats[k] = { sum: 0, count: 0 });
+
+            data.forEach(f => {
+                if (f.recommend === 'yes') recYes++;
+                if (f.recommend === 'yes' || f.recommend === 'no') recTotal++;
+                if (f.ratings) {
+                    Object.entries(f.ratings).forEach(([k, v]) => {
+                        if (v > 0 && catStats[k] !== undefined) {
+                            catStats[k].sum += v; catStats[k].count += 1;
+                            gSum += v; gCount += 1;
+                        }
+                    });
+                }
+            });
+
+            document.getElementById('totalFeedbacks').innerText = data.length;
+            document.getElementById('overallRating').innerText = gCount > 0 ? (gSum / gCount).toFixed(1) : '0.0';
+            document.getElementById('recommendRate').innerText = recTotal > 0 ? Math.round((recYes / recTotal) * 100) + '%' : '0%';
+
+            const cont = document.getElementById('categoryBars');
+            cont.innerHTML = '';
+            if (data.length === 0) {
+                cont.innerHTML = '<p class="text-sm text-gray-400 text-center py-4">No ratings yet.</p>';
+                return;
+            }
+
+            Object.entries(catStats).forEach(([key, stats]) => {
+                const avg = stats.count > 0 ? (stats.sum / stats.count).toFixed(1) : 0;
+                const pct = (avg / 5) * 100;
+                const m = categoriesMap[key];
+                const el = document.createElement('div');
+                el.innerHTML = `
+                    <div class="flex justify-between items-center mb-1.5">
+                        <span class="text-sm text-gray-600 flex items-center gap-1.5">
+                            <span>${m.emoji}</span>${m.label}
+                        </span>
+                        <span class="text-sm font-bold text-gray-900">${avg}<span class="text-xs font-normal text-gray-400"> / 5</span></span>
+                    </div>
+                    <div class="w-full rounded-full h-2 overflow-hidden" style="background:#f3f0e8;">
+                        <div class="h-2 rounded-full progress-bar" style="width:0%;background:#eab308;"></div>
+                    </div>`;
+                cont.appendChild(el);
+                setTimeout(() => { el.querySelector('.progress-bar').style.width = pct + '%'; }, 80);
+            });
+        }
+
+        // ── Render Review Cards ────────────────────────────────────────
+        function getInitials(name) {
+            return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        }
+
+        function renderReviews(data) {
+            const list  = document.getElementById('reviewsList');
+            const empty = document.getElementById('emptyState');
+            list.innerHTML = '';
+
+            if (data.length === 0) {
+                empty.classList.remove('hidden'); empty.classList.add('flex');
+                list.style.display = 'none';
+                return;
+            }
+            empty.classList.add('hidden'); empty.classList.remove('flex');
+            list.style.display = '';
+
+            data.forEach(f => {
+                const name    = f.name || 'Anonymous Guest';
+                const initials = getInitials(name);
+                const d       = new Date(f.timestamp);
+                const dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+                              + ' · ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+                const avgVal     = getReviewAvg(f);
+                const avgDisplay = avgVal > 0 ? avgVal.toFixed(1) : '—';
+
+                let badges = '';
+                if (f.ratings) {
+                    Object.entries(f.ratings).forEach(([k, v]) => {
+                        if (v > 0) badges += `
+                            <span style="background:#fff;border:1px solid #e9e5d8;color:#6b6560;font-size:11px;padding:2px 7px;border-radius:5px;display:inline-flex;align-items:center;gap:3px;">
+                                ${categoriesMap[k]?.emoji || ''} <span style="color:#eab308;font-weight:700;">${v}★</span>
+                            </span>`;
+                    });
+                }
+
+                let recBadge = '';
+                if (f.recommend === 'yes')
+                    recBadge = `<span style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;font-size:10px;padding:3px 8px;border-radius:6px;font-weight:600;white-space:nowrap;">✓ Recommends</span>`;
+                else if (f.recommend === 'no')
+                    recBadge = `<span style="background:#fff1f2;color:#9f1239;border:1px solid #fecdd3;font-size:10px;padding:3px 8px;border-radius:6px;font-weight:600;white-space:nowrap;">✗ Won't Recommend</span>`;
+
+                const note = f.notes
+                    ? `<div style="background:#fefce8;border-left:3px solid #fcd34d;border-radius:0 7px 7px 0;padding:7px 10px;font-size:12px;color:#6b6560;line-height:1.5;font-style:italic;margin-top:8px;">${f.notes}</div>`
+                    : '';
+
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                card.style.cssText = 'background:#fafaf8;border:1px solid #edead9;border-radius:12px;padding:14px 16px;';
+                card.innerHTML = `
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div style="display:flex;align-items:flex-start;gap:9px;">
+                            <div style="width:34px;height:34px;border-radius:9px;background:#fef9c3;border:1px solid #fde68a;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#92700a;flex-shrink:0;">${initials}</div>
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:#1a1a1a;">${name}</div>
+                                <div style="font-size:11px;color:#b5ae9f;margin-top:1px;">${dateStr}</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+                            <span style="display:inline-flex;align-items:center;gap:3px;background:#fefce8;border:1px solid #fde68a;border-radius:20px;padding:3px 8px;font-size:11px;font-weight:700;color:#92700a;">⭐ ${avgDisplay}</span>
+                            ${recBadge}
+                        </div>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px;">${badges}</div>
+                    ${note}`;
+                list.appendChild(card);
+            });
+        }
+
+        // ── Boot ───────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            if (initFirebase()) fetchData();
+        });
+    </script>
+</body>
+</html>

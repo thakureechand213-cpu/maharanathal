@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maharana Thal - Customer Feedback</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        maharana: {
+                            dark: '#2d2d2d',
+                            yellow: '#fcd34d',
+                            yellowDark: '#eab308',
+                            bg: '#f9fafb'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                        'pop': 'pop 0.3s ease-out',
+                        'star-pop': 'starPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                        'stagger': 'slideUp 0.5s ease-out both'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        pop: {
+                            '0%': { transform: 'scale(0.95)' },
+                            '40%': { transform: 'scale(1.05)' },
+                            '100%': { transform: 'scale(1)' },
+                        },
+                        starPop: {
+                            '0%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.25)' },
+                            '100%': { transform: 'scale(1)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for star animations to mimic Play Store feel */
+        .star-svg {
+            transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            cursor: pointer;
+        }
+        .star-svg:active {
+            transform: scale(0.85);
+        }
+        
+        /* Smooth scrollbar for the container if needed on very small devices */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .recommend-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .recommend-btn.selected {
+            border-color: #eab308;
+            background-color: #fcd34d;
+            color: #2d2d2d;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased text-gray-800 min-h-screen flex items-center justify-center p-4 sm:p-6">
+
+    <div class="max-w-lg w-full bg-white rounded-3xl shadow-2xl overflow-hidden animate-slide-up relative">
+        
+        <!-- Header Section (Themed to Maharana Thal) -->
+        <div class="bg-maharana-dark px-6 py-8 text-center relative overflow-hidden">
+            <!-- Subtle background pattern/glow -->
+            <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZmYiLz48L3N2Zz4=')]"></div>
+            
+            <div class="relative z-10">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-maharana-yellow mb-4 shadow-lg">
+                    <!-- Custom Thali/Crown Icon representation -->
+                    <svg class="w-8 h-8 text-maharana-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-white tracking-wide">॥ महाराणा थाल ॥</h1>
+                <p class="text-maharana-yellow text-sm font-medium mt-1 tracking-widest uppercase">& AC Banquet Hall</p>
+            </div>
+        </div>
+
+        <!-- Main Form Section -->
+        <div id="feedback-form-container" class="px-6 py-8 sm:px-10">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">How was your experience?</h2>
+                <p class="text-gray-500">Please give us your valuable feedback.</p>
+            </div>
+
+            <form id="feedbackForm">
+                <!-- Name Field -->
+                <div class="mb-6">
+                    <label for="customerName" class="block text-sm font-semibold text-gray-700 mb-2">Your Name <span class="text-gray-400 font-normal">(Optional)</span></label>
+                    <input type="text" id="customerName" name="customerName" placeholder="Enter your name"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-maharana-yellow focus:ring-2 focus:ring-maharana-yellow focus:ring-opacity-50 transition-colors placeholder-gray-400">
+                </div>
+
+                <!-- Dynamic Rating Categories will be injected here -->
+                <div id="rating-categories" class="space-y-1 mb-8">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Recommend Toggle -->
+                <div class="mb-8">
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Would you recommend us to friends & family?</label>
+                    <div class="flex gap-3" id="recommendToggle">
+                        <button type="button" data-value="yes" class="recommend-btn flex-1 py-3 rounded-xl border-2 border-gray-200 font-semibold text-gray-600">👍 Yes</button>
+                        <button type="button" data-value="no" class="recommend-btn flex-1 py-3 rounded-xl border-2 border-gray-200 font-semibold text-gray-600">👎 No</button>
+                    </div>
+                </div>
+
+                <!-- Notes Field -->
+                <div class="mb-8">
+                    <label for="notes" class="block text-sm font-semibold text-gray-700 mb-2">Additional Note <span class="text-gray-400 font-normal">(Optional)</span></label>
+                    <textarea id="notes" name="notes" rows="3" 
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-maharana-yellow focus:ring-2 focus:ring-maharana-yellow focus:ring-opacity-50 transition-colors resize-none placeholder-gray-400" 
+                        placeholder="Tell us what you loved or what we can improve..."></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn" 
+                    class="w-full bg-maharana-yellow hover:bg-maharana-yellowDark text-maharana-dark font-bold text-lg py-4 px-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Submit Feedback
+                </button>
+            </form>
+        </div>
+
+        <!-- Success State (Hidden by default) -->
+        <div id="success-message" class="hidden px-6 py-16 text-center animate-fade-in flex-col items-center justify-center h-full">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Thank You!</h2>
+            <p class="text-gray-600 mb-8">Your valuable feedback helps us serve you better. We hope to see you again soon at Maharana Thal.</p>
+            <button id="resetBtn" class="text-maharana-dark font-semibold hover:text-maharana-yellowDark underline transition-colors">
+                Submit another response
+            </button>
+        </div>
+    </div>
+
+    <!-- Set type to module to allow imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // ==========================================
+        // 1. UI & FORM LOGIC
+        // ==========================================
+        const categories = [
+            { id: 'welcomeDrink', label: 'Welcome Drink', emoji: '🍹' },
+            { id: 'farsan', label: 'Farsan', emoji: '🥟' },
+            { id: 'sabji', label: 'Sabji', emoji: '🥘' },
+            { id: 'roti', label: 'Roti', emoji: '🥟' },
+            { id: 'rice', label: 'Rice', emoji: '🍚' },
+            { id: 'dal', label: 'Dal', emoji: '🥣' },
+            { id: 'sweet', label: 'Sweet', emoji: '🍨' },
+            { id: 'staffBehaviour', label: 'Staff Behaviour', emoji: '👨‍🍳' }
+        ];
+
+        let ratingsState = {
+            welcomeDrink: 0, farsan: 0, sabji: 0, roti: 0, rice: 0, dal: 0, sweet: 0, staffBehaviour: 0
+        };
+
+        let recommendValue = null;
+
+        const starPath = "M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z";
+
+        function initializeRatings() {
+            const container = document.getElementById('rating-categories');
+            container.innerHTML = ''; 
+
+            categories.forEach((cat, index) => {
+                const row = document.createElement('div');
+                row.className = 'flex flex-row justify-between items-center py-3 sm:py-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 px-2 rounded-xl transition-colors animate-stagger';
+                row.style.animationDelay = `${index * 0.08}s`;
+
+                const labelContainer = document.createElement('div');
+                labelContainer.className = 'flex items-center space-x-3 w-1/2';
+
+                const emojiSpan = document.createElement('span');
+                emojiSpan.className = 'text-2xl sm:text-3xl drop-shadow-sm';
+                emojiSpan.innerText = cat.emoji;
+
+                const label = document.createElement('span');
+                label.className = 'text-gray-700 font-semibold text-sm sm:text-base';
+                label.innerText = cat.label;
+
+                labelContainer.appendChild(emojiSpan);
+                labelContainer.appendChild(label);
+
+                const starsContainer = document.createElement('div');
+                starsContainer.className = 'flex space-x-1 sm:space-x-2 w-1/2 justify-end';
+                starsContainer.dataset.category = cat.id;
+
+                for (let i = 1; i <= 5; i++) {
+                    const star = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                    star.setAttribute("viewBox", "0 0 20 20");
+                    star.setAttribute("fill", "currentColor");
+                    star.className.baseVal = "w-8 h-8 sm:w-9 sm:h-9 text-gray-200 star-svg drop-shadow-sm"; 
+                    star.dataset.value = i;
+
+                    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    path.setAttribute("d", starPath);
+                    star.appendChild(path);
+
+                    star.addEventListener('mouseover', () => handleStarHover(cat.id, i));
+                    star.addEventListener('mouseout', () => handleStarLeave(cat.id));
+                    star.addEventListener('click', () => handleStarClick(cat.id, i));
+
+                    starsContainer.appendChild(star);
+                }
+
+                row.appendChild(labelContainer);
+                row.appendChild(starsContainer);
+                container.appendChild(row);
+            });
+        }
+
+        function updateStarVisuals(categoryId, hoverValue = 0) {
+            const container = document.querySelector(`div[data-category="${categoryId}"]`);
+            if (!container) return;
+            const stars = container.querySelectorAll('svg');
+            const actualValue = ratingsState[categoryId];
+            const displayValue = hoverValue > 0 ? hoverValue : actualValue;
+
+            stars.forEach((star, index) => {
+                const starVal = index + 1;
+                if (starVal <= displayValue) {
+                    star.classList.remove('text-gray-200');
+                    star.classList.add('text-maharana-yellowDark');
+                } else {
+                    star.classList.remove('text-maharana-yellowDark');
+                    star.classList.add('text-gray-200');
+                }
+            });
+        }
+
+        function handleStarHover(categoryId, value) { updateStarVisuals(categoryId, value); }
+        function handleStarLeave(categoryId) { updateStarVisuals(categoryId, 0); }
+
+        function handleStarClick(categoryId, value) {
+            ratingsState[categoryId] = value;
+            updateStarVisuals(categoryId, 0); 
+            
+            const container = document.querySelector(`div[data-category="${categoryId}"]`);
+            const stars = container.querySelectorAll('svg');
+            
+            stars.forEach((star, index) => {
+                if (index < value) {
+                    star.classList.remove('animate-star-pop');
+                    void star.offsetWidth; // trigger reflow
+                    star.classList.add('animate-star-pop');
+                }
+            });
+        }
+
+        // Initialize UI immediately 
+        initializeRatings();
+
+        // ==========================================
+        // 1b. RECOMMEND TOGGLE LOGIC
+        // ==========================================
+        document.querySelectorAll('.recommend-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                recommendValue = btn.dataset.value;
+                document.querySelectorAll('.recommend-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+        });
+
+        // ==========================================
+        // 2. FIREBASE INITIALIZATION (No Auth)
+        // ==========================================
+        let app, db;
+        
+        try {
+            const firebaseConfig = {
+                apiKey: "AIzaSyCwrIpkmQzLc6fBpr25yHBPs5sMyIb0zHg",
+                authDomain: "sk-mt-5d484.firebaseapp.com",
+                projectId: "sk-mt-5d484",
+                storageBucket: "sk-mt-5d484.firebasestorage.app",
+                messagingSenderId: "334698656699",
+                appId: "1:334698656699:web:45b38758d976d94e23ca9e",
+                measurementId: "G-WZJ5PB0P4L"
+            };
+
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            
+        } catch (error) {
+            console.error("Firebase setup error:", error);
+        }
+
+        // ==========================================
+        // 3. FIREBASE SUBMISSION LOGIC
+        // ==========================================
+        async function submitFeedback(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const customerName = document.getElementById('customerName').value.trim();
+            const notes = document.getElementById('notes').value;
+
+            // Validation: Ensure at least one rating is given
+            const hasAnyRating = Object.values(ratingsState).some(val => val > 0);
+            if (!hasAnyRating) {
+                const container = document.getElementById('rating-categories');
+                container.classList.add('animate-pulse');
+                setTimeout(() => container.classList.remove('animate-pulse'), 1000);
+                return;
+            }
+
+            // Security Check: Make sure Database connected successfully
+            if (!db) {
+                submitBtn.innerText = 'Database Not Configured!';
+                submitBtn.disabled = true;
+                setTimeout(() => { 
+                    submitBtn.disabled = false; 
+                    submitBtn.innerText = 'Submit Feedback'; 
+                }, 3000);
+                return;
+            }
+
+            // Start submission UI changes
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Submitting...';
+
+            // Construct Final Payload
+            const feedbackData = {
+                name: customerName || null,
+                ratings: { ...ratingsState },
+                recommend: recommendValue,
+                notes: notes,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // Simplified collection path to point directly to a 'feedbacks' collection in your database
+                const feedbackCollection = collection(db, 'feedbacks');
+                
+                await addDoc(feedbackCollection, feedbackData);
+                showSuccess();
+            } catch (error) {
+                console.error("Error saving document to Firebase: ", error);
+                
+                // Show specific permission error message to remind you to update Firestore Rules
+                if (error.code === 'permission-denied') {
+                    alert("Permission Denied: Please set your Firebase Firestore rules to allow public writes.");
+                }
+                
+                submitBtn.innerText = 'Failed. Try Again';
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = 'Submit Feedback';
+                }, 3000);
+            }
+        }
+
+        function showSuccess() {
+            document.getElementById('feedback-form-container').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+            document.getElementById('success-message').classList.add('flex');
+        }
+
+        function resetForm() {
+            ratingsState = {
+                welcomeDrink: 0, farsan: 0, sabji: 0, roti: 0, rice: 0, dal: 0, sweet: 0, staffBehaviour: 0
+            };
+            recommendValue = null;
+
+            document.getElementById('customerName').value = '';
+            document.getElementById('notes').value = '';
+
+            document.querySelectorAll('.recommend-btn').forEach(b => b.classList.remove('selected'));
+            
+            initializeRatings();
+
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submitBtn').innerText = 'Submit Feedback';
+            
+            document.getElementById('success-message').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('flex');
+            document.getElementById('feedback-form-container').classList.remove('hidden');
+        }
+
+        // Attach event listeners
+        document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
+        document.getElementById('resetBtn').addEventListener('click', resetForm);
+
+    </script>
+</body>
+</html>
