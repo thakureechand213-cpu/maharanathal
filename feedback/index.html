@@ -137,10 +137,14 @@
 
                 <!-- Notes Field -->
                 <div class="mb-8">
-                    <label for="notes" class="block text-sm font-semibold text-gray-700 mb-2">Additional Note <span class="text-gray-400 font-normal">(Optional)</span></label>
+                    <label for="notes" class="block text-sm font-semibold text-gray-700 mb-2">Your Review <span class="text-gray-400 font-normal">(Optional)</span></label>
                     <textarea id="notes" name="notes" rows="3" 
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-maharana-yellow focus:ring-2 focus:ring-maharana-yellow focus:ring-opacity-50 transition-colors resize-none placeholder-gray-400" 
-                        placeholder="Tell us what you loved or what we can improve..."></textarea>
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-maharana-yellow focus:ring-2 focus:ring-maharana-yellow focus:ring-opacity-50 transition-colors resize-none placeholder-gray-400 mb-3" 
+                        placeholder="Rate the categories above, then tap 'Generate Review' for a suggestion you can edit..."></textarea>
+                    <button type="button" id="generateReviewBtn" disabled
+                        class="w-full py-3 rounded-xl border-2 border-maharana-yellow text-maharana-dark font-semibold text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-maharana-yellow hover:bg-opacity-20">
+                        ✨ Generate Review
+                    </button>
                 </div>
 
                 <!-- Submit Button -->
@@ -159,7 +163,7 @@
                 </svg>
             </div>
             <h2 class="text-2xl font-bold text-gray-900 mb-2">Thank You!</h2>
-            <p class="text-gray-600 mb-8">Your valuable feedback helps us serve you better. We hope to see you again soon at Maharana Thal.</p>
+            <p id="successMessage" class="text-gray-600 mb-8">Your valuable feedback helps us serve you better. We hope to see you again soon at Maharana Thal.</p>
             <button id="resetBtn" class="text-maharana-dark font-semibold hover:text-maharana-yellowDark underline transition-colors">
                 Submit another response
             </button>
@@ -170,6 +174,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { generateReview, getAverageRating } from "./reviewEngine.js";
 
         // ==========================================
         // 1. UI & FORM LOGIC
@@ -280,10 +285,46 @@
                     star.classList.add('animate-star-pop');
                 }
             });
+
+            // Enable the Generate Review button as soon as at least one
+            // category has been rated. We no longer auto-fill the textbox;
+            // the guest decides when to generate a review now.
+            const hasAnyRating = Object.values(ratingsState).some(v => v > 0);
+            document.getElementById('generateReviewBtn').disabled = !hasAnyRating;
+        }
+
+        // Generates (or regenerates) a review into the Notes field.
+        // If the guest has typed their own words, confirm before overwriting.
+        function handleGenerateReview() {
+            const notesField = document.getElementById('notes');
+
+            const hasManualEdit = notesField.dataset.userEdited === 'true'
+                && notesField.value.trim() !== '';
+
+            if (hasManualEdit) {
+                const proceed = confirm("This will replace the review you've written. Continue?");
+                if (!proceed) return;
+            }
+
+            const review = generateReview(ratingsState);
+            notesField.value = review;
+            notesField.dataset.autoFilled = review;
+            notesField.dataset.userEdited = 'false'; // fresh auto-fill, not a manual edit
         }
 
         // Initialize UI immediately 
         initializeRatings();
+
+        document.getElementById('generateReviewBtn').addEventListener('click', handleGenerateReview);
+
+        // Track manual edits to the Notes field so Generate Review knows
+        // to ask before overwriting the guest's own words.
+        document.getElementById('notes').addEventListener('input', (e) => {
+            const field = e.target;
+            if (field.value !== field.dataset.autoFilled) {
+                field.dataset.userEdited = 'true';
+            }
+        });
 
         // ==========================================
         // 1b. RECOMMEND TOGGLE LOGIC
@@ -357,6 +398,7 @@
             const feedbackData = {
                 name: customerName || null,
                 ratings: { ...ratingsState },
+                averageRating: getAverageRating(ratingsState),
                 recommend: recommendValue,
                 notes: notes,
                 timestamp: new Date().toISOString()
@@ -367,7 +409,7 @@
                 const feedbackCollection = collection(db, 'feedbacks');
                 
                 await addDoc(feedbackCollection, feedbackData);
-                showSuccess();
+                showSuccess(feedbackData.averageRating);
             } catch (error) {
                 console.error("Error saving document to Firebase: ", error);
                 
@@ -384,7 +426,25 @@
             }
         }
 
-        function showSuccess() {
+        // Messages shown after submission, chosen by the guest's average rating.
+        // Ranges are checked from lowest to highest and are non-overlapping,
+        // so every possible average (1 to 5) lands in exactly one bucket.
+        function getSuccessMessage(average) {
+            if (average < 2) {
+                return "We are extremely sorry to hear about your experience. We will try our best next time — please give us another chance.";
+            }
+            if (average < 3) {
+                return "Thank you for your valuable opinion. We are working on improving and hope to serve you better next time.";
+            }
+            if (average < 4) {
+                return "Thank you for your valuable opinion. We are improving every day and hope to see you again soon.";
+            }
+            // average >= 4
+            return "Thank you for your love and appreciation! We will keep trying to improve even more.";
+        }
+
+        function showSuccess(average = 0) {
+            document.getElementById('successMessage').innerText = getSuccessMessage(average);
             document.getElementById('feedback-form-container').classList.add('hidden');
             document.getElementById('success-message').classList.remove('hidden');
             document.getElementById('success-message').classList.add('flex');
@@ -398,6 +458,9 @@
 
             document.getElementById('customerName').value = '';
             document.getElementById('notes').value = '';
+            document.getElementById('notes').dataset.userEdited = 'false';
+            document.getElementById('notes').dataset.autoFilled = '';
+            document.getElementById('generateReviewBtn').disabled = true;
 
             document.querySelectorAll('.recommend-btn').forEach(b => b.classList.remove('selected'));
             
