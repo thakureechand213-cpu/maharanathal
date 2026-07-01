@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel SK Inn - Room Food Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        saffron: '#f59e0b',
+                        rosewood: '#b45309',
+                        mint: '#10b981',
+                        skysoft: '#e0f2fe'
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(245, 158, 11, 0.16), transparent 28rem),
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.14), transparent 24rem),
+                #fffdf8;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+        }
+
+        .soft-input {
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            outline: none;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .soft-input:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.18);
+        }
+
+        .screen-lock {
+            min-height: 100vh;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            .fixed {
+                position: static !important;
+                inset: auto !important;
+                background: #fff !important;
+                backdrop-filter: none !important;
+                padding: 0 !important;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            main {
+                max-width: none !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen">
+
+    <!-- AUTHENTICATION GATE -->
+    <section id="authGate" class="screen-lock flex items-center justify-center px-4 py-8">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-7">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="h-14 w-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-white flex items-center justify-center shadow-lg shadow-amber-500/20">
+                    <i data-lucide="hotel" class="w-7 h-7"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black text-slate-950 leading-tight">HOTEL SK INN</h1>
+                    <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-orange-700">Room Food Register</p>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4 mb-5">
+                <p class="text-sm font-bold text-amber-950">Staff login required</p>
+                <p class="text-xs text-amber-800 mt-1">Enter email and password.</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="staffEmail" class="block text-xs font-black uppercase tracking-wider text-slate-500 mb-2">Staff email</label>
+                    <input id="staffEmail" type="email" class="soft-input w-full rounded-2xl px-4 py-3 text-sm font-bold" placeholder="staff@sk-inn.local" autocomplete="username">
+                </div>
+                <div>
+                    <label for="staffCode" class="block text-xs font-black uppercase tracking-wider text-slate-500 mb-2">Staff code</label>
+                    <input id="staffCode" type="password" class="soft-input w-full rounded-2xl px-4 py-3 text-sm font-bold" placeholder="Enter code" autocomplete="current-password">
+                </div>
+                <p id="loginError" class="text-sm text-red-600 font-bold min-h-[20px]"></p>
+                <button id="loginSubmitBtn" type="submit" class="w-full bg-slate-950 hover:bg-slate-800 text-white rounded-2xl py-3.5 font-black flex items-center justify-center gap-2 transition">
+                    <i data-lucide="unlock" class="w-4 h-4"></i>
+                    Open Register
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- MAIN APP -->
+    <section id="appScreen" class="hidden">
+        <header class="no-print bg-white/90 backdrop-blur border-b border-amber-100 sticky top-0 z-40 shadow-sm">
+            <div class="max-w-5xl mx-auto px-4 py-4 space-y-4">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-gradient-to-br from-amber-400 to-orange-600 text-white w-11 h-11 rounded-2xl flex items-center justify-center shadow-md shadow-amber-500/20">
+                            <i data-lucide="utensils-crossed" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-black tracking-wide text-slate-950 leading-tight">HOTEL SK INN</h1>
+                            <p class="text-[10px] uppercase tracking-[0.22em] text-orange-700 font-black">Room Food Register</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button onclick="openOrderModal()" class="bg-orange-500 hover:bg-orange-600 text-white font-black px-4 py-2.5 rounded-2xl text-sm flex items-center gap-2 shadow-md shadow-orange-500/20 transition">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            Add Food
+                        </button>
+                        <button onclick="lockApp()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-black px-3 py-2.5 rounded-2xl text-sm transition" title="Lock">
+                            <i data-lucide="lock" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <form id="roomSearchForm" class="grid grid-cols-[1fr_auto] gap-2">
+                    <input id="roomSearchInput" type="number" inputmode="numeric" class="soft-input rounded-2xl px-4 py-3 text-sm font-bold" placeholder="Search room no. for pending food data">
+                    <button class="bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-2xl px-4 py-3 flex items-center gap-2 transition" type="submit">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Search Room</span>
+                    </button>
+                </form>
+            </div>
+        </header>
+
+        <main class="no-print max-w-5xl mx-auto px-4 py-6 space-y-5">
+            <!-- QUICK SUMMARY -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="glass-panel rounded-3xl p-5 bg-gradient-to-br from-white to-amber-50">
+                    <p class="text-xs text-orange-700 font-black uppercase tracking-wider">Pending Food Dues</p>
+                    <h2 id="totalDuesAmount" class="text-3xl font-black text-slate-950 mt-1">₹0.00</h2>
+                </div>
+                <div class="glass-panel rounded-3xl p-5 bg-gradient-to-br from-white to-emerald-50">
+                    <p class="text-xs text-emerald-700 font-black uppercase tracking-wider">Active Rooms</p>
+                    <h2 id="activeRoomCount" class="text-3xl font-black text-slate-950 mt-1">0</h2>
+                </div>
+                
+            </div>
+
+            <!-- SIMPLE TABS -->
+            <div class="no-print flex bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm">
+                <button id="tabActive" onclick="switchTab('active')" class="flex-1 py-3 rounded-xl text-sm font-black flex items-center justify-center gap-2 transition bg-orange-500 text-white">
+                    <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                    Pending
+                </button>
+                <button id="tabHistory" onclick="switchTab('history')" class="flex-1 py-3 rounded-xl text-sm font-black text-slate-500 hover:text-slate-900 flex items-center justify-center gap-2 transition">
+                    <i data-lucide="history" class="w-4 h-4"></i>
+                    Paid History
+                </button>
+            </div>
+
+            <!-- ACTIVE ROOM LIST -->
+            <section id="activeSection" class="glass-panel rounded-3xl overflow-hidden">
+                <div class="p-5 border-b border-slate-100 bg-gradient-to-r from-orange-50 to-white flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h3 class="text-base font-black text-slate-950">Pending Room Food</h3>
+                        <p class="text-xs text-slate-500 font-semibold">Tap a room to see item details, print, delete item, or mark paid.</p>
+                    </div>
+                    <span id="activeCountBadge" class="text-xs bg-orange-100 text-orange-800 px-3 py-1.5 rounded-full font-black w-fit">0 active</span>
+                </div>
+                <div id="activeRoomsList" class="divide-y divide-slate-100"></div>
+            </section>
+
+            <!-- HISTORY LIST -->
+            <section id="historySection" class="glass-panel rounded-3xl overflow-hidden hidden">
+                <div class="p-5 border-b border-slate-100 bg-gradient-to-r from-emerald-50 to-white flex items-center justify-between">
+                    <div>
+                        <h3 class="text-base font-black text-slate-950">Paid History</h3>
+                        <p class="text-xs text-slate-500 font-semibold">Old paid records are automatically removed after 3 days.</p>
+                    </div>
+                    <span id="historyCountBadge" class="text-xs bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-full font-black">0 paid</span>
+                </div>
+                <div id="historyList" class="divide-y divide-slate-100"></div>
+            </section>
+        </main>
+
+        <footer class="no-print text-center text-[11px] text-slate-500 py-5 font-bold">
+            HOTEL SK INN - Room Food Register
+        </footer>
+    </section>
+
+    <!-- ADD FOOD MODAL -->
+    <div id="orderModal" class="fixed inset-0 bg-slate-950/45 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center p-3 no-print">
+        <div class="bg-white rounded-t-3xl sm:rounded-3xl border border-slate-100 max-w-xl w-full p-5 shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="text-lg font-black text-slate-950 flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-orange-500"></i>
+                    Add Food to Room
+                </h3>
+                <button onclick="closeOrderModal()" class="text-slate-400 hover:text-slate-700 p-2">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div>
+                <label class="block text-xs font-black uppercase text-slate-500 mb-2">Room Number *</label>
+                <input id="inputRoomNo" type="number" inputmode="numeric" placeholder="Type room number" class="soft-input w-full rounded-2xl px-4 py-3 text-sm font-bold">
+            </div>
+
+            <div>
+                <label class="block text-xs font-black uppercase text-slate-500 mb-2">Quick items</label>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="fillQuickItem('Tea', 20)" class="quick-chip">Tea ₹20</button>
+                    <button type="button" onclick="fillQuickItem('Water', 20)" class="quick-chip">Water ₹20</button>
+                    <button type="button" onclick="fillQuickItem('Thali', 280)" class="quick-chip">Thali ₹280</button>
+                </div>
+            </div>
+
+            <div class="bg-orange-50 p-4 rounded-3xl border border-orange-100 space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-black uppercase text-slate-500 mb-1">Food item</label>
+                        <input type="text" id="inputItemName" placeholder="Tea, coffee, thali..." class="soft-input w-full rounded-2xl px-4 py-3 text-sm font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-black uppercase text-slate-500 mb-1">Qty</label>
+                        <input type="number" id="inputQty" min="1" value="1" oninput="calculateLiveTotal()" class="soft-input w-full rounded-2xl px-4 py-3 text-sm font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-black uppercase text-slate-500 mb-1">Price</label>
+                        <input type="number" id="inputPrice" min="0" placeholder="0" oninput="calculateLiveTotal()" class="soft-input w-full rounded-2xl px-4 py-3 text-sm font-bold">
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-1">
+                    <span class="text-sm text-slate-600 font-bold">Item total: ₹<span id="liveTotalText" class="text-slate-950">0.00</span></span>
+                    <button type="button" onclick="addItemToTempCart()" class="bg-orange-500 hover:bg-orange-600 text-white font-black px-4 py-2.5 rounded-2xl text-sm flex items-center gap-2 transition">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Add
+                    </button>
+                </div>
+            </div>
+
+            <div class="border border-slate-100 rounded-3xl overflow-hidden bg-white">
+                <div class="bg-slate-50 px-4 py-3 flex items-center justify-between">
+                    <span class="text-xs font-black text-slate-500 uppercase tracking-wider">Items to save</span>
+                    <span class="text-sm font-black text-emerald-700">₹<span id="tempCartGrandTotal">0.00</span></span>
+                </div>
+                <div id="tempCartItems" class="divide-y divide-slate-100"></div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1">
+                <button type="button" onclick="closeOrderModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-black py-3 rounded-2xl text-sm transition">Cancel</button>
+                <button type="button" onclick="saveAllFoodRecords()" class="col-span-2 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-2xl text-sm shadow-md shadow-emerald-600/15 transition flex items-center justify-center gap-2">
+                    <i data-lucide="save" class="w-4 h-4"></i>
+                    Save to Room
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTIVE DETAILS MODAL -->
+    <div id="detailsModal" class="fixed inset-0 bg-slate-950/45 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center p-3">
+        <div class="bg-white rounded-t-3xl sm:rounded-3xl border border-slate-100 max-w-lg w-full p-5 shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto">
+            <div id="printArea">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <div>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-orange-700">HOTEL SK INN</p>
+                        <h3 class="text-lg font-black text-slate-950">Room <span id="detailRoomNumber">--</span> Pending Food</h3>
+                    </div>
+                    <button onclick="closeDetailsModal()" class="no-print text-slate-400 hover:text-slate-700 p-2">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div id="detailItemsList" class="divide-y divide-slate-100 mt-3"></div>
+
+                <div class="border-t border-slate-100 pt-4 mt-4 flex justify-between items-center">
+                    <span class="text-sm font-black text-slate-500">Total Unpaid</span>
+                    <span class="text-2xl font-black text-slate-950">₹<span id="detailGrandTotal">0.00</span></span>
+                </div>
+            </div>
+
+            <div class="no-print grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button onclick="closeDetailsModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-black py-3 rounded-2xl text-sm transition">Close</button>
+                <button onclick="printRoomBill()" class="bg-sky-100 hover:bg-sky-200 text-sky-800 font-black py-3 rounded-2xl text-sm transition flex items-center justify-center gap-1">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                    Print
+                </button>
+                <button id="detailAddMoreButton" class="bg-orange-100 hover:bg-orange-200 text-orange-800 font-black py-3 rounded-2xl text-sm transition">Add More</button>
+                <button id="detailSettleButton" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-2xl text-sm transition">Paid</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HISTORY DETAILS MODAL -->
+    <div id="historyDetailsModal" class="fixed inset-0 bg-slate-950/45 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center p-3">
+        <div class="bg-white rounded-t-3xl sm:rounded-3xl border border-slate-100 max-w-lg w-full p-5 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-emerald-700">Paid Receipt <span id="histDetailReceiptId">--</span></p>
+                    <h3 class="text-lg font-black text-slate-950">Room <span id="histDetailRoomNumber">--</span></h3>
+                    <p id="histDetailTime" class="text-xs text-slate-500 font-bold mt-1">--</p>
+                </div>
+                <button onclick="closeHistDetailsModal()" class="no-print text-slate-400 hover:text-slate-700 p-2">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="histDetailItemsList" class="divide-y divide-slate-100"></div>
+            <div class="border-t border-slate-100 pt-4 flex justify-between items-center">
+                <span class="text-sm font-black text-slate-500">Paid Amount</span>
+                <span class="text-2xl font-black text-emerald-700">₹<span id="histDetailGrandTotal">0.00</span></span>
+            </div>
+            <div class="no-print grid grid-cols-2 gap-2">
+                <button onclick="closeHistDetailsModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-black py-3 rounded-2xl text-sm transition">Close</button>
+                <button onclick="printRoomBill()" class="bg-sky-100 hover:bg-sky-200 text-sky-800 font-black py-3 rounded-2xl text-sm transition flex items-center justify-center gap-1">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                    Print
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEARCH RESULT MODAL -->
+    <div id="searchModal" class="fixed inset-0 bg-slate-950/45 backdrop-blur-sm z-50 hidden items-center justify-center p-3 no-print">
+        <div class="bg-white rounded-3xl border border-slate-100 max-w-md w-full p-5 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="text-lg font-black text-slate-950 flex items-center gap-2">
+                    <i data-lucide="search" class="w-5 h-5 text-emerald-600"></i>
+                    Room Search
+                </h3>
+                <button onclick="closeSearchModal()" class="text-slate-400 hover:text-slate-700 p-2">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="searchResultBody"></div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="no-print fixed bottom-5 right-5 bg-slate-950 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 translate-y-20 opacity-0 transition-all duration-300 z-[60] text-sm font-bold">
+        <i data-lucide="bell" class="w-4 h-4"></i>
+        <span id="toastMsg">Done</span>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import {
+            getAuth,
+            setPersistence,
+            browserSessionPersistence,
+            signInWithEmailAndPassword,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwrIpkmQzLc6fBpr25yHBPs5sMyIb0zHg",
+            authDomain: "sk-mt-5d484.firebaseapp.com",
+            projectId: "sk-mt-5d484",
+            storageBucket: "sk-mt-5d484.firebasestorage.app",
+            messagingSenderId: "334698656699",
+            appId: "1:334698656699:web:45b38758d976d94e23ca9e",
+            measurementId: "G-WZJ5PB0P4L"
+        };
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+            // Staff stay signed in only for the current tab/session, same feel as before.
+            setPersistence(auth, browserSessionPersistence).catch((error) => {
+                console.error("Auth persistence setup error:", error);
+            });
+            window.skInnFirebase = {
+                db, doc, getDoc, setDoc, onSnapshot,
+                auth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+            };
+            window.dispatchEvent(new Event("skInnFirebaseReady"));
+        } catch (error) {
+            console.error("Firebase setup error:", error);
+            window.skInnFirebaseError = error;
+        }
+    </script>
+
+    <script>
+        // Staff now type both their email and code on the login screen; these are
+        // verified by Firebase Auth, not by JS running in the browser, so neither
+        // can be read from "inspect". STAFF_EMAIL below is just a placeholder default.
+        const STAFF_EMAIL = "staff@sk-inn.local";
+        const RECORDS_KEY = "SK_INN_FOOD_RECORDS";
+        const HISTORY_KEY = "SK_INN_FOOD_HISTORY";
+        const FIREBASE_COLLECTION = "hotelOrders";
+        const FIREBASE_DOCUMENT = "roomFoodRegister";
+
+        const ROOMS = [];
+        for (let r = 104; r <= 130; r++) {
+            ROOMS.push(r === 113 ? "131" : r.toString());
+        }
+
+        let foodRecords = {};
+        let foodHistory = [];
+        let tempCart = [];
+        let currentDetailRoom = null;
+        let currentTab = "active";
+        let firebaseDocRef = null;
+        let firebaseUnsubscribe = null;
+        let isApplyingRemoteData = false;
+
+        const money = (value) => (Number(value) || 0).toFixed(2);
+
+        window.addEventListener("DOMContentLoaded", () => {
+            addUtilityStyles();
+            loadRecords();
+            cleanupOldHistory();
+            bindAuth();
+            initAuth();
+            bindSearch();
+            renderAll();
+            lucide.createIcons();
+        });
+
+        function addUtilityStyles() {
+            const style = document.createElement("style");
+            style.innerHTML = `
+                .quick-chip {
+                    background: #fff;
+                    color: #9a3412;
+                    border: 1px solid #fed7aa;
+                    border-radius: 999px;
+                    padding: 0.45rem 0.75rem;
+                    font-size: 0.75rem;
+                    font-weight: 900;
+                }
+                .quick-chip:hover { background: #ffedd5; }
+            `;
+            document.head.appendChild(style);
+        }
+
+        function bindAuth() {
+            document.getElementById("loginForm").addEventListener("submit", (event) => {
+                event.preventDefault();
+
+                const firebase = window.skInnFirebase;
+                const emailInput = document.getElementById("staffEmail");
+                const codeInput = document.getElementById("staffCode");
+                const error = document.getElementById("loginError");
+                const submitBtn = document.getElementById("loginSubmitBtn");
+
+                if (!firebase || !firebase.auth) {
+                    error.innerText = "Can't reach the login server. Check your connection and retry.";
+                    return;
+                }
+
+                const email = emailInput.value.trim() || STAFF_EMAIL;
+                const code = codeInput.value.trim();
+
+                if (!emailInput.value.trim()) {
+                    error.innerText = "Enter the staff email.";
+                    emailInput.focus();
+                    return;
+                }
+                if (!code) {
+                    error.innerText = "Enter the staff code.";
+                    codeInput.focus();
+                    return;
+                }
+
+                error.innerText = "";
+                submitBtn.disabled = true;
+                submitBtn.classList.add("opacity-60");
+
+                firebase.signInWithEmailAndPassword(firebase.auth, email, code)
+                    .then(() => {
+                        codeInput.value = "";
+                        showToast("Register unlocked.");
+                        // showApp() runs via the onAuthStateChanged listener in initAuth()
+                    })
+                    .catch((authError) => {
+                        console.error("Sign-in error:", authError);
+                        error.innerText = getAuthErrorMessage(authError);
+                        codeInput.select();
+                    })
+                    .finally(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove("opacity-60");
+                    });
+            });
+        }
+
+        function initAuth() {
+            const firebase = window.skInnFirebase;
+            if (firebase && firebase.auth) {
+                connectFirebaseAuth();
+                return;
+            }
+            if (window.skInnFirebaseError) {
+                document.getElementById("loginError").innerText =
+                    "Login server unavailable right now. Try again shortly.";
+                showAuth();
+                return;
+            }
+            window.addEventListener("skInnFirebaseReady", () => connectFirebaseAuth(), { once: true });
+        }
+
+        function connectFirebaseAuth() {
+            const firebase = window.skInnFirebase;
+            firebase.onAuthStateChanged(firebase.auth, (user) => {
+                if (user) {
+                    showApp();
+                    setupFirebaseSync();
+                } else {
+                    disconnectFirebaseSync();
+                    showAuth();
+                }
+            });
+        }
+
+        function getAuthErrorMessage(authError) {
+            const code = authError && authError.code;
+            if (code === "auth/too-many-requests") {
+                return "Too many attempts. Wait a bit and try again.";
+            }
+            if (code === "auth/network-request-failed") {
+                return "No internet connection. Try again.";
+            }
+            // Firebase intentionally returns a generic code for wrong password /
+            // unknown account so it can't be used to guess valid staff codes.
+            return "Wrong staff code.";
+        }
+
+        function showAuth() {
+            document.getElementById("authGate").classList.remove("hidden");
+            document.getElementById("appScreen").classList.add("hidden");
+            setTimeout(() => document.getElementById("staffEmail").focus(), 50);
+        }
+
+        function showApp() {
+            document.getElementById("authGate").classList.add("hidden");
+            document.getElementById("appScreen").classList.remove("hidden");
+        }
+
+        function lockApp() {
+            const firebase = window.skInnFirebase;
+            closeOrderModal();
+            closeDetailsModal();
+            closeHistDetailsModal();
+            closeSearchModal();
+            if (firebase && firebase.auth) {
+                firebase.signOut(firebase.auth).catch((error) => console.error("Sign-out error:", error));
+            } else {
+                showAuth();
+            }
+        }
+
+        function bindSearch() {
+            document.getElementById("roomSearchForm").addEventListener("submit", (event) => {
+                event.preventDefault();
+                const room = document.getElementById("roomSearchInput").value.trim();
+                searchRoom(room);
+            });
+        }
+
+        function searchRoom(room) {
+            const body = document.getElementById("searchResultBody");
+
+            if (!ROOMS.includes(room)) {
+                body.innerHTML = `
+                    <div class="bg-red-50 border border-red-100 text-red-700 rounded-3xl p-5">
+                        <p class="font-black">Room ${room || "--"} is not in the hotel room list.</p>
+                        <p class="text-sm font-semibold mt-1">Valid rooms are 104 to 130, with 131 used instead of 113.</p>
+                    </div>
+                `;
+                openSearchModal();
+                return;
+            }
+
+            const items = foodRecords[room] || [];
+            if (items.length === 0) {
+                body.innerHTML = `
+                    <div class="bg-emerald-50 border border-emerald-100 rounded-3xl p-5 text-center">
+                        <i data-lucide="circle-check" class="w-12 h-12 mx-auto text-emerald-600 mb-3"></i>
+                        <p class="font-black text-slate-950">No data found for Room ${room}</p>
+                        <p class="text-sm text-slate-500 font-semibold mt-1">There is no pending food bill for this room.</p>
+                    </div>
+                `;
+                openSearchModal();
+                lucide.createIcons();
+                return;
+            }
+
+            const total = items.reduce((sum, item) => sum + Number(item.total), 0);
+            body.innerHTML = `
+                <div class="bg-orange-50 border border-orange-100 rounded-3xl p-5">
+                    <p class="text-xs text-orange-700 font-black uppercase tracking-wider">Pending Found</p>
+                    <h4 class="text-2xl font-black text-slate-950 mt-1">Room ${room}</h4>
+                    <p class="text-sm text-slate-600 font-bold mt-1">${items.length} item(s), total ₹${money(total)}</p>
+                    <button onclick="closeSearchModal(); showRoomDetails('${room}')" class="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-white font-black rounded-2xl py-3 transition">Open Details</button>
+                </div>
+            `;
+            openSearchModal();
+        }
+
+        function openSearchModal() {
+            document.getElementById("searchModal").classList.remove("hidden");
+            document.getElementById("searchModal").classList.add("flex");
+        }
+
+        function closeSearchModal() {
+            document.getElementById("searchModal").classList.add("hidden");
+            document.getElementById("searchModal").classList.remove("flex");
+        }
+
+        function renderAll() {
+            renderActiveRoomsList();
+            renderHistoryList();
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const roomsWithBalance = Object.keys(foodRecords).filter((room) => foodRecords[room]?.length);
+            const totalUnpaid = roomsWithBalance.reduce((sum, room) => {
+                return sum + foodRecords[room].reduce((itemSum, item) => itemSum + Number(item.total), 0);
+            }, 0);
+
+            const today = new Date().toDateString();
+            const paidToday = foodHistory
+                .filter((record) => new Date(record.paidAt).toDateString() === today)
+                .reduce((sum, record) => sum + Number(record.total), 0);
+
+            document.getElementById("totalDuesAmount").innerText = `₹${money(totalUnpaid)}`;
+            document.getElementById("activeRoomCount").innerText = roomsWithBalance.length;
+            document.getElementById("activeCountBadge").innerText = `${roomsWithBalance.length} active`;
+            document.getElementById("historyCountBadge").innerText = `${foodHistory.length} paid`;
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            const activeTab = document.getElementById("tabActive");
+            const historyTab = document.getElementById("tabHistory");
+
+            if (tab === "active") {
+                document.getElementById("activeSection").classList.remove("hidden");
+                document.getElementById("historySection").classList.add("hidden");
+                activeTab.className = "flex-1 py-3 rounded-xl text-sm font-black flex items-center justify-center gap-2 transition bg-orange-500 text-white";
+                historyTab.className = "flex-1 py-3 rounded-xl text-sm font-black text-slate-500 hover:text-slate-900 flex items-center justify-center gap-2 transition";
+            } else {
+                document.getElementById("activeSection").classList.add("hidden");
+                document.getElementById("historySection").classList.remove("hidden");
+                activeTab.className = "flex-1 py-3 rounded-xl text-sm font-black text-slate-500 hover:text-slate-900 flex items-center justify-center gap-2 transition";
+                historyTab.className = "flex-1 py-3 rounded-xl text-sm font-black flex items-center justify-center gap-2 transition bg-emerald-600 text-white";
+            }
+            lucide.createIcons();
+        }
+
+        function calculateLiveTotal() {
+            const qty = Number(document.getElementById("inputQty").value) || 0;
+            const price = Number(document.getElementById("inputPrice").value) || 0;
+            document.getElementById("liveTotalText").innerText = money(qty * price);
+        }
+
+        function fillQuickItem(name, price) {
+            document.getElementById("inputItemName").value = name;
+            document.getElementById("inputPrice").value = price;
+            document.getElementById("inputQty").value = 1;
+            calculateLiveTotal();
+            document.getElementById("inputQty").focus();
+        }
+
+        function addItemToTempCart() {
+            const nameInput = document.getElementById("inputItemName");
+            const qtyInput = document.getElementById("inputQty");
+            const priceInput = document.getElementById("inputPrice");
+            const name = nameInput.value.trim();
+            const qty = Math.max(1, Number(qtyInput.value) || 1);
+            const price = Math.max(0, Number(priceInput.value) || 0);
+
+            if (!name) {
+                showToast("Please enter food item name.");
+                nameInput.focus();
+                return;
+            }
+
+            const total = qty * price;
+            tempCart.push({
+                id: Date.now().toString() + Math.random().toString(36).slice(2, 7),
+                name,
+                qty,
+                price,
+                total
+            });
+
+            nameInput.value = "";
+            qtyInput.value = "1";
+            priceInput.value = "";
+            calculateLiveTotal();
+            renderTempCartTable();
+            nameInput.focus();
+        }
+
+        function removeFromTempCart(id) {
+            tempCart = tempCart.filter((item) => item.id !== id);
+            renderTempCartTable();
+        }
+
+        function renderTempCartTable() {
+            const container = document.getElementById("tempCartItems");
+            if (tempCart.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-slate-400 text-sm font-bold">No items added yet.</div>`;
+            } else {
+                container.innerHTML = "";
+                tempCart.forEach((item) => {
+                    const row = document.createElement("div");
+                    row.className = "p-3 flex items-center justify-between gap-3";
+                    row.innerHTML = `
+                        <div class="min-w-0">
+                            <p class="font-black text-slate-950 truncate">${escapeHtml(item.name)}</p>
+                            <p class="text-xs text-slate-500 font-bold">${item.qty} x ₹${money(item.price)}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-black text-slate-950">₹${money(item.total)}</span>
+                            <button type="button" onclick="removeFromTempCart('${item.id}')" class="text-red-500 hover:bg-red-50 rounded-xl p-2">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+
+            const total = tempCart.reduce((sum, item) => sum + Number(item.total), 0);
+            document.getElementById("tempCartGrandTotal").innerText = money(total);
+            lucide.createIcons();
+        }
+
+        function saveAllFoodRecords() {
+            const roomNo = document.getElementById("inputRoomNo").value.trim();
+            if (!roomNo) {
+                showToast("Please type room number.");
+                return;
+            }
+            if (!ROOMS.includes(roomNo)) {
+                showToast("Invalid room number. Use 104-130, with 131 instead of 113.");
+                document.getElementById("inputRoomNo").focus();
+                return;
+            }
+            if (tempCart.length === 0) {
+                showToast("Please add at least one item.");
+                return;
+            }
+
+            if (!foodRecords[roomNo]) foodRecords[roomNo] = [];
+            foodRecords[roomNo] = [...foodRecords[roomNo], ...tempCart];
+            saveRecords();
+            renderAll();
+            closeOrderModal();
+            showToast(`Saved ${tempCart.length} item(s) to Room ${roomNo}.`);
+        }
+
+        function renderActiveRoomsList() {
+            const container = document.getElementById("activeRoomsList");
+            const roomsWithBalance = Object.keys(foodRecords)
+                .filter((room) => foodRecords[room]?.length)
+                .sort((a, b) => Number(a) - Number(b));
+
+            if (roomsWithBalance.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-14 text-slate-400">
+                        <i data-lucide="badge-check" class="w-12 h-12 mx-auto text-emerald-300 mb-3"></i>
+                        <p class="text-base font-black text-slate-600">All clear. No pending room food.</p>
+                        <p class="text-sm font-semibold mt-1">Use Add Food when an order is delivered.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = "";
+            roomsWithBalance.forEach((room) => {
+                const items = foodRecords[room];
+                const total = items.reduce((sum, item) => sum + Number(item.total), 0);
+                const row = document.createElement("button");
+                row.type = "button";
+                row.onclick = () => showRoomDetails(room);
+                row.className = "w-full p-4 text-left hover:bg-orange-50 transition flex items-center justify-between gap-3";
+                row.innerHTML = `
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="bg-orange-100 text-orange-900 font-black rounded-2xl w-16 h-14 flex items-center justify-center text-lg border border-orange-200">
+                            ${room}
+                        </div>
+                        <div class="min-w-0">
+                            <p class="font-black text-slate-950">Room ${room}</p>
+                            <p class="text-xs text-slate-500 font-bold">${items.length} item(s) pending</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-black text-slate-950">₹${money(total)}</p>
+                        <p class="text-xs text-emerald-700 font-black">Tap for details</p>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+            lucide.createIcons();
+        }
+
+        function renderHistoryList() {
+            const container = document.getElementById("historyList");
+            if (foodHistory.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-14 text-slate-400">
+                        <i data-lucide="history" class="w-12 h-12 mx-auto text-slate-200 mb-3"></i>
+                        <p class="text-base font-black text-slate-600">No paid history yet.</p>
+                        <p class="text-sm font-semibold mt-1">Paid bills will appear here.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = "";
+            foodHistory.forEach((record) => {
+                const timeString = new Date(record.paidAt).toLocaleString("en-IN", {
+                    day: "numeric",
+                    month: "short",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+                const row = document.createElement("button");
+                row.type = "button";
+                row.onclick = () => showHistoryDetails(record.id);
+                row.className = "w-full p-4 text-left hover:bg-emerald-50 transition flex items-center justify-between gap-3";
+                row.innerHTML = `
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="bg-emerald-100 text-emerald-900 font-black rounded-2xl w-16 h-14 flex items-center justify-center text-lg border border-emerald-200">
+                            ${record.roomNo}
+                        </div>
+                        <div class="min-w-0">
+                            <p class="font-black text-slate-950">Room ${record.roomNo}</p>
+                            <p class="text-xs text-slate-500 font-bold">Receipt ${record.id} - ${timeString}</p>
+                        </div>
+                    </div>
+                    <p class="text-lg font-black text-emerald-700">₹${money(record.total)}</p>
+                `;
+                container.appendChild(row);
+            });
+            lucide.createIcons();
+        }
+
+        function showRoomDetails(room) {
+            currentDetailRoom = room;
+            const items = foodRecords[room] || [];
+            const list = document.getElementById("detailItemsList");
+            const total = items.reduce((sum, item) => sum + Number(item.total), 0);
+
+            document.getElementById("detailRoomNumber").innerText = room;
+            document.getElementById("detailGrandTotal").innerText = money(total);
+            list.innerHTML = "";
+
+            items.forEach((item) => {
+                const row = document.createElement("div");
+                row.className = "py-3 flex items-center justify-between gap-3";
+                row.innerHTML = `
+                    <div class="min-w-0">
+                        <p class="font-black text-slate-950 truncate">${escapeHtml(item.name)}</p>
+                        <p class="text-xs text-slate-500 font-bold">${item.qty} x ₹${money(item.price)}</p>
+                    </div>
+                    <div class="flex items-center gap-2 no-print">
+                        <span class="font-black text-slate-950">₹${money(item.total)}</span>
+                        <button onclick="deleteSingleFoodItem('${room}', '${item.id}')" class="text-red-500 hover:bg-red-50 rounded-xl p-2">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <span class="hidden print:inline font-black text-slate-950">₹${money(item.total)}</span>
+                `;
+                list.appendChild(row);
+            });
+
+            document.getElementById("detailSettleButton").onclick = () => settleRoom(room);
+            document.getElementById("detailAddMoreButton").onclick = () => {
+                closeDetailsModal();
+                openOrderModal(room);
+            };
+            document.getElementById("detailsModal").classList.remove("hidden");
+            document.getElementById("detailsModal").classList.add("flex");
+            lucide.createIcons();
+        }
+
+        function deleteSingleFoodItem(room, itemId) {
+            if (!foodRecords[room]) return;
+            foodRecords[room] = foodRecords[room].filter((item) => item.id !== itemId);
+            if (foodRecords[room].length === 0) {
+                delete foodRecords[room];
+                closeDetailsModal();
+            } else {
+                showRoomDetails(room);
+            }
+            saveRecords();
+            renderAll();
+            showToast("Item removed.");
+        }
+
+        function settleRoom(room) {
+            const items = foodRecords[room] || [];
+            if (items.length === 0) {
+                showToast("No pending food for this room.");
+                return;
+            }
+            if (!confirm(`Mark Room ${room} food bill as paid?`)) return;
+
+            const total = items.reduce((sum, item) => sum + Number(item.total), 0);
+            const receipt = "SK-" + Math.floor(100000 + Math.random() * 900000);
+            foodHistory.unshift({
+                id: receipt,
+                roomNo: room,
+                items: [...items],
+                total,
+                paidAt: Date.now()
+            });
+            delete foodRecords[room];
+            saveRecords();
+            closeDetailsModal();
+            renderAll();
+            showToast(`Room ${room} marked paid.`);
+        }
+
+        function showHistoryDetails(recordId) {
+            const record = foodHistory.find((item) => item.id === recordId);
+            if (!record) return;
+
+            document.getElementById("histDetailReceiptId").innerText = record.id;
+            document.getElementById("histDetailRoomNumber").innerText = record.roomNo;
+            document.getElementById("histDetailTime").innerText = new Date(record.paidAt).toLocaleString("en-IN");
+            document.getElementById("histDetailGrandTotal").innerText = money(record.total);
+
+            const list = document.getElementById("histDetailItemsList");
+            list.innerHTML = "";
+            record.items.forEach((item) => {
+                const row = document.createElement("div");
+                row.className = "py-3 flex items-center justify-between gap-3";
+                row.innerHTML = `
+                    <div class="min-w-0">
+                        <p class="font-black text-slate-950 truncate">${escapeHtml(item.name)}</p>
+                        <p class="text-xs text-slate-500 font-bold">${item.qty} x ₹${money(item.price)}</p>
+                    </div>
+                    <span class="font-black text-emerald-700">₹${money(item.total)}</span>
+                `;
+                list.appendChild(row);
+            });
+
+            document.getElementById("historyDetailsModal").classList.remove("hidden");
+            document.getElementById("historyDetailsModal").classList.add("flex");
+        }
+
+        function printRoomBill() {
+            window.print();
+        }
+
+        function openOrderModal(room = "") {
+            tempCart = [];
+            document.getElementById("inputRoomNo").value = room || "";
+            document.getElementById("inputItemName").value = "";
+            document.getElementById("inputQty").value = "1";
+            document.getElementById("inputPrice").value = "";
+            calculateLiveTotal();
+            renderTempCartTable();
+            document.getElementById("orderModal").classList.remove("hidden");
+            document.getElementById("orderModal").classList.add("flex");
+            setTimeout(() => {
+                if (room) document.getElementById("inputItemName").focus();
+                else document.getElementById("inputRoomNo").focus();
+            }, 50);
+        }
+
+        function closeOrderModal() {
+            document.getElementById("orderModal").classList.add("hidden");
+            document.getElementById("orderModal").classList.remove("flex");
+        }
+
+        function closeDetailsModal() {
+            document.getElementById("detailsModal").classList.add("hidden");
+            document.getElementById("detailsModal").classList.remove("flex");
+        }
+
+        function closeHistDetailsModal() {
+            document.getElementById("historyDetailsModal").classList.add("hidden");
+            document.getElementById("historyDetailsModal").classList.remove("flex");
+        }
+
+        function cleanupOldHistory() {
+            const threeDays = 3 * 24 * 60 * 60 * 1000;
+            const threshold = Date.now() - threeDays;
+            const before = foodHistory.length;
+            foodHistory = foodHistory.filter((record) => Number(record.paidAt) > threshold);
+            const changed = before !== foodHistory.length;
+            if (changed) saveRecords();
+            return changed;
+        }
+
+        function setupFirebaseSync() {
+            if (window.skInnFirebase) {
+                connectFirebaseStorage();
+                return;
+            }
+
+            if (window.skInnFirebaseError) {
+                showToast("Firebase unavailable. Using this device only.");
+                return;
+            }
+
+            window.addEventListener("skInnFirebaseReady", connectFirebaseStorage, { once: true });
+        }
+
+        function disconnectFirebaseSync() {
+            if (firebaseUnsubscribe) {
+                firebaseUnsubscribe();
+                firebaseUnsubscribe = null;
+            }
+            firebaseDocRef = null;
+        }
+
+        async function connectFirebaseStorage() {
+            const firebase = window.skInnFirebase;
+            if (!firebase || firebaseDocRef) return;
+
+            try {
+                firebaseDocRef = firebase.doc(firebase.db, FIREBASE_COLLECTION, FIREBASE_DOCUMENT);
+                const snapshot = await firebase.getDoc(firebaseDocRef);
+
+                if (snapshot.exists()) {
+                    applyRemoteRecords(snapshot.data());
+                    saveLocalBackup();
+                    renderAll();
+                } else if (Object.keys(foodRecords).length > 0 || foodHistory.length > 0) {
+                    await saveRecords();
+                } else {
+                    await firebase.setDoc(firebaseDocRef, buildFirebasePayload());
+                }
+
+                firebaseUnsubscribe = firebase.onSnapshot(firebaseDocRef, (liveSnapshot) => {
+                    if (!liveSnapshot.exists()) return;
+                    applyRemoteRecords(liveSnapshot.data());
+                    saveLocalBackup();
+                    renderAll();
+                }, (error) => {
+                    console.error("Firebase live sync error:", error);
+                    showToast(getFirebaseErrorMessage(error));
+                });
+
+                showToast("connected.");
+            } catch (error) {
+                console.error("connection error:", error);
+                showToast(getFirebaseErrorMessage(error));
+            }
+        }
+
+        function buildFirebasePayload() {
+            return {
+                active: foodRecords,
+                history: foodHistory,
+                updatedAt: new Date().toISOString(),
+                app: "hotel-sk-inn-room-food-register"
+            };
+        }
+
+        function applyRemoteRecords(data) {
+            isApplyingRemoteData = true;
+            foodRecords = data.active && typeof data.active === "object" ? data.active : {};
+            foodHistory = Array.isArray(data.history) ? data.history : [];
+            const removedOldHistory = cleanupOldHistory();
+            isApplyingRemoteData = false;
+            if (removedOldHistory) saveRecords();
+        }
+
+        function saveLocalBackup() {
+            localStorage.setItem(RECORDS_KEY, JSON.stringify(foodRecords));
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(foodHistory));
+        }
+
+        function saveRecords() {
+            saveLocalBackup();
+
+            if (!firebaseDocRef || isApplyingRemoteData || !window.skInnFirebase) return Promise.resolve();
+
+            return window.skInnFirebase.setDoc(firebaseDocRef, buildFirebasePayload()).catch((error) => {
+                console.error("Firebase save error:", error);
+                showToast(getFirebaseErrorMessage(error));
+            });
+        }
+
+        function getFirebaseErrorMessage(error) {
+            if (error?.code === "permission-denied") {
+                return "login required.";
+            }
+            if (error?.code === "unavailable") {
+                return "you are offline. Saved on this device for now.";
+            }
+            return "Saved on this device. online save failed.";
+        }
+
+        function loadRecords() {
+            try {
+                foodRecords = JSON.parse(localStorage.getItem(RECORDS_KEY) || "{}");
+                foodHistory = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+            } catch {
+                foodRecords = {};
+                foodHistory = [];
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toastMsg").innerText = message;
+            toast.classList.remove("translate-y-20", "opacity-0");
+            toast.classList.add("translate-y-0", "opacity-100");
+            setTimeout(() => {
+                toast.classList.add("translate-y-20", "opacity-0");
+                toast.classList.remove("translate-y-0", "opacity-100");
+            }, 2400);
+            lucide.createIcons();
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+    </script>
+</body>
+</html>
