@@ -104,7 +104,7 @@
                     <input id="staffEmail" type="email" class="soft-input w-full rounded-2xl px-4 py-3 text-sm font-bold" placeholder="staff@sk-inn.local" autocomplete="username">
                 </div>
                 <div>
-                    <label for="staffCode" class="block text-xs font-black uppercase tracking-wider text-slate-500 mb-2">Staff code</label>
+                    <label for="staffCode" class="block text-xs font-black uppercase tracking-wider text-slate-500 mb-2">password</label>
                     <input id="staffCode" type="password" class="soft-input w-full rounded-2xl px-4 py-3 text-sm font-bold" placeholder="Enter code" autocomplete="current-password">
                 </div>
                 <p id="loginError" class="text-sm text-red-600 font-bold min-h-[20px]"></p>
@@ -407,9 +407,9 @@
         // Staff now type both their email and code on the login screen; these are
         // verified by Firebase Auth, not by JS running in the browser, so neither
         // can be read from "inspect". STAFF_EMAIL below is just a placeholder default.
+        // NOTE: This app no longer touches localStorage/sessionStorage at all.
+        // Every read and write goes straight to Firebase Firestore.
         const STAFF_EMAIL = "staff@sk-inn.local";
-        const RECORDS_KEY = "SK_INN_FOOD_RECORDS";
-        const HISTORY_KEY = "SK_INN_FOOD_HISTORY";
         const FIREBASE_COLLECTION = "hotelOrders";
         const FIREBASE_DOCUMENT = "roomFoodRegister";
 
@@ -431,8 +431,6 @@
 
         window.addEventListener("DOMContentLoaded", () => {
             addUtilityStyles();
-            loadRecords();
-            cleanupOldHistory();
             bindAuth();
             initAuth();
             bindSearch();
@@ -642,11 +640,6 @@
             const totalUnpaid = roomsWithBalance.reduce((sum, room) => {
                 return sum + foodRecords[room].reduce((itemSum, item) => itemSum + Number(item.total), 0);
             }, 0);
-
-            const today = new Date().toDateString();
-            const paidToday = foodHistory
-                .filter((record) => new Date(record.paidAt).toDateString() === today)
-                .reduce((sum, record) => sum + Number(record.total), 0);
 
             document.getElementById("totalDuesAmount").innerText = `₹${money(totalUnpaid)}`;
             document.getElementById("activeRoomCount").innerText = roomsWithBalance.length;
@@ -1023,7 +1016,7 @@
             }
 
             if (window.skInnFirebaseError) {
-                showToast("Firebase unavailable. Using this device only.");
+                showToast("Firebase unavailable. Can't load data right now.");
                 return;
             }
 
@@ -1036,6 +1029,9 @@
                 firebaseUnsubscribe = null;
             }
             firebaseDocRef = null;
+            foodRecords = {};
+            foodHistory = [];
+            renderAll();
         }
 
         async function connectFirebaseStorage() {
@@ -1048,10 +1044,7 @@
 
                 if (snapshot.exists()) {
                     applyRemoteRecords(snapshot.data());
-                    saveLocalBackup();
                     renderAll();
-                } else if (Object.keys(foodRecords).length > 0 || foodHistory.length > 0) {
-                    await saveRecords();
                 } else {
                     await firebase.setDoc(firebaseDocRef, buildFirebasePayload());
                 }
@@ -1059,16 +1052,15 @@
                 firebaseUnsubscribe = firebase.onSnapshot(firebaseDocRef, (liveSnapshot) => {
                     if (!liveSnapshot.exists()) return;
                     applyRemoteRecords(liveSnapshot.data());
-                    saveLocalBackup();
                     renderAll();
                 }, (error) => {
                     console.error("Firebase live sync error:", error);
                     showToast(getFirebaseErrorMessage(error));
                 });
 
-                showToast("connected.");
+                showToast("Firebase connected.");
             } catch (error) {
-                console.error("connection error:", error);
+                console.error("Firebase connection error:", error);
                 showToast(getFirebaseErrorMessage(error));
             }
         }
@@ -1091,14 +1083,7 @@
             if (removedOldHistory) saveRecords();
         }
 
-        function saveLocalBackup() {
-            localStorage.setItem(RECORDS_KEY, JSON.stringify(foodRecords));
-            localStorage.setItem(HISTORY_KEY, JSON.stringify(foodHistory));
-        }
-
         function saveRecords() {
-            saveLocalBackup();
-
             if (!firebaseDocRef || isApplyingRemoteData || !window.skInnFirebase) return Promise.resolve();
 
             return window.skInnFirebase.setDoc(firebaseDocRef, buildFirebasePayload()).catch((error) => {
@@ -1109,22 +1094,12 @@
 
         function getFirebaseErrorMessage(error) {
             if (error?.code === "permission-denied") {
-                return "login required.";
+                return "Login required to save.";
             }
             if (error?.code === "unavailable") {
-                return "you are offline. Saved on this device for now.";
+                return "You are offline. Firebase couldn't save this change.";
             }
-            return "Saved on this device. online save failed.";
-        }
-
-        function loadRecords() {
-            try {
-                foodRecords = JSON.parse(localStorage.getItem(RECORDS_KEY) || "{}");
-                foodHistory = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
-            } catch {
-                foodRecords = {};
-                foodHistory = [];
-            }
+            return "Firebase save failed. Check your connection.";
         }
 
         function showToast(message) {
